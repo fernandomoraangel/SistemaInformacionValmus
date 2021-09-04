@@ -1,6 +1,7 @@
 # SIMR
 El Sistema de información de músicas regionales (simr) es una aplicación CRUD elaborada para administrar el catálogo del grupo de investigación de Músicas Regionales de la Universidad de Antioquia, bajo la arquitectura MEAN stack.
-Instrucciones
+
+## Instrucciones
 
 ### Instalar Mongodb, Nodejs
 1. Crear directorio para la base de datos en C:\data\db
@@ -16,7 +17,8 @@ Instrucciones
 
 Usar ctrl+shift+v para visualizar Markdown
 
-TODO:Logo, 
+TODO: Funcionalidad nuevos campos en Obras
+
 ## Útiles
 
 1. https://code.visualstudio.com/docs/nodejs/nodejs-debugging
