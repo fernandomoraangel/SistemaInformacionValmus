@@ -1,0 +1,67 @@
+<!-- View listar obras-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+
+<section class="bodyList" data-ng-controller="ObrasController"  data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE OBRAS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="titulo">Título</option>
+							<option value="generosFormas">Géneros-formas</option>
+							<option value="actores">Actores</option>	
+							</select>
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>	
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">TÍTULO</th>
+					<!--<th class="campo">Creación</th>-->
+					<!-- <th class="campo">Creador</th>-->
+					<th class="campo">ACTORES</th>
+					<th class="campo">GÉNEROS-FORMAS</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="obra in obras | orderBy:orden |filter:search" >
+
+					<!-- obras es el modelo-->
+					<td>
+						<a href="/#!/obras/{{obra._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+
+					</td>
+					<td class="titulo" data-ng-href="#!/obras/{{obra._id}}" data-ng-bind="obra.titulo"></td>
+					<!--<td><small data-ng-bind="obra.creado | date:'medium'"></small></td>-->
+					<!--<td><small data-ng-bind="obra.creador.fullName"></small></td>-->
+					<td class="descripcion" data-ng-bind="verActores(obra.actores)"></td>
+					<td class="descripcion" data-ng-bind="verGeneros(obra.generosFormas)"></td>
+					<td data-ng-show="authentication.user._id == obra.creador._id">
+						<a href="/#!/obras/{{obra._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!obras || obras.length">
+	<a href="/#!/obras/create"></a>
+</section>

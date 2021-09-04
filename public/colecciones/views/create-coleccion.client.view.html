@@ -1,0 +1,55 @@
+<!-- View crear obras -->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="jumbotron">
+	<div class="container">
+		<section data-ng-controller="ColeccionesController">
+			<label class="tituloVista">CREAR COLECCIÓN</label>
+
+			<form data-ng-submit="create()" novalidate>
+				<!-- Mensaje de error-->
+				<div  data-ng-show="error">
+					<strong class="error" data-ng-bind="error"></strong>
+				</div>
+
+				<div class="campo">
+					<label>NOMBRE DE LA COLECCIÓN*</label>
+				</div>
+
+				<div>
+					<input type="text" class="form-control" ng-model="nombre" id="titulo"  placeholder=""required>
+				</div>
+
+				<label class="campo">Fecha de creación</label>
+						<input type="date" class="form-control" ng-model="fechaDeCreacion" placeholder="" >
+
+				<div>
+					<label class="campo" for="tipo">Tipo</label>
+					<select  select name=tipoSelect class="form-control" ng-options="tipo for tipo in tipos" ng-model="tipo">
+						<option value="">Seleccione un valor</option>
+						<tt>tipoSelect={{tipo}}</tt>
+					</select>
+				</div>
+
+
+				<div class="campo">
+					<label  for="descripcion">Propiedad/Comodato</label>	
+					<div>
+						<textarea class="form-control" placeholder="" ng-model="propiedadComodato" id="descripcion"></textarea>
+					</div>
+				</div>
+
+	
+
+
+					<div>
+						<input type="submit" class="btn btn-primary btn-lg2" value="Crear colección">
+						<div  data-ng-show="error">
+							<strong class="error" data-ng-bind="error"></strong>
+						</div>
+					</div>
+				</section>
+				
+
+			</div>
+		</form>	
+	</div>

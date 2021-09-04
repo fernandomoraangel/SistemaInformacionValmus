@@ -1,0 +1,62 @@
+<!-- View listar ejemplars-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="DiccionariosController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">DICCIONARIO DE DATOS</label>
+	<ul>
+		<!-- FIXME: Mejorar ancho de columnas -->
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="campo">Campo abreviado</option>
+							<option value="campoLargo">Campo largo</option>
+							<option value="tabla">Tabla</option>
+							</select>	
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Tabla</th>
+					<th class="campo">Campo abreviado</th>
+					<th class="campo">Campo largo</th>
+					<th class="campo">Definición</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="diccionario in diccionarios | orderBy:orden:reverse|filter:search">
+
+					<!-- diccionario es el modelo-->
+					<td>
+						<a href="/#!/diccionarios/{{diccionario._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+					</td>
+					<td class="descripcion" data-ng-bind="diccionario.tabla"></td>
+					<td class="descripcion" data-ng-bind="diccionario.campo"></td>
+					<td class="descripcion" data-ng-bind="diccionario.campoLargo"></td>
+					<td class="descripcion" data-ng-bind="diccionario.definicion"></td>
+					<td data-ng-show="authentication.user._id == diccionario.creador._id">
+						<a href="/#!/diccionarios/{{diccionario._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div> 
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!idiomas || idiomas.length">
+	<a href="/#!/idiomas/create"></a>
+</section>

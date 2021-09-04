@@ -1,0 +1,194 @@
+<!-- View crear obras -->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="jumbotron">
+	<div class="container">
+		<section data-ng-controller="DescriptoresController">
+			<label class="tituloVista">CREAR DESCRIPTORES</label>
+
+			<form data-ng-submit="creates()" novalidate>
+				<!-- Mensaje de error-->
+				<div  data-ng-show="error">
+					<strong class="error" data-ng-bind="error"></strong>
+				</div>
+
+				<div class="campo">
+					<label  for "titulo">Título uniforme</label>
+				</div>
+
+				<div>
+					<input type="text" class="form-control" data-ng-model="titulo" id="titulo"  placeholder="Título completo de la obra"required>
+				</div>
+
+				<div class="campo">
+					<label  for="descripcion">Descripción</label>	
+					<div>
+						<textarea class="form-control" placeholder="Texto que resume de manera abreviada, objetiva y precisa, aspectos como la procedencia, el tipo y las características de la obra" data-ng-model="descripcion" id="descripcion"></textarea>
+					</div>
+				</div>
+
+	
+
+
+
+				<label class="campo">Contenedor</label>
+				<div>
+				<select select name=tipoSelect data-ng-model="contenedor" class="form-control" ng-dblclick="contenedorAdd(contenedor)">
+							<option value="">-----</option>
+							<option ng-repeat="obra in obras track by $index" id="contenedor" value="{{obra._id}}">
+								{{obra.titulo}}
+							</option>	
+							<option value="">-----</option>
+							<tt>tipoSelect={{obra.id}}</tt>
+						</select>
+				</div>
+
+				<div>
+					<label class="campo" for="tipo">Tipo</label>
+					<select  select name=tipoSelect class="form-control" ng-options="tipo for tipo in tipos" data-ng-model="tipo">
+						<option value="">Seleccione un valor</option>
+						<tt>tipoSelect={{tipo}}</tt>
+					</select>
+				</div>
+
+				<div>
+					<label class="campo" for="parteOSeccion" >Parte o sección</label>
+					<div>
+						<textarea class="form-control" data-ng-model="parteOSeccion" id:"parteOSeccion"></textarea>
+					</div>
+				</div>
+
+				<div>
+					<label class="campo" for="medioSonoro">Medio Sonoro</label>
+					<select  select name=medioSelect class="form-control" ng-options="medio for medio in medios" data-ng-model="medioSonoro">
+						<option value="">Seleccione un valor</option>
+						<tt>medioSelect={{medioSonoro}}</tt>
+					</select>
+				</div>
+
+				<div>
+					<label class="campo" for="idioma">Idioma</label>
+					<select  select name=idiomaSelect class="form-control" ng-options="idioma for idioma in idiomas" data-ng-model="idioma">
+						<option value="">Seleccione un valor</option>
+						<tt>idiomaSelect={{idioma}}</tt>
+					</select>
+				</div>	
+
+				<div>
+					<label class="campo" for="generoForma">Género o forma</label>
+					<select  select name=generoSelect class="form-control" ng-options="genero for genero in generos" data-ng-model="generoForma">
+						<option value="">Seleccione un valor</option>
+						<tt>generoSelect={{generoForma}}</tt>
+					</select>
+				</div>
+				<section>
+
+					<div ng-model="todoInput">
+						<label class="seccion" for="actor">Actores</label>
+						<select ng-model="roles" class="form-control">
+							<option value="">-----</option>
+							<option ng-repeat="rol in rols" by $index" value="{{rol}}">
+								{{rol}}
+							</option>
+						</select>
+
+						<select ng-model="todoInput" class="form-control" ng-mouseup="updateActores();">
+							<option value="">-----</option>
+							<option ng-repeat="actor in actores track by $index" value="name:{{actor.fullName}},id:{{actor.id}},rol:{{roles}}">
+								{{actor.fullName}}
+							</option>	
+							<option value="">-----</option>
+						</select>
+						<button  type="button" class="btn btn-primary btn-lg" ng-click="actorAdd(todoInput);">Agregar actor</button>
+					</div>
+
+					<div ng-model="todoerase" ng-repeat="x in idActores track by $index" class="campo">
+						<h2 class="glyphicon glyphicon-remove" ng-model="x" ng-click="actorRemove(x.id)"> {{x.name}}, {{x.rol}} </h2>
+					</div>
+					<a type="button" class="btn btn-primary btn-lg" href="/#!/actores/create" target="popup" value= "Crear actor" onClick="window.open(this.href, this.target, 'width=500,height=400,left=300, top=200'); return false;">Crear nuevo actor</a>
+
+					<hr/ class="division">
+					<div>
+					<label class="seccion" >Anotaciones cartográfico-temporales</label>
+					</div>
+					
+						<label class="campo" for="coberturaSitio">Lugar</label>
+						<select ng-model="coberturaSitio" class="form-control">
+							<option ng-repeat="sitio in sitios track by $index" >
+								{{sitio}}
+							</option>	
+							<option value="">-----</option>
+						</select>
+
+						<div class="campo">
+					<label  for="descripcion">Evento</label>	
+					<div>
+						<textarea class="form-control" placeholder="Texto que resume de manera abreviada, objetiva y precisa, aspectos como la procedencia, el tipo y las características de la obra" data-ng-model="descripcion" id="descripcion"></textarea>
+					</div>
+				</div>
+
+
+
+						<label class="campo" for="coberturaCartografica">Cobertura-amplitud</label>
+						<select ng-model="coberturaCartografica" class="form-control">
+							<option ng-repeat="cobertura in coberturas track by $index" value="place:{{coberturaSitio}},scope:{{cobertura}},date1:{{fechaDeInicio}},date2:{{fechaDeFin}}">
+								{{cobertura}}
+								</option>
+								<option value="">-----</option>	
+						</select>
+
+						<label class="campo">Fecha de inicio</label>
+						<input type="date" class="form-control" ng-model="fechaDeInicio" id="fechaDeInicio"  placeholder="Fecha de inicio">
+			
+						<label class="campo">Fecha de finalización</label>
+						<input type="date" class="form-control" ng-model="fechaDeFin" id="fechaDeFin"  placeholder="Fecha de finalización" >
+					
+						<div class="campo">
+					<label  for="descripcion">Evidencia</label>	
+					<div>
+						<textarea class="form-control" placeholder="" data-ng-model="descripcion" id="descripcion"></textarea>
+					</div>
+				</div>
+						<button  type="button" class="btn btn-primary btn-lg" ng-click="coberturaAdd(coberturaCartografica)">Agregar cobertura</button>
+					
+					
+
+					<div ng-model="todoerase" ng-repeat="c in idCoberturas track by $index" class="campo">
+						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="coberturaRemove(c.place)">{{c.place}} ,{{c.scope}},{{c.date1}},{{c.date2}}</h2>
+					</div>
+
+					<hr/ class="division">
+
+					
+
+					<label class="seccion">Proyectos Asociados</label>
+
+					<label class="campo" for="proyectosAsociados"></label>
+						<select ng-model="proyectosAsociados" class="form-control">
+							<option ng-repeat="proyecto in proyectos track by $index" value="name:{{proyecto}}">
+								{{proyecto}}
+								</option>
+								<option value="">-----</option>	
+						</select>
+
+					<div>
+						<button  type="button" class="btn btn-primary btn-lg" ng-click="proyectoAdd(proyectosAsociados);">Agregar proyecto</button>
+					</div>
+
+					<div ng-model="todoerase" ng-repeat="p in idProyectos track by $index" class="campo">
+						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="proyectoRemove(p.name)"> {{p.name}}</h2>
+					</div>
+
+					
+					<hr/ class="division">	
+					<div>
+						<input type="submit" class="btn btn-primary btn-lg2" value="Crear obra">
+						<div  data-ng-show="error">
+							<strong class="error" data-ng-bind="error"></strong>
+						</div>
+					</div>
+				</section>
+				
+
+			</div>
+		</form>	
+	</div>

@@ -1,0 +1,61 @@
+<!-- View listar sistemas-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="SistemasController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE SISTEMAS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="nombre">Nombre</option>
+							<option value="descripcion">Descripción</option>
+							<option value="alias">Alias</option>
+							</select>
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>	
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Nombre</th>
+					<th class="campo">Descripción</th>
+					<th class="campo">Alias</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="sistema in sistemas | orderBy:orden:reverse|filter:search">
+
+					<!-- sistemas es el modelo-->
+					<td>
+						<a href="/#!/sistemas/{{sistema._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+					</td>
+					<td class="titulo" data-ng-href="#!/sistemas/{{sistema._id}}" data-ng-bind="sistema.nombre"></td>
+					<td class="descripcion"data-ng-bind="sistema.descripcion"></td>
+					<td class="descripcion"data-ng-bind="verAlias(sistema.alias)"></td>
+					<td data-ng-show="authentication.user._id == sistema.creador._id">
+						<a href="/#!/sistemas/{{sistema._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+						
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!sistemas || sistemas.length">
+	<a href="/#!/sistemas/create"></a>
+</section>

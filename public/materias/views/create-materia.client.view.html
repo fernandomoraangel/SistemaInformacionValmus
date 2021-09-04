@@ -1,0 +1,134 @@
+<!-- View crear obras -->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="jumbotron">
+	<div class="container">
+		<section data-ng-controller="MateriasController">
+			<label class="tituloVista">CREAR MATERIA</label>
+			<form data-ng-submit="create()" novalidate>
+<!-- Mensaje de error-->
+				<div  data-ng-show="error">
+					<strong class="error" data-ng-bind="error"></strong>
+				</div>
+<!-- Nombre-->
+				<div class="campo">
+					<label>NOMBRE DE LA MATERIA*</label>
+				</div>
+				<div>
+					<input type="text" class="form-control"  ng-model="nombre" placeholder="">
+				</div>
+
+<!-- Descripción -->
+					<label  for="descripcion">Descripción</label>	
+					<div>
+						<textarea class="form-control-big" wrap="soft" placeholder="Texto que resume de manera abreviada, objetiva y precisa, aspectos como la procedencia, el tipo y las características del recurso" ng-model="descripcion"></textarea>
+					</div>
+				<hr/ class="division">	
+<!-- MAterias relacionadas -->
+				<label class="campo">Materias relacionadas</label>
+				<div ng-mouseover="updateMaterias()">
+					<select ng-model="materiaRelacionada" class="form-control">
+						<option value="">-----</option>
+						<option ng-repeat="materia in materias track by $index" value="{{materia._id}}">
+							{{materia.nombre}}
+						</option>	
+						
+					</select>
+				</div>
+
+				<div>
+					<h2  class="glyphicon glyphicon-plus" ng-click="materiaRelacionadaAdd()">Agregar</h2>
+				</div>
+
+				<div ng-model="todoerase" ng-repeat="n in idAlias track by $index" class="campo">
+					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="materiaRelacionadaRemove(n.materiarelacionadaid)"> {{n.nombre}}</h2>
+				</div>
+				<div class="campo">
+<!-- Fin materias relacionadas -->
+
+<!-- Padre -->
+				<label class="campo">Materias padre</label>
+				<div ng-mouseover="updateMaterias()">
+					<select  ng-model="padres" class="form-control">
+						<option value="">-----</option>
+						<option ng-repeat="materia in materias track by $index"  value="{{materia._id}}">
+							{{materia.nombre}}
+						</option>	
+						
+					</select>
+				</div>
+
+				<div>
+					<h2  class="glyphicon glyphicon-plus" ng-click="padresAdd()">Agregar</h2>
+				</div>
+
+				<div ng-model="todoerase" ng-repeat="n in idPadres track by $index" class="campo">
+					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="padresRemove(n.materiarelacionadaid)">{{n.nombre}}</h2>
+				</div>
+
+				<div class="campo">
+<!-- Fin padres -->
+
+<!-- Hijos -->
+				<label class="campo">Materias hijas</label>
+				<div ng-mouseover="updateGeneros()">
+					<select ng-model="hijos" class="form-control">
+						<option value="">-----</option>
+						<option ng-repeat="materia in materias track by $index"  value="{{materia._id}}">
+							{{materia.nombre}}
+						</option>	
+						
+					</select>
+				</div>
+
+				<div>
+					<h2 class="glyphicon glyphicon-plus" ng-click="hijosAdd()">Agregar</h2>
+				</div>
+
+				<div ng-model="todoerase" ng-repeat="n in idHijos track by $index" class="campo">
+					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="hijosRemove(n.materiarelacionadaid)">{{n.nombre}}</h2>
+				</div>
+
+				<div class="campo">
+				<hr/ class="division">	
+<!-- Fin hijos -->
+
+
+
+<!-- Descriptores libres -->
+
+				<hr><label class="seccion">DESCRIPTORES LIBRES</label></hr>
+				<hr><label class="campo">Etiqueta</label></hr>
+				<select ng-model="dEtiqueta" class="form-control">
+					<option ng-repeat="d in dEtiquetas track by $index" value="{{d}}">
+						{{d}}
+					</option>
+					<option value="">-----</option>	
+					<tt>tipoSelect={{d}}</tt>
+				</select>
+
+				<div>
+					<label class="campo">Contenido</label>
+					<input type="text" class="form-control" ng-model="dContenido" placeholder="">
+				</div>
+
+				<div>
+					<h2 class="glyphicon glyphicon-plus" ng-click="dDescriptorAdd();">Agregar</h2>
+				</div>
+
+				<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
+					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="dDescriptorRemove(n.contenido);"> {{n.etiqueta}} {{n.contenido}}</h2>
+				</div>
+				
+<!-- Fin descriptores libres -->
+
+					<div>
+						<input type="submit" class="btn btn-primary btn-lg2" value="Crear materia">
+						<div  data-ng-show="error">
+							<!-- <strong class="error" data-ng-bind="error"></strong> -->
+						</div>
+					</div>
+				</form>	
+			</section>
+		</div>
+		
+	</div>

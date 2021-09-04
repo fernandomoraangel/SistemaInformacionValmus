@@ -1,0 +1,54 @@
+<!-- View listar ejemplars-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="IdiomasController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE IDIOMAS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="idioma">Idioma</option>
+							</select>	
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Idioma</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="idioma in idiomas | orderBy:orden:reverse|filter:search">
+
+					<!-- idiomas es el modelo-->
+					<td>
+						<a href="/#!/idiomas/{{idioma._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+					</td>
+					<td class="descripcion" data-ng-bind="idioma.idioma"></td>
+					<td data-ng-show="authentication.user._id == idioma.creador._id">
+						<a href="/#!/idiomas/{{idioma._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!idiomas || idiomas.length">
+	<a href="/#!/idiomas/create"></a>
+</section>

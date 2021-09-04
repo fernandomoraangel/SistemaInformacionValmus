@@ -1,0 +1,37 @@
+<!-- View editar artículo-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="bodyEdit">
+	<div class="container">
+		<section data-ng-controller="DiccionariosController" data-ng-init="findOne()">
+		<label class="tituloVista">EDITAR DICCIONARIO</label>
+			<form data-ng-submit="update()" novalidate>
+				
+				<div>
+					<label>Tabla</label>
+					<input type="text" class="form-control" data-ng-model="diccionario.tabla" id="diccionario"  required ng-mouseup="actualizarTodo()">
+				</div>
+				<div>
+					<label>Campo abreviado</label>
+					<input type="text" class="form-control" data-ng-model="diccionario.campo" id="diccionario"  required ng-mouseup="actualizarTodo()">
+				</div>
+
+				<div>
+					<label>Campo largo</label>
+					<input type="text" class="form-control" data-ng-model="diccionario.campoLargo" id="diccionario"  required ng-mouseup="actualizarTodo()">
+				</div>
+
+				<div>
+					<label>Definición</label>
+					<input type="text" class="form-control" data-ng-model="diccionario.definicion" id="diccionario"  required ng-mouseup="actualizarTodo()">
+				</div>
+
+
+				<input type="submit" class="btn btn-primary pull-right" value="Actualizar">
+						<div  data-ng-show="error">
+							<strong class="error" data-ng-bind="error"></strong>
+						</div>			
+				
+</div>
+</div>
+</form>
+</section>

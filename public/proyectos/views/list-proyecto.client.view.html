@@ -1,0 +1,59 @@
+<!-- View listar proyectos-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="ProyectosController" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE PROYECTOS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="nombre">Nombre</option>
+							<option value="estado">Estado</option>
+							</select>
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>	
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">NOMBRE</th>
+					<th class="campo">ESTADO</th>
+					<th class="campo">INVESTIGADORES</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="proyecto in proyectos | orderBy:orden:reverse|filter:search">
+
+					<!-- proyectos es el modelo-->
+					<td>
+						<a href="/#!/proyectos/{{proyecto._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+					</td>
+					<td class="titulo" data-ng-href="#!/proyectos/{{proyecto._id}}" data-ng-bind="proyecto.nombre"></td>
+					<td class="descripcion" data-ng-bind="proyecto.estado"></td>
+					<td class="descripcion" data-ng-bind="verInvestigadores(proyecto.investigadores)"></td>
+					<td data-ng-show="authentication.user._id == proyecto.creador._id">
+							<a href="/#!/proyectos/{{proyecto._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!proyectos || proyectos.length">
+	<a href="/#!/proyectos/create"></a>
+</section>

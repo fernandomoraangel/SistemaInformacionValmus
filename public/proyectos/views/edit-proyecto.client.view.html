@@ -1,0 +1,136 @@
+<!-- View editar artículo-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="jumbotron">
+	<div class="container">
+		<section data-ng-controller="ProyectosController" data-ng-init="findOne()">
+		<label class="tituloVista">EDITAR PROYECTO</label>
+			<form data-ng-submit="update()" novalidate>
+				<div>
+					<label class="campo">Nombre</label>
+					<div>
+						<input type="text" class="form-control" data-ng-model="proyecto.nombre"  placeholder="Titulo" required ng-mouseup="actualizarTodo()">
+					</div>
+				</div>
+
+<!-- Estados -->
+<div>
+		<label  class="campo">Estado del proyecto</label>
+		<select  class="form-control" data-ng-model="proyecto.estado" >
+				<option value="">-----</option>
+				<option ng-repeat="estado in estados track by $index" value="{{estado}}">
+					{{estado}}
+				</option>	
+			</select>
+	</div>
+<!-- Fin Estados -->
+	
+<!-- Investigadores -->
+	<div ng-model="todoInput">
+			<label class="seccion">Actores</label>
+			<select  class="form-control"  ng-model="actor" >
+				<option value="">-----</option>
+				<option ng-repeat="actor in actores track by $index" value="{{actor.id}}">
+					{{actor.fullName}}
+				</option>	
+			</select>
+
+			<select ng-model="rol" class="form-control">
+				<option value="">-----</option>
+				<option ng-repeat="rol in roles track by $index" value="{{rol}}">
+					{{rol}}
+				</option>
+			</select>
+			<h2><label class="campo" >Activo desde</label></h2>
+			<input type="date" class="form-control" ng-model="fechaInicioActivo" placeholder="">
+			<h2><label class="campo" >Activo hasta</label></h2>
+			<input type="date" class="form-control" ng-model="fechaFinActivo" placeholder="">
+
+			<h2  class="glyphicon glyphicon-plus" ng-click="actorAdd();">Agregar</h2>
+			<h2 class="glyphicon glyphicon-modal-window" href="/#!/actores/create" target="popup" value= "Crear actor" onclick="window.open(this.href, this.target, 'width=500,height=400,left=300, top=200'); return false;">Crear</h2>
+		</div>
+		<div ng-model="todoerase" ng-repeat="x in idActores track by $index" class="campo">
+			<h2 class="glyphicon glyphicon-remove" ng-model="x" ng-click="actorRemove(x.id)"> {{actorAux(x.id)}}, {{x.rol}} </h2>
+
+		</div>
+		<hr/ class="division">	
+<!-- Fin Investigadores -->
+
+<!-- Fechas asociadas -->
+		<div>
+			<h1><label class="campo">Fechas asociadas al proyecto</label></h1>
+			<h2><label class="campo" >Fecha</label></h2>
+			<input type="date" class="form-control" ng-model="fecha" placeholder="">
+		<select ng-model="evento" class="form-control">
+			<option value="">-----</option>
+			<option ng-repeat="evento in eventos track by $index" value="{{evento}}">
+				{{evento}}
+			</option>
+		</select>
+		<h2  class="glyphicon glyphicon-plus" ng-click="fechaAdd();">Agregar</h2>
+		</div>
+		<div ng-model="todoerase" ng-repeat="x in idFechas track by $index" class="campo">
+			<h2 class="glyphicon glyphicon-remove" ng-model="x" ng-click="fechaRemove(x.evento)"> {{x.fecha}}, {{x.evento}} </h2>
+		</div>
+		<hr/ class="division">	
+		
+<!-- Descriptores libres -->
+
+	<hr><label class="seccion">DESCRIPTORES LIBRES</label></hr>
+	<hr><label class="campo">Etiqueta</label></hr>
+	<select ng-model="dEtiqueta" class="form-control">
+		<option ng-repeat="d in dEtiquetas track by $index" value="{{d}}">
+			{{d}}
+		</option>
+		<option value="">-----</option>	
+		<tt>tipoSelect={{d}}</tt>
+	</select>
+
+	<div>
+		<label class="campo">Contenido</label>
+		<input type="text" class="form-control" ng-model="dContenido" placeholder="">
+	</div>
+
+	<div>
+		<h2  class="glyphicon glyphicon-plus" ng-click="dDescriptorAdd();">Agregar</h2>
+			<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+	</div>
+
+	<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
+		<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="dDescriptorRemove(n.contenido);"> {{n.etiqueta}} {{n.contenido}}</h2>
+	</div>
+<!-- Fin descriptores libres -->
+	<hr/ class="division">	
+<!-- Vínculos y archivos -->
+
+	<hr><label class="seccion">ENLACES Y ARCHIVOS</label></hr>
+	<div>
+		<label class="campo">Nombre (descripción)</label>
+		<input type="text" class="form-control" ng-model="eEtiqueta" placeholder="">
+	</div>
+
+	<div>
+		<label class="campo">Enlace o dirección(descripción)</label>
+		<input type="text" class="form-control" ng-model="eUrl" placeholder="">
+	</div>
+
+	<div>
+		<h2 class="glyphicon glyphicon-plus" ng-click="enlaceAdd();">Agregar</h2>
+		<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+	</div>
+
+	<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">
+		<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="enlaceRemove(n.etiqueta);"> {{n.etiqueta}} {{n.url}}</h2>
+	</div>
+	<hr class="division">
+<!-- Vínculos y archivos -->
+
+<input type="submit" class="btn btn-primary btn-lg2" value="Actualizar">
+<div  data-ng-show="error">
+	<strong class="error" data-ng-bind="error"></strong>
+</div>	
+
+				
+
+
+</div>
+</div>

@@ -1,0 +1,58 @@
+<!-- View listar instrumentos-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="InstrumentosController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE INSTRUMENTOS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="Nombre">Nombre</option>
+							<option value="Clasificacion">Clasificación</option>
+							<option value="creado">Alias</option>
+							</select>	
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Nombre</th>
+					<th class="campo">Clasificación</th>
+					<th class="campo">Alias</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="instrumento in instrumentos | orderBy:orden:reverse|filter:search">
+
+					<!-- instrumentos es el modelo-->
+					<td>
+						<a href="/#!/instrumentos/{{instrumento._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+
+					</td>
+					<td class="titulo" data-ng-href="#!/instrumentos/{{instrumento._id}}" data-ng-bind="instrumento.nombre"></td>
+					<td class="descripcion"data-ng-bind="instrumento.clasificacion"></td>
+					<td class="descripcion"data-ng-bind="verAlias(instrumento.alias)"></td>
+					<td data-ng-show="authentication.user._id == instrumento.creador._id">
+						<a href="/#!/instrumentos/{{instrumento._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+</section>

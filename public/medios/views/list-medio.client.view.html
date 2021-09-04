@@ -1,0 +1,62 @@
+<!-- View listar medios-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="MediosController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE MEDIOS SONOROS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="nombre">Título</option>
+							<option value="instrumentos">Descripción</option>
+							<option value="alias">Descripción</option>
+							</select>	
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Nombre</th>
+					<th class="campo">Instrumentos</th>
+					<th class="campo">Alias</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="medio in medios | orderBy:orden:reverse|filter:search">
+
+					<!-- medios es el modelo-->
+					<td>
+						<a href="/#!/medios/{{medio._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+
+					</td>
+					<td class="titulo" data-ng-href="/#!/medios/{{medio._id}}" data-ng-bind="medio.nombre"></td>
+					<td class="descripcion"data-ng-bind="verInstrumento(medio.instrumentos)"></td>
+					<td class="descripcion"data-ng-bind="medio.alias"></td>
+					<td data-ng-show="authentication.user._id == medio.creador._id">
+						<a href="/#!/medios/{{medio._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+						
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!medios || medios.length">
+	<a href="/#!/medios/create"></a>
+</section>

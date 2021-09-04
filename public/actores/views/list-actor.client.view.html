@@ -1,0 +1,65 @@
+<!-- View listar actores-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="ActoresController" class="bodyList" data-ng-init="find()">
+	<h1>Listado de actores</h1>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="nombres">Nombres</option>
+							<option value="apellidos">Apellidos</option>
+							<option value="nombreReunion">Nombre de Reunión</option>
+							</select>
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>	
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">NOMBRES</th>
+					<th class="campo">APELLIDOS</th>
+					<!--<th class="campo">Creación</th>-->
+					<!-- <th class="campo">Creador</th>-->
+					<th class="campo">NOMBRE DE REUNIÓN</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="actor in actores | orderBy:orde:reverse|filter:search">
+
+					<!-- actores es el modelo-->
+					<td>
+						<a href="/#!/actores/{{actor._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+					</td>
+					<!--<td class="descripcion" data-ng-href="#!/actores/{{actor._id}}" data-ng-bind="actor.creador"></td>-->
+					<!--<td><small data-ng-bind="obra.creado | date:'medium'"></small></td>-->
+					<!--<td><small data-ng-bind="obra.creador.fullName"></small></td>-->
+					<td class="descripcion"data-ng-bind="actor.nombres"></td>
+					<td class="descripcion"data-ng-bind="actor.apellidos"></td>
+					<td class="descripcion"data-ng-bind="actor.nombreReunion"></td>
+					<td data-ng-show="authentication.user._id == actor.creador._id">
+						<a href="/#!/actores/{{actor._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+						
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!actor || actor.length">
+	<a href="/#!/actores/create"></a>
+</section>

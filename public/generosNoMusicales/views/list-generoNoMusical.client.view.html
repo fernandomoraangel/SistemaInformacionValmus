@@ -1,0 +1,59 @@
+<!-- View listar generos-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="GenerosController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE GÉNEROS O FORMAS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="nombre">Nombre</option>
+							<option value="descripcion">Descripción</option>
+							<option value="alias">Alias</option>
+							</select>
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>	
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Nombre</th>
+					<th class="campo">Descripción</th>
+					<th class="campo">Alias</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="genero in generos | orderBy:orden:reverse|filter:search">
+
+					<!-- generos es el modelo-->
+					<td>
+						<a href="/#!/generos/{{genero._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+
+					</td>
+					<td class="titulo" data-ng-href="#!/generos/{{genero._id}}" data-ng-bind="genero.nombre"></td>
+					<td class="descripcion"data-ng-bind="genero.descripcion"></td>
+					<td class="descripcion"data-ng-bind="verAlias(genero.alias)"></td>
+					<td data-ng-show="authentication.user._id == genero.creador._id">
+						<a href="/#!/generos/{{genero._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>
+</ul>
+
+<div data-ng-hide="!generos || generos.length">
+	<a href="/#!/generos/create"></a>
+</section>

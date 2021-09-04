@@ -1,0 +1,170 @@
+<!-- View editar artículo-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="jumbotron">
+	<div class="container">
+		<section data-ng-controller="ObrasController" data-ng-init="findOne()">
+		<label class="tituloVista">EDITAR OBRA</label>
+			<form data-ng-submit="update()" novalidate>
+				<div>
+					<label class="campo" for="titulo">Titulo</label>
+					<div>
+						<input type="text" class="form-control" data-ng-model="obra.titulo" id="titulo" placeholder="Titulo" required>
+					</div>
+				</div>
+
+				<div>
+					<label class="campo" for="descripcion">Descripción</label>
+					<div>
+						<textarea class="form-control" data-ng-model="obra.descripcion" id:"descripcion"></textarea>
+					</div>
+				</div>
+
+				<div>
+					<h2><label for="contenedor">Contenedor</label></h2>
+					<select  select name="contenedorSelect" class="form-control" ng-options="item for item in items" data-ng-model="obra.contenedor">
+						<option value="">Seleccione un valor</option>
+						<tt>contenedorSelect={{contenedor}}</tt>
+					</select>
+				</div>
+
+				<div>
+					<h2><label for="tipo">Tipo</label></h2>
+					<select  select name=tipoSelect class="form-control" ng-options="tipo for tipo in tipos" data-ng-model="obra.tipo">
+						<option value="">Seleccione un valor</option>
+						<tt>tipoSelect={{tipo}}</tt>
+					</select>
+				</div>
+
+				<div>
+					<label class="campo" for="ParteoSeccion" >Parte o sección</label>
+					<div>
+						<textarea class="form-control" data-ng-model="obra.parteOSeccion" id:"parteOSeccion"></textarea>
+					</div>
+				</div>
+				
+				<div>
+					<label class="campo" for="medioSonoro">Medio Sonoro</label>
+					<select  select name=medioSelect class="form-control" ng-options="medio for medio in medios" data-ng-model="obra.medioSonoro">
+						<option value="">Seleccione un valor</option>
+						<tt>medioSelect={{medioSonoro}}</tt>
+					</select>
+				</div>
+				
+				<div>
+					<label class="campo" for="idioma">Idioma</label>
+					<select  select name=idiomaSelect class="form-control" ng-options="idioma for idioma in idiomas" data-ng-model="obra.idioma">
+						<option value="">Seleccione un valor</option>
+						<tt>idiomaSelect={{idioma}}</tt>
+					</select>
+				</div>	
+
+				<div>
+					<label class="campo" for="generoForma">Género o forma</label>
+					<select  select name=generoSelect class="form-control" ng-options="genero for genero in generos" data-ng-model="obra.generoForma">
+						<option value="">Seleccione un valor</option>
+						<tt>generoSelect={{generoForma}}</tt>
+					</select>
+				</div>
+
+
+				<section>
+				<div ng-model="todoInput">
+					<label class="campo" for="actor">Actores</label>
+					<select ng-model="roles" class="form-control">
+					<option value="">-----</option>
+					<option ng-repeat="rol in rols" by $index" value="{{rol}}">
+						{{rol}}
+					</option>
+					</select>
+
+					<select ng-model="todoInput" class="form-control" >
+					<option value="">-----</option>
+					<option ng-repeat="actor in actores track by $index" value="name:{{actor.fullName}},id:{{actor.id}},rol:{{roles}}">
+						{{actor.fullName}}
+					</option>	
+					</select>
+					<button  type="button" class="btn btn-primary btn-lg" ng-click="todoAdd(todoInput);">Agregar actor</button>
+				</div>
+
+				<div ng-model="todoerase" ng-repeat="x in idActores track by $index" class="campo">
+						<h2 class="glyphicon glyphicon-remove" ng-model="x" ng-click="todoRemove(x.id)"> {{x.name}}, {{x.rol}} </h2>
+				</div>
+			
+		</section>
+
+				<div data-ng-show="error">
+					<strong data-ng-bind="error"></strong>
+				</div>
+
+<div>
+					<input class="btn btn-primary btn-lg" type="submit" value="Actualizar">
+				</div>
+
+<section data-ng-controller="ActoresObrasController" data-ng-init="find()">
+	<label class="subTituloVista">ACTORES</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="actorObra.actor.apellidos">Apellidos</option>
+							<option value="actorObra.actor.nombrePila">Nombre de pila</option>
+							<option value="actorObra.actor.fullName">Nombre completo</option>
+							<option value="actorObra.roll">Rol</option>
+							</select>	
+						</th>
+			</table>
+					</tr>
+				</thead>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Nombre y apellidos</th>
+					<th class="campo">Rol</th>
+					<th class="campo">Editar-borrrar</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr  data-ng-repeat="actorObra in actoresObras | orderBy:orden | filter:obra.titulo | filter:search">
+					<!-- actores es el modelo-->
+					<td>
+						<a href="/#!/actoresObras/{{actorObra._id}}"><span class="glyphicon glyphicon-sunglasses"  </span></a>
+					</td>
+	
+					<td class="descripcion"data-ng-bind="actorObra.actor.fullName"></td>
+					<td class="descripcion"data-ng-bind="actorObra.roll"></td>
+
+					<td data-ng-show="authentication.user._id == actorObra.creador._id">
+						<a href="/#!/actoresObras/{{actorObra._id}}/edit"><span class="glyphicon glyphicon-pencil"  </span></a>
+						<a href="/#!/actoresObras/{{actorObra._id}}" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"  </span></a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+</div>
+</ul>
+
+<div data-ng-hide="!actorObra || actorObra.length">
+	<a href="/#!/actoresObras/create"></a>
+</div>
+
+
+</section>
+
+
+
+				
+			</form>
+		</div>
+	</section>
+</div>
+</div>

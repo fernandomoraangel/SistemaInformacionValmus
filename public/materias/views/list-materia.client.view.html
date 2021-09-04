@@ -1,0 +1,61 @@
+<!-- View listar materias-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="MateriasController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE MATERIAS</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="Nombre">Nombre</option>
+							<option value="Alias">Alias</option>
+							<option value="descripcion">Descripción</option>
+							</select>	
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">Nombre</th>
+					<th class="campo">Descripción</th>
+					<th class="campo">Alias</th>
+					
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr data-ng-repeat="materia in materias | orderBy:orden:reverse|filter:search">
+
+					<!-- materias es el modelo-->
+					<td>
+						<a href="/#!/materias/{{materia._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+					</td>
+					<td class="titulo" data-ng-href="#!/materias/{{materia._id}}" data-ng-bind="materia.nombre"></td>
+					<td class="descripcion"data-ng-bind="materia.descripcion"></td>
+					<td class="descripcion"data-ng-bind="verAlias(materia.alias)"></td>
+					<td data-ng-show="authentication.user._id == materia.creador._id">
+						<a href="/#!/materias/{{materia._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!materias || materias.length">
+	<a href="/#!/materias/create"></a>
+</section>

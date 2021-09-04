@@ -1,0 +1,43 @@
+<!-- View editar artículo-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="jumbotron">
+	<div class="container">
+		<section data-ng-controller="FondosController" data-ng-init="findOne()">
+		<label class="tituloVista">EDITAR FONDO</label>
+			<form data-ng-submit="update()" novalidate>
+				<div>
+					<label class="campo" for="titulo">Nombre del Fondo</label>
+					<div>
+						<input type="text" class="form-control" data-ng-model="fondo.nombre" id="titulo" placeholder="Titulo" required>
+					</div>
+				</div>
+
+				<label class="campo">Fecha de creación</label>
+						<input type="text" class="form-control" data-ng-model="fondo.fechaDeCreacion">
+
+				<div>
+					<label class="campo" for="tipo">Tipo</label>
+					<select  select name=tipoSelect class="form-control" ng-options="tipo for tipo in tipos" data-ng-model="fondo.tipo">
+						<option value="">Seleccione un valor</option>
+						<tt>tipoSelect={{tipo}}</tt>
+					</select>
+				</div>
+
+				<div class="campo">
+						<label  for="descripcion">Propiedad/Comodato</label>	
+						<div>
+							<textarea class="form-control" placeholder="" data-ng-model="fondo.propiedadComodato" id="descripcion"></textarea>
+						</div>
+				</div>
+				<div data-ng-show="error">
+						<strong data-ng-bind="error"></strong>
+					</div>
+	
+					<div>
+						<input class="btn btn-primary btn-lg" type="submit" value="Actualizar">
+					</div>		
+			</form>
+		</div>
+	</section>
+</div>
+</div>

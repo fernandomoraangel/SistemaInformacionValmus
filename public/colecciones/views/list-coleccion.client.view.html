@@ -1,0 +1,62 @@
+<!-- View listar coleccions-->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<section data-ng-controller="ColeccionesController" data-ng-init="find()" class="bodyList">
+	<label class="tituloVista">LISTADO DE COLECCIONES</label>
+	<ul>
+		<div class="wrapper">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th> Filtrar <input type="text" ng-model="search">
+						</th>
+						<th>
+						<label> Ordenar </label>
+							<select ng-model="orden">
+							<option value="nombre">Nombre</option>
+							<option value="tipo">Tipo</option>
+							</select>	
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>	
+						</th>
+					</tr>
+				</thead>
+			</table>
+		<!-- Table -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th></th>
+					<th class="campo">NOMBRE</th>
+					<th class="campo">TIPO</th>
+					<th class="campo">PROPIEDAD/COMODATO</th>
+					<th class="campo">FECHA DE CREACIÓN</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-ng-repeat="coleccion in colecciones | orderBy:orden:reverse|filter:search">
+
+					<!-- coleccions es el modelo-->
+
+					<td>
+						<a href="/#!/colecciones/{{coleccion._id}}"><span class="glyphicon glyphicon-sunglasses"  </span></a>
+					</td>
+					<td class="titulo" data-ng-href="#!/coleccions/{{coleccion._id}}" data-ng-bind="coleccion.nombre"></td>
+					<td class="descripcion"data-ng-bind="coleccion.nombre"></td>
+					<td class="descripcion"data-ng-bind="coleccion.tipo"></td>
+					<td class="descripcion"data-ng-bind="coleccion.propiedadComodato"></td>
+					<td class="descripcion"data-ng-bind="coleccion.fechaDeCreacion"></td>
+					<td data-ng-show="authentication.user._id != coleccion.creador._id">
+						<a href="/#!/coleccions/{{coleccion._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+					</td>
+				</tr>
+
+			</tbody>
+		</table>
+	</div>
+	
+
+</div>
+</ul>
+
+<div data-ng-hide="!colecciones || coleccions.length">
+	<a href="/#!/colecciones/create"></a>
+</section>

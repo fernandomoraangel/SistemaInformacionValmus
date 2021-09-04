@@ -1,0 +1,112 @@
+<!-- View crear obras -->
+<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<div class="jumbotron">
+	<div class="container">
+		<section data-ng-controller="EjemplaresController">
+			<label class="tituloVista">CREAR EJEMPLAR</label>
+
+			<form data-ng-submit="create()" novalidate>
+				<!-- Mensaje de error-->
+				<div  data-ng-show="error">
+					<strong class="error" data-ng-bind="error"></strong>
+				</div>
+<!-- Recurso -->
+				<label class="campo">RECURSO</label>
+				<div>
+				<select select name=tipoSelect ng-model="recurso" class="form-control">
+							<option value="">-----</option>
+							<option ng-repeat="r in recursos track by $index" value="{{r.id}}">
+								{{r.titulo}}
+							</option>	
+						</select>
+				</div>
+
+<!-- Ejemplar -->
+				<div class="campo">
+					<label  for "titulo">IDENTIFICADOR DE EJEMPLAR</label>
+				</div>
+
+				<div>
+					<input type="text" class="form-control" data-ng-model="numeroEjemplar" id="titulo"  placeholder=""required>
+				</div>
+
+<!-- Disponibilidad -->
+				<div>
+					<label class="campo" for="tipo">DISPONIBILIDAD</label>
+					<select  select name=tipoSelect class="form-control" ng-model="disponibilidad">
+						<option value="">Seleccione un valor</option>
+						<option ng-repeat="d in disponibilidades | orderBy: d track by $index" value="{{d}}">
+						{{d}}
+						</option>
+						</select>
+				</div>
+
+
+<!-- Fondo -->
+				<label class="campo">FONDO</label>
+				<div>
+				<select select name=tipoSelect ng-model="fondo" class="form-control">
+							<option value="">-----</option>
+							<option ng-repeat="f in fondos | orderBy: f track by $index" value="{{f.id}}">
+								{{f.nombre}}
+							</option>	
+						</select>
+				</div>
+
+<!-- Colección -->
+				<label class="campo">COLECCIÓN</label>
+				<div>
+				<select select name=tipoSelect ng-model="coleccion" class="form-control">
+							<option value="">-----</option>
+							<option ng-repeat="c in coleccions | orderBy: c track by $index" value="{{c.id}}">
+								{{c.nombre}}
+							</option>	
+						</select>
+				</div>
+<!-- Procedencia -->
+				<div class="campo">
+					<label  for "titulo">PROCEDENCIA</label>
+				</div>
+
+				<div>
+					<input type="text" class="form-control" ng-model="procedencia" id="titulo"  placeholder="Lugar, precio y condiciones de adquisición"required>
+				</div>
+<!-- Estado-->
+				<hr class="division">
+				<hr><label class="seccion">ESTADO</label></hr>
+
+				<hr><label class="campo">Criterio</label></hr>
+				<select ng-model="estadoEtiqueta" class="form-control">
+					<option ng-repeat="e in estados | orderBy: e track by $index" value="{{e}}">
+						{{e}}
+					</option>
+					<option value="">-----</option>	
+
+				</select>
+
+				<div>
+					<label class="campo">Valor</label>
+					<input type="text" class="form-control" ng-model="estadoContenido" placeholder=""></input>
+				</div>
+
+				<div>
+					<h2  class="glyphicon glyphicon-plus" ng-click="estadoAdd();">Agregar</h2>
+					<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+				</div>
+
+				<div ng-model="todoerase" ng-repeat="n in idEstados track by $index" class="campo">
+					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="estadoRemove(n.etiqueta);"> {{n.etiqueta}} {{n.contenido}}</h2>
+				</div>
+				<hr class="division">
+<!-- Fin Estado -->	
+					
+						<div>
+						<input type="submit" class="btn btn-primary btn-lg2" value="Crear ejemplar">
+						<div  data-ng-show="error">
+							<strong class="error" data-ng-bind="error"></strong>
+						</div>
+				
+
+			</div>
+		</form>	
+	</div>
