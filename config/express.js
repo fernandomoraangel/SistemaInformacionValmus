@@ -49,7 +49,7 @@ module.exports=function() {
 	require('../app/routes/actores-obras.server.routes.js')(app);
 	require('../app/routes/recursos.server.routes.js')(app);
 	require('../app/routes/generos.server.routes.js')(app);
-	require('../app/routes/generosNoMusicales.server.routes.js')(app);
+	require('../app/routes/generosnomusicales.server.routes.js')(app);
 	require('../app/routes/materias.server.routes.js')(app);
 	require('../app/routes/instrumentos.server.routes.js')(app);
 	require('../app/routes/proyectos.server.routes.js')(app);

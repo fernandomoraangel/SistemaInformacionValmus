@@ -1,7 +1,7 @@
 <!-- View listar generos-->
 <ng-include src="'example/views/example.client.view.html'"/></ng-include>
-<section data-ng-controller="GenerosController" class="bodyList" data-ng-init="find()">
-	<label class="tituloVista">LISTADO DE GÉNEROS O FORMAS</label>
+<section data-ng-controller="GenerosNoMusicalesController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">LISTADO DE GÉNEROS O FORMAS NO MUSICALES</label>
 	<ul>
 		<div class="wrapper">
 			<table class="table table-striped">
@@ -33,11 +33,11 @@
 			</thead>
 
 			<tbody>
-				<tr data-ng-repeat="genero in generos | orderBy:orden:reverse|filter:search">
+				<tr data-ng-repeat="genero in generosNoMusicales | orderBy:orden:reverse|filter:search">
 
 					<!-- generos es el modelo-->
 					<td>
-						<a href="/#!/generos/{{genero._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
+						<a href="/#!/generosNoMusicales/{{genero._id}}"><span class="glyphicon glyphicon-sunglasses"></a>
 
 					</td>
 					<td class="titulo" data-ng-href="#!/generos/{{genero._id}}" data-ng-bind="genero.nombre"></td>

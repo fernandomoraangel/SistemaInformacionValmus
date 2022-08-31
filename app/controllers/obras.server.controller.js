@@ -59,10 +59,15 @@ exports.update=function(req,res){
 	var obra=req.obra;
 	//Actualiza los campos
 	obra.titulo=req.body.titulo;
+	obra.denominacionRegional=req.body.denominacionRegional;
 	obra.descripcion=req.body.descripcion;
 	obra.tipo=req.body.tipo;
 	obra.contenedores=req.body.contenedores;
+	obra.asientoligado=req.body.asientoligado;
+	obra.ObraDerivadaDe=req.body.ObraDerivadaDe;
+	obra.parteOSeccionDe=req.body.parteOSeccionDe;
 	obra.generosFormas=req.body.generosFormas;
+	obra.GenerosFormasNoMusicales=req.body.GenerosFormasNoMusicales;
 	obra.materias=req.body.materias;
 	obra.mediosSonoros=req.body.mediosSonoros;
 	obra.sistemasSonoros=req.body.sistemasSonoros;

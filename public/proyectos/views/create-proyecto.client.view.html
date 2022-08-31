@@ -5,22 +5,73 @@
 		<section data-ng-controller="ProyectosController">
 			<label class="tituloVista">CREAR PROYECTO</label>
 
-			<form data-ng-submit="create()" novalidate>
+			<form class="form-principal" data-ng-submit="create()" novalidate>
 				<!-- Mensaje de error-->
 				<div  data-ng-show="error">
 					<strong class="error" data-ng-bind="error"></strong>
 				</div>
+<!-- Nombre del proyecto -->
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
 
-				<div >
-					<label  class="campo">Nombre del proyecto</label>
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
 				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<label class="campo">NOMBRE DEL PROYECTO</label>
+</div>
+				
 
 				<div>
 					<input type="text" class="form-control" ng-model="nombre" id="titulo"  placeholder=""required>
 				</div>
+
+<!-- Fin nombre del proyecto -->
 <!-- Estados -->
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
+
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<label class="campo">ESTADO DEL PROYECTO</label>
+</div>
 				<div>
-					<label  class="campo">Estado del proyecto</label>
+					
 					<select  class="form-control" ng-model="estado" >
 							<option value="">-----</option>
 							<option ng-repeat="estado in estados track by $index" value="{{estado}}">
@@ -30,9 +81,37 @@
 				</div>
 <!-- Fin Estados -->
 				
-<!-- Investigadores -->
+<!-- Actores -->
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
+
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseActores"
+		role="button" aria-expanded="false" aria-controls="collapseExample"></button>
+	<label class="campo">ACTORES</label>
+</div>
+<div class="collapse" id="collapseActores">
 				<div ng-model="todoInput">
-						<label class="seccion">Actores</label>
+						<label class="seccion">NOMBRE/ROL</label>
 						<select  class="form-control" ng-mouseup="updateActores();" ng-model="actor" >
 							<option value="">-----</option>
 							<option ng-repeat="actor in actores track by $index" value="{{actor.id}}">
@@ -58,14 +137,44 @@
 						<h2 class="glyphicon glyphicon-remove" ng-model="x" ng-click="actorRemove(x.id)"> {{actorAux(x.id)}}, {{x.rol}} </h2>
 
 					</div>
-					<hr/ class="division">	
-<!-- Fin Investigadores -->
+					</div>
+<!-- Fin Actores -->
 
 <!-- Fechas asociadas -->
-					<div>
-						<h1><label class="campo">Fechas asociadas al proyecto</label></h1>
-						<h2><label class="campo" >Fecha</label></h2>
+
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
+
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseFechas"
+		role="button" aria-expanded="false" aria-controls="collapseExample"></button>
+	<label class="campo">FECHAS ASOCIADAS AL PROYECTO</label>
+</div>
+<div class="collapse" id="collapseFechas">		
+<div>
+						
+						<h2><label class="campo" >FECHA</label></h2>
 						<input type="date" class="form-control" ng-model="fecha" placeholder="">
+						<h1><label class="campo">EVENTO</label></h1>
 					<select ng-model="evento" class="form-control">
 						<option value="">-----</option>
 						<option ng-repeat="evento in eventos track by $index" value="{{evento}}">
@@ -77,11 +186,37 @@
 					<div ng-model="todoerase" ng-repeat="x in idFechas track by $index" class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="x" ng-click="fechaRemove(x.evento)"> {{x.fecha}}, {{x.evento}} </h2>
 					</div>
-					<hr/ class="division">	
+</div>	
 					
 <!-- Descriptores libres -->
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
 
-				<hr><label class="seccion">DESCRIPTORES LIBRES</label></hr>
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseDescriptores"
+		role="button" aria-expanded="false" aria-controls="collapseExample"></button>
+	<label class="campo">DESCRIPTORES LIBRES</label>
+</div>
+<div class="collapse" id="collapseDescriptores">			
 				<hr><label class="campo">Etiqueta</label></hr>
 				<select ng-model="dEtiqueta" class="form-control">
 					<option ng-repeat="d in dEtiquetas track by $index" value="{{d}}">
@@ -104,11 +239,38 @@
 				<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
 					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="dDescriptorRemove(n.contenido);"> {{n.etiqueta}} {{n.contenido}}</h2>
 				</div>
+				</div>
 <!-- Fin descriptores libres -->
-				<hr/ class="division">	
+					
 <!-- Vínculos y archivos -->
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
 
-				<hr><label class="seccion">ENLACES Y ARCHIVOS</label></hr>
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseEyA"
+		role="button" aria-expanded="false" aria-controls="collapseExample"></button>
+	<label class="campo">ENLACES Y ARCHIVOS</label>
+</div>
+<div class="collapse" id="collapseEyA">
 				<div>
 					<label class="campo">Nombre (descripción)</label>
 					<input type="text" class="form-control" ng-model="eEtiqueta" placeholder="">
@@ -127,7 +289,7 @@
 				<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">
 					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="enlaceRemove(n.etiqueta);"> {{n.etiqueta}} {{n.url}}</h2>
 				</div>
-				<hr class="division">
+			</div>
 <!-- Vínculos y archivos -->
 					<div>
 						<input type="submit" class="btn btn-primary btn-lg2" value="Crear proyecto">

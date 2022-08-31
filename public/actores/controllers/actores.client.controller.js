@@ -85,23 +85,62 @@ $scope.actorAux=function(aux){
 				}
 };
 
-	$scope.actorAdd = function(x) {
-		x="id:"+this.contenedor;
-        var properties = x.split(',');
+	$scope.actorAdd = function() {
+	var existe = false;
+	var x="id:"+this.contenedor;
+    var properties = x.split(',');
 	var obj = {};
 	properties.forEach(function(property) {
     var tup = property.split(':');
     obj[tup[0]] = tup[1];
-    
 });
-        $scope.idContenedores.push(obj);
-        this.contenedor="";
+	if (
+        this.contenedor === undefined ||
+        this.contenedor === ""
+      ) {
+        //Mostrar mensaje de error
+        Swal.fire({
+          title: "¡Error!",
+          text: "Debe seleccionar un actor",
+          icon: "error",
+          confirmButtonText: "Cerrar",
+        });
+      } else {
+        if ($scope.idContenedores.indexOf(x) === -1) {
+          for (var i in $scope.idContenedores) {
+            if (
+              $scope.idContenedores[i].id === this.contenedor
+             
+            ) {
+              //Mensaje de error
+              Swal.fire({
+                title: "¡Error!",
+                text: "El actor se ya encuentra en la lista",
+                icon: "error",
+                confirmButtonText: "Cerrar",
+              });
+              existe = true;
+			  this.contenedor = "";
+              return;
+            }
+          }
+        }
+        if (existe === false) {
+          $scope.idContenedores.push(obj);
+          this.contenedor = "";
+        }
+      }
     };
 
  $scope.actorRemove = function(x) {
  	
      				for (var i in $scope.idContenedores){
-     					alert("va a eliminar a "+ $scope.actorAux(x));
+						Swal.fire({
+							title: "¡Advertencia de eliminación!",
+							text: "Va a eliminar  " + $scope.actorAux(x),
+							icon: "warning",
+							confirmButtonText: "Cerrar",
+						  });
 					if($scope.idContenedores[i].id===x){
 						$scope.idContenedores.splice(i,1);
 					}

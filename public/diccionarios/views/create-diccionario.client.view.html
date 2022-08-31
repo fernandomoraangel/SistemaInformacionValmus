@@ -3,9 +3,9 @@
 <div class="jumbotron">
 	<div class="container">
 		<section data-ng-controller="DiccionariosController">
-			<label class="tituloVista">CREAR DICCIONARIO</label>
+			<label class="tituloVista">CREAR CAMPO EN DICCIONARIO DE DATOS</label>
 
-			<form data-ng-submit="create()" novalidate>
+			<form class="form-principal" data-ng-submit="create()" novalidate>
 				<!-- Mensaje de error-->
 				<div  data-ng-show="error">
 					<strong class="error" data-ng-bind="error"></strong>
@@ -29,7 +29,7 @@
 
 				<div>
 					<label>Definición</label>
-					<input type="text" class="form-control" ng-model="definicion" required>
+					<input type="text" class="form-control-big" ng-model="definicion" required>
 				</div>
 					
 						<div>

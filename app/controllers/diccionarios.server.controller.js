@@ -41,7 +41,7 @@ exports.list = function (req, res) {
     .sort("campo")
     .populate("creador", "campo")
     .exec(function (err, diccionario) {
-      console.log("Buscando diccionarios");
+      //console.log("Buscando diccionarios");
       if (err) {
         return res.status(400).send({
           message: getErrorMessage(err),

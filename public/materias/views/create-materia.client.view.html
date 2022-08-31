@@ -4,27 +4,102 @@
 	<div class="container">
 		<section data-ng-controller="MateriasController">
 			<label class="tituloVista">CREAR MATERIA</label>
-			<form data-ng-submit="create()" novalidate>
+			<form class="form-principal" data-ng-submit="create()" novalidate>
 <!-- Mensaje de error-->
 				<div  data-ng-show="error">
 					<strong class="error" data-ng-bind="error"></strong>
 				</div>
 <!-- Nombre-->
-				<div class="campo">
-					<label>NOMBRE DE LA MATERIA*</label>
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','Título uniforme');" data-toggle="modal"
+		data-target="#ayudaTitulo"></button>
+
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaTitulo" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaTituloLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">TÍTULO UNIFORME</h5>
 				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<label>NOMBRE DE LA MATERIA*</label>
+</div>
+				
 				<div>
 					<input type="text" class="form-control"  ng-model="nombre" placeholder="">
 				</div>
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Obra','Título uniforme');" data-toggle="modal"
+						data-target="#ayudaTitulo"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaTitulo" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaTituloLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">TÍTULO UNIFORME</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label>DESCRIPCIÓN</label>
+				</div>		
 
 <!-- Descripción -->
-					<label  for="descripcion">Descripción</label>	
-					<div>
-						<textarea class="form-control-big" wrap="soft" placeholder="Texto que resume de manera abreviada, objetiva y precisa, aspectos como la procedencia, el tipo y las características del recurso" ng-model="descripcion"></textarea>
-					</div>
-				<hr/ class="division">	
-<!-- MAterias relacionadas -->
-				<label class="campo">Materias relacionadas</label>
+						
+					
+						<textarea class="form-control-big" wrap="soft"  ng-model="descripcion"></textarea>
+					
+				
+<!-- Materias relacionadas -->
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
+
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseMR"
+		role="button" aria-expanded="false" aria-controls="collapseExample"></button>
+	<label class="campo">MATERIAS RELACIONADAS</label>
+</div>
+<div class="collapse" id="collapseMR">
 				<div ng-mouseover="updateMaterias()">
 					<select ng-model="materiaRelacionada" class="form-control">
 						<option value="">-----</option>
@@ -42,7 +117,7 @@
 				<div ng-model="todoerase" ng-repeat="n in idAlias track by $index" class="campo">
 					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="materiaRelacionadaRemove(n.materiarelacionadaid)"> {{n.nombre}}</h2>
 				</div>
-				<div class="campo">
+				
 <!-- Fin materias relacionadas -->
 
 <!-- Padre -->
@@ -65,7 +140,7 @@
 					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="padresRemove(n.materiarelacionadaid)">{{n.nombre}}</h2>
 				</div>
 
-				<div class="campo">
+				
 <!-- Fin padres -->
 
 <!-- Hijos -->
@@ -88,15 +163,41 @@
 					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="hijosRemove(n.materiarelacionadaid)">{{n.nombre}}</h2>
 				</div>
 
-				<div class="campo">
-				<hr/ class="division">	
+				
+				</div>	
 <!-- Fin hijos -->
 
 
 
 <!-- Descriptores libres -->
+<div>
+	<!-- Botón modal ayuda -->
+	<button type="button" class="glyphicon glyphicon-eye-open"
+		ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+		data-target="#ayudaContenedor"></button>
 
-				<hr><label class="seccion">DESCRIPTORES LIBRES</label></hr>
+	<!-- Modal Ayuda-->
+	<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+		aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+				</div>
+				<div class="modal-body">
+					{{campo}}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseDL"
+		role="button" aria-expanded="false" aria-controls="collapseExample"></button>
+	<label class="campo">DESCRIPTORES LIBRES</label>
+</div>
+<div class="collapse" id="collapseDL">
 				<hr><label class="campo">Etiqueta</label></hr>
 				<select ng-model="dEtiqueta" class="form-control">
 					<option ng-repeat="d in dEtiquetas track by $index" value="{{d}}">
@@ -118,7 +219,7 @@
 				<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
 					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="dDescriptorRemove(n.contenido);"> {{n.etiqueta}} {{n.contenido}}</h2>
 				</div>
-				
+</div>
 <!-- Fin descriptores libres -->
 
 					<div>

@@ -28,7 +28,7 @@
         </li>
 
         <li class="dropdown" data-ng-show="authentication.user">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recursos<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Recursos y ejemplares<span class="caret"></span></a>
           <ul class="dropdown-menu" >
             <li><a href="/#!/recursos/create">Crear Recurso</a></li>
             <li><a href="/#!/recursos">Listar Recursos</a></li>
@@ -48,7 +48,7 @@
         </li>
 
 <li class="dropdown" data-ng-show="authentication.user">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Colecciones<span class="caret"></span></a>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Fondos y Colecciones<span class="caret"></span></a>
           <ul class="dropdown-menu" >
             <li><a href="/#!/fondos/create">Crear Fondo documental</a></li>
             <li><a href="/#!/fondos">Listar Fondos documentales</a></li>
@@ -76,6 +76,15 @@
             <li role="separator" class="divider"></li>
             <li><a href="/#!/generos/create">Crear Género o Forma</a></li>
             <li><a href="/#!/generos">Listar Géneros o Formas</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/#!/generosnomusicales/create">Crear Género o Forma no musical</a></li>
+            <li><a href="/#!/generosnomusicales">Listar Géneros o Formas no musicales</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/#!/idiomas/create">Crear idioma</a></li>
+            <li><a href="/#!/idiomas">Listar idiomas</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/#!/diccionarios/create">Crear campo en diccionario</a></li>
+            <li><a href="/#!/diccionarios">Listar Diccionario de datos</a></li>
           </ul>
         </li>
 
@@ -96,8 +105,9 @@
           <ul class="dropdown-menu" >
             <li><a href="/">Crear usuario y roles</a></li>
             <li><a href="/">Editar usuarios y roles</a></li>
+            
             <li role="separator" class="divider"></li>
-            <li><a href="/">Ver auditoría</a></li>
+            <li><a href="/">Auditoría</a></li>
             <li><a href="/">Manual de usuario</a></li>
           </ul>
         </li>

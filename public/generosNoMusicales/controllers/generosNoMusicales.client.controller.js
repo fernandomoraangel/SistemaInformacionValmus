@@ -1,6 +1,6 @@
 	'use scrict'
 
-	//Controller géneros
+	//Controller géneros NO MUSICALES
 	angular.module('generosNoMusicales').controller('GenerosNoMusicalesController',['$scope','$routeParams','$location','Authentication','GenerosNoMusicales','Proyectos', 'Sistemas','Medios',
 		function($scope, $routeParams, $location, Authentication,GenerosNoMusicales,Proyectos,Sistemas,Medios){
 			//Exponer el servicio Authentication
@@ -11,7 +11,6 @@
 			$scope.medios=Medios.query();
 			$scope.sistemas=Sistemas.query();
 			$scope.idiomas=["Español", "Inglés","Francés", "Quechua", "Aymara"];
-			$scope.generos=["Canción","Bambuco","Pasilo","Joropo","Vals", "Danza","Bolero"];
 			$scope.eventos=["Composición","Estreno","Primera grabación"];
 			$scope.lugares=["Andes","Pacífico","Atlántico","Llanos"];
 			$scope.coberturas=["Local","País","Mundial"];
@@ -31,8 +30,8 @@
 			$scope.idAlias=[];
 			$scope.idPadres=[];
 			$scope.idHijos=[];
-			$scope.generos=Generos.query();
-			var obraId;$scope.reverse=false;
+			$scope.generosNoMusicales=GenerosNoMusicales.query();
+			var generoNoMusicalId;$scope.reverse=false;
 			//Preparar datos
 			$scope.actualizarTodo=function(){
 				$scope.idEstados=this.generoNoMusical.estados;
@@ -55,7 +54,8 @@
 			}
 			
 			$scope.verAlias=function(x){
-				console.log(x);
+				//console.log(x);
+
 			  y="";
 			  for(var i in x){
 				  y=y+$scope.generoAux(x[i].generorelacionadoid)+", ";	
@@ -73,14 +73,15 @@
 			};
 
 
-//Parece que no es está usando
+
 	$scope.generoAux=function(aux){
 	var out ="";
 	try{
 		aux=aux.trim();
-		for (var i in $scope.generos){
-						if($scope.generos[i]._id===aux){
-					out= $scope.generos[i].nombre;
+		for (var i in $scope.generosNoMusicales){
+			//console.log($scope.generosNoMusicales[i])
+						if($scope.generosNoMusicales[i]._id===aux){
+					out= $scope.generosNoMusicales[i].nombre;
 												}
 					
 					}
@@ -88,7 +89,7 @@
 	catch(e){
 		alert("error "+e)
 	}
-	//alert(out);
+	//console.log(out)
 	return out;
 	}
 
@@ -100,8 +101,8 @@
 					}
 	}
 
-	$scope.updateGeneros=function(){
-		$scope.generos=Generos.query();
+	$scope.updateGenerosNoMusicales=function(){
+		$scope.generosNoMusicales=GenerosNoMusicales.query();
 		//console.log("Géneros actualizados")
 	}
 
@@ -340,7 +341,7 @@ $scope.sistemaAux=function(aux){
 	    };
 
 	
-		//Crear método controller para crear nuevos géneros
+		//Crear método controller para crear nuevos géneros no musicales
 		$scope.create=function(){
 			//Usar los campos form para crear un nuevo objeto $resource obra
 			var generoNoMusical=new GenerosNoMusicales({
@@ -356,11 +357,11 @@ $scope.sistemaAux=function(aux){
 				proyectosAsociados:$scope.idProyectos
 			});
 
-			//Usar el método '$save' de obra para enviar una petición POST apropiada
-			generoNoMUsical.$save(function(response){
+			//Usar el método '$save' de genero no musical para enviar una petición POST apropiada
+			generoNoMusical.$save(function(response){
 				//Si la obra fue creada de la manera correcta, redireccionar a la página de la obra
-				//$location.path('recursos/' + response._id);
-				alert("El genero ha sido creado");
+				//$location.path('recursos/' + respo nse._id);
+				alert("El genero no musical ha sido creado");
 			}, function(errorResponse){
 				//En caso contrario, presentar mensaje de error
 				

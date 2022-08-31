@@ -2,7 +2,7 @@
 
 //Cargar dependencias
 var mongoose=require('mongoose'),
-	Genero=mongoose.model('GeneroNoMusical');
+	GeneroNoMusical=mongoose.model('GeneroNoMusical');
 
 //Método para el manejo de errores
 var getErrorMessage=function(err){
@@ -61,7 +61,14 @@ exports.update=function(req,res){
 	var generoNoMusical=req.generoNoMusical;
 	//Actualiza los campos
 	generoNoMusical.nombre=req.body.nombre;
-	//Falta el resto
+	generoNoMusical.alias=req.body.alias;
+	generoNoMusical.padres=req.body.padres;
+	generoNoMusical.hijos=req.body.hijos;
+	generoNoMusical.descripcion=req.body.descripcion;
+	generoNoMusical.anotacionCartograficoTemporal=req.body.anotacionCartograficoTemporal;
+	generoNoMusical.idioma=req.body.idioma;
+	generoNoMusical.proyectosAsociados=req.body.proyectosAsociados;
+	generoNoMusical.descriptorLibre=req.body.descriptorLibre;
 	//Intenta salvar
 	generoNoMusical.save(function(err){
 		if (err){
