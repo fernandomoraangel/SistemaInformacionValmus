@@ -1,8 +1,8 @@
 'use scrict'
 
-//Controller obras
-angular.module('fondos').controller('FondosController',['$scope','$routeParams','$location','Authentication', 'Obras','Actores','ActoresObras','Fondos',
-	function($scope, $routeParams, $location, Authentication,  Obras, Actores,ActoresObras, Fondos){
+//Controller fondos
+angular.module('fondos').controller('FondosController',['$scope','$routeParams','$location','Authentication', 'Obras','Actores','Fondos',
+	function($scope, $routeParams, $location, Authentication,  Obras, Actores, Fondos){
 		//Exponer el servicio Authentication
 		$scope.authentication=Authentication;
 		$scope.items=["Si","No"];

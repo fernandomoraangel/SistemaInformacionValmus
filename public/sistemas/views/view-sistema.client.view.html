@@ -1,130 +1,81 @@
 <!-- View obra-->
 <ng-include src="'example/views/example.client.view.html'"/></ng-include>
-<section data-ng-controller="ObrasController" data-ng-init="findOne()">
+<section data-ng-controller="SistemasController" data-ng-init="findOne()">
 
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="tituloVista" data-ng-bind="obra.titulo | uppercase"></div>
+		<div class="tituloVistaView" data-ng-bind="sistema.nombre | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
-		<div data-ng-show="authentication.user._id==obra.creador._id">
-			<a href="/#!/obras/{{obra._id}}/edit"><span class="glyphicon glyphicon-pencil"</span></a></a>
-			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"  </span></a>
+		<div data-ng-show="authentication.user._id==sistema.creador._id">
+			<a href="/#!/sistemas/{{sistema._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
+				<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"></a>
 		</div>
 		
 		<!-- Table -->
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th class="campo">Campo</th>
-					<th class="campo"> Valor</th>
-				</tr>
-			</thead>
+		<table class="table table-striped text-left">
+
 			<tbody>
 				<tr>
 					<td>Descripción</td>
-					<td data-ng-bind="obra.descripcion"></td>
+					<td data-ng-bind="sistema.descripcion"></td>
 				</tr>
 
 				<tr>
-					<td>Contenedor</td>
-					<td ng-bind="obraAux(obra.contenedor);"></td>
+					<td>Nombres alternativos (Alias)</td>
+					<td data-ng-bind="verAlias(sistema.alias)"></td>
 				</tr>
 
 				<tr>
-					<td>Tipo de obra</td>
-					<td data-ng-bind="obra.tipo"></td>
+					<td>Sistemas relacionados</td>
+					<td data-ng-bind="verSistemas(sistema.sistemasRelacionados)"></td>
 				</tr>
 
 				<tr>
-					<td>Parte o sección</td>
-					<td data-ng-bind="obra.parteOSeccion"></td>
+					<td>Sistemas padres</td>
+					<td data-ng-bind="verSistemas(sistema.padres)"></td>
 				</tr>
 
 				<tr>
-					<td>Medio sonoro</td>
-					<td data-ng-bind="obra.medioSonoro"></td>
+					<td>Sistemas hijos</td>
+					<td data-ng-bind="verSistemas(sistema.hijos)"></td>
+				</tr>
+
+				
+
+				<tr>
+					<td>Proyectos asociados</td>
+					<td data-ng-bind="verProyecto(sistema.proyectosAsociados)"></td>
 				</tr>
 
 				<tr>
-					<td>Idioma</td>
-					<td data-ng-bind="obra.idioma"></td>
+					<td>Anotaciones cartográfico-temporales</td>
+					<td data-ng-bind="verAnotacion(sistema.anotacionCartograficoTemporal)"></td>
 				</tr>
 
 				<tr>
-					<td>Género o forma</td>
-					<td data-ng-bind="obra.generoForma"></td>
+					<td>Descriptor libre</td>
+					<td data-ng-bind="verDescriptor(sistema.descriptorLibre)"></td>
 				</tr>
+
+				<tr>
+				<td>Enlaces y archivos</td>
+				<td data-ng-bind="verVinculo(sistema.vinculoRelacionado)"></td>
+				</tr>
+				
 
 			</tbody>
 
 		</table>
 
-
-<section data-ng-controller="ActoresObrasController" data-ng-init="find()">
-	<label class="subTituloVista">ACTORES</label>
-	<ul>
-		<div class="wrapper">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th> Filtrar <input type="text" ng-model="search">
-						</th>
-						<th>
-						<label> Ordenar </label>
-							<select ng-model="orden">
-							<option value="actorObra.actor.apellidos">Apellidos</option>
-							<option value="actorObra.actor.nombrePila">Nombre de pila</option>
-							<option value="actorObra.actor.fullName">Nombre completo</option>
-							<option value="actorObra.roll">Rol</option>
-							</select>	
-						</th>
-			</table>
-					</tr>
-				</thead>
-		<!-- Table -->
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th></th>
-					<th class="campo">Nombre y apellidos</th>
-					<th class="campo">Rol</th>
-					<th class="campo">Editar-borrrar</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr  data-ng-repeat="actorObra in actoresObras | orderBy:orden | filter:obra.titulo | filter:search">
-					<!-- actores es el modelo-->
-					<td>
-						<a href="/#!/actoresObras/{{actorObra._id}}"><span class="glyphicon glyphicon-sunglasses"  </span></a>
-					</td>
-	
-					<td class="descripcion"data-ng-bind="actorObra.actor.fullName"></td>
-					<td class="descripcion"data-ng-bind="actorObra.roll"></td>
-
-					<td data-ng-show="authentication.user._id == actorObra.creador._id">
-						<a href="/#!/actoresObras/{{actorObra._id}}/edit"><span class="glyphicon glyphicon-pencil"  </span></a>
-						<a href="/#!/actoresObras/{{actorObra._id}}" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"  </span></a>
-					</td>
-				</tr>
-
-			</tbody>
-		</table>
 	</div>
-</div>
-</ul>
-
-<div data-ng-hide="!actorObra || actorObra.length">
-	<a href="/#!/actoresObras/create"></a>
-</div>
-</section>
-	</div>
+		
 
 	<div class="creador">
 		<em>Creada en </em>
-		<em data-ng-bind="obra.creado |date:'mediumDate'"></em>
+		<em data-ng-bind="sistema.creado |date:'mediumDate'"></em>
 		<em>por</em>
-		<em data-ng-bind="obra.creador.fullName"></em>
+		<em data-ng-bind="sistema.creador.fullName"></em>
 	</div>
 </section>
 
-
+ 

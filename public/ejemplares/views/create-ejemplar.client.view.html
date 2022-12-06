@@ -274,7 +274,9 @@
 
 				<div ng-model="todoerase" ng-repeat="n in idEstados track by $index" class="campo">
 					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="estadoRemove(n.etiqueta);">
-						{{n.etiqueta}} {{n.contenido}}</h2>
+						{{nombrarSi("Criterio", n.etiqueta)}}
+						{{nombrarSi("Valor", n.contenido)}}
+			
 				</div>
 			</div>
 				<!-- Fin Estado -->

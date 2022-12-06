@@ -27,31 +27,38 @@ var mongoose=require('mongoose'),
 
 	var anotacionCartograficoTemporal=new Schema({
 		lugar:{
-
+	  
 		},
 		coordenadas:{
-			type:[Number],
-			index:'2dsphere'
+		  type:[Number],
+		  index:'2dsphere'
 		},
 		evento:{
-
+		  type: String
 		},
 		coberturaAmplitud:{
-
+	  
 		},
 		fechaInicio:{
-
+		  type:Date
 		},
 		fechaFin:{
-
+		  type:Date
 		},
-		//fente de los datos
-		evidencias:{
-
+		precisionInicio:{
+		  type: String
+		},
+		precisionFin:{
+		  type: String
+		},
+		//fuente de los datos
+		evidencia:{
+	  
 		}
-});
+	  });
+	  
  var proyectoAsociado=new Schema({
- 	proyecto:{
+	proyecto:{
  		type:Schema.ObjectId,
 		ref:'Proyecto'
  	}
@@ -67,6 +74,7 @@ var descriptorLibre=new Schema({
 		required:'El campo es requerido'
 	}
 });
+
 	var InstrumentoRolSchema=new Schema({
 		instrumento:{
 			type:Schema.ObjectId,
@@ -88,15 +96,19 @@ var descriptorLibre=new Schema({
 		}
 	});
 
+	var alias=new Schema({
+		nombre:{
+			type:String,
+		}
+	});	
+	
 	var MedioSchema=new Schema({
 		
 		nombre:{
 			type:String,
 			required:'El campo no puede estar en blanco'
 		},
-		alias:{
-			type:String
-		},
+		alias:[alias],
 		instrumentos:[InstrumentoRolSchema],
 		proyectosAsociados:[proyectoAsociado],
 		anotacionCartograficoTemporal:[anotacionCartograficoTemporal],

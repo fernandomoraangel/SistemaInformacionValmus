@@ -46,7 +46,6 @@ module.exports=function() {
 	require('../app/routes/users.server.routes.js')(app);
 	require('../app/routes/obras.server.routes.js')(app);
 	require('../app/routes/actores.server.routes.js')(app);
-	require('../app/routes/actores-obras.server.routes.js')(app);
 	require('../app/routes/recursos.server.routes.js')(app);
 	require('../app/routes/generos.server.routes.js')(app);
 	require('../app/routes/generosnomusicales.server.routes.js')(app);

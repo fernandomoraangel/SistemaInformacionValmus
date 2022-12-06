@@ -24,6 +24,13 @@ var mongoose=require('mongoose'),
 		}
 
 	});
+
+	var alias=new Schema({
+		nombre:{
+			type:String,
+		},
+	});	
+
 	var descriptorLibre=new Schema({
 		etiqueta:{
 			type:String,
@@ -36,10 +43,17 @@ var mongoose=require('mongoose'),
 		}
 	});
 		var MateriaRelacionada=new Schema({
-			materiarelacionadaid:{
+			id:{
 				type:Schema.ObjectId,
 				ref:'Materia'
 			}
+	});
+
+	var vinculoRelacionado=new Schema({
+		etiqueta:{
+		},
+		url:{
+		}
 	});
 	var MateriaSchema=new Schema({
 		nombre:{
@@ -48,13 +62,15 @@ var mongoose=require('mongoose'),
 			unique: true,
 			require:true
 		},
-		alias:[MateriaRelacionada],
+		alias:[alias],
+		materiasRelacionadas:[MateriaRelacionada],
 		padres:[MateriaRelacionada],
 		hijos:[MateriaRelacionada],
 		descripcion:{
 			type:String,
 		},
 		descriptorLibre:[descriptorLibre],
+		vinculoRelacionado:[vinculoRelacionado],
 		creador:{
 			type:Schema.ObjectId,
 			ref:'User'

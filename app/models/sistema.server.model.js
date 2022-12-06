@@ -27,29 +27,36 @@ var mongoose=require('mongoose'),
 
 	var anotacionCartograficoTemporal=new Schema({
 		lugar:{
-
+	  
 		},
 		coordenadas:{
-			type:[Number],
-			index:'2dsphere'
+		  type:[Number],
+		  index:'2dsphere'
 		},
 		evento:{
-
+		  type: String
 		},
 		coberturaAmplitud:{
-
+	  
 		},
 		fechaInicio:{
-
+		  type:Date
 		},
 		fechaFin:{
-
+		  type:Date
 		},
-		//fente de los datos
-		evidencias:{
-
+		precisionInicio:{
+		  type: String
+		},
+		precisionFin:{
+		  type: String
+		},
+		//fuente de los datos
+		evidencia:{
+	  
 		}
-});
+	  });
+	  
  var proyectoAsociado=new Schema({
  	proyecto:{
  		type:Schema.ObjectId,
@@ -57,12 +64,22 @@ var mongoose=require('mongoose'),
  	}
  });
 
- var SistemaRelacionado=new Schema({
-			id:{
-				type:Schema.ObjectId,
-				ref:'Materia'
-			}
-	});
+
+ var alias=new Schema({
+	nombre:{
+		type:String
+	},
+});	
+
+var sistemaRelacionado = new Schema({
+	id: {
+	  type: Schema.ObjectId,
+	  ref: "Sistema",
+	},
+	centro: {
+	  type: String,
+	},
+  });
 
 var descriptorLibre=new Schema({
 	etiqueta:{
@@ -92,9 +109,10 @@ var descriptorLibre=new Schema({
 		descripcion:{
 			type:String
 		},
-		alias:[SistemaRelacionado],
-		padres:[SistemaRelacionado],
-		hijos:[SistemaRelacionado],
+		alias:[alias],
+		sistemasRelacionados:[sistemaRelacionado],
+		padres:[sistemaRelacionado],
+		hijos:[sistemaRelacionado],
 		proyectosAsociados:[proyectoAsociado],
 		anotacionCartograficoTemporal:[anotacionCartograficoTemporal],
 		descriptorLibre:[descriptorLibre],

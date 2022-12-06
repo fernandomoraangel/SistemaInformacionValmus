@@ -1,7 +1,7 @@
 
 var mainApplicationModuleName='simr';
 
-var mainApplicationModule=angular.module(mainApplicationModuleName,['ngResource','ngRoute','users','example','obras','actores','actoresObras','recursos','ejemplares','proyectos','fondos','colecciones','medios','sistemas','materias','generos','descriptores','relaciones','instrumentos','idiomas','diccionarios','generosNoMusicales']);
+var mainApplicationModule=angular.module(mainApplicationModuleName,['ngResource','ngRoute','users','example','obras','actores','recursos','ejemplares','proyectos','fondos','colecciones','medios','sistemas','materias','generos','descriptores','relaciones','instrumentos','idiomas','diccionarios','generosNoMusicales']);
 
 mainApplicationModule.config(['$locationProvider',
 	function($locationProvider){

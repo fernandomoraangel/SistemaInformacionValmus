@@ -40,6 +40,10 @@ var mongoose=require('mongoose'),
 		},
 		evento:{
 			type: String
+		},
+		precision:{
+			type:String
+			//Década Año Mes Día Hora
 		}
 	});
 

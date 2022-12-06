@@ -91,10 +91,10 @@ exports.update=function(req,res){
 	};
 	//Controller middleware para recuperar una medio existente
 	exports.medioByID=function(req,res,next,id){
-		Medio.findById(id).populate('nombre').exec(function(err,medio){
+		Medio.findById(id).populate('creador', 'firstName lastName fullName').exec(function(err,medio){
 			if (err) return next(err);
-			if(!medio) return next(new Error('Fallo al cargar la medio'+ id));
-			//Si la medio es encontrada, usar el objeto 'request' para pasarla al sgte middleware
+			if(!medio) return next(new Error('Fallo al cargar el medio'+ id));
+			//Si el medio es encontrado, usar el objeto 'request' para pasarla al sgte middleware
 			req.medio=medio;
 			//Llamar al sgte middleware
 			next();

@@ -25,6 +25,7 @@ var mongoose=require('mongoose'),
 
 	});
 
+
 	var anotacionCartograficoTemporal=new Schema({
 		lugar:{
 
@@ -34,19 +35,25 @@ var mongoose=require('mongoose'),
 			index:'2dsphere'
 		},
 		evento:{
-
+			type: String
 		},
 		coberturaAmplitud:{
 
 		},
 		fechaInicio:{
-
+			type:Date
 		},
 		fechaFin:{
-
+			type:Date
 		},
-		//fente de los datos
-		evidencias:{
+		precisionInicio:{
+			type: String
+		},
+		precisionFin:{
+			type: String
+		},
+		//fuente de los datos
+		evidencia:{
 
 		}
 });

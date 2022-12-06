@@ -25,7 +25,7 @@ var registroOperacion = new Schema({
 });
 
 var idiomas = new Schema({
-  idioma: {
+  id: {
     type: Schema.ObjectId,
     ref: "Idioma",
   },
@@ -121,17 +121,36 @@ var generoFormaNoMusical = new Schema({
   },
 });
 
-var anotacionCartograficoTemporal = new Schema({
-  lugar: {},
-  coordenadas: {
-    type: [Number],
-    index: "2dsphere",
+var anotacionCartograficoTemporal=new Schema({
+  lugar:{
+
   },
-  evento: {},
-  coberturaAmplitud: {},
-  fechaInicio: {},
-  fechaFin: {},
-  evidencias: {},
+  coordenadas:{
+    type:[Number],
+    index:'2dsphere'
+  },
+  evento:{
+    type: String
+  },
+  coberturaAmplitud:{
+
+  },
+  fechaInicio:{
+    type:Date
+  },
+  fechaFin:{
+    type:Date
+  },
+  precisionInicio:{
+    type: String
+  },
+  precisionFin:{
+    type: String
+  },
+  //fuente de los datos
+  evidencia:{
+
+  }
 });
 
 var descriptorLibre = new Schema({
@@ -179,8 +198,6 @@ var ObraSchema = new Schema({
   },
   contenedores: [contenedorAsociado],
   asientoLigado: [asientoLigado],
-
-
   //Término de indexación género-especie-forma musical
   generosFormas: [generoFormaAsociado],
   //Término de indexación género-forma no-musical

@@ -2,7 +2,11 @@ var mongoose = require("mongoose"),
   Schema = mongoose.Schema;
 
 var IdiomasSchema = mongoose.Schema({
-  idioma: String,
+  idioma:{
+    type:String,
+    unique: true,
+		require:true
+  },
   creador:{
     type:Schema.ObjectId,
     ref:'User'

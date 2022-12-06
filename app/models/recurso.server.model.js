@@ -28,18 +28,22 @@ var mongoose=require('mongoose'),
 	var fuenteAsociada=new Schema({
 		//fabricante, distribuidor,editorial
 		tipo:{
-
+			type:String
 		},
 		lugar:{
-
+			type:String
 		},
 		nombre:{
-
+			type:String
 		},
 		fecha:{
-
+			type:Date,
+			default:Date.now
+		},
+		precision:{
+			type:String
+			//Década Año Mes Día Hora
 		}
-
 	});
 
 	var proyectoAsociado=new Schema({
@@ -59,8 +63,7 @@ var mongoose=require('mongoose'),
 	});
 
 	var vinculoRelacionado=new Schema({
-		nombre:{
-
+		etiqueta:{
 		},
 		url:{
 		}
@@ -105,29 +108,35 @@ var mongoose=require('mongoose'),
 
 	var anotacionCartograficoTemporal=new Schema({
 		lugar:{
-
+	  
 		},
 		coordenadas:{
-			type:[Number],
-			index:'2dsphere'
+		  type:[Number],
+		  index:'2dsphere'
 		},
 		evento:{
-
+		  type: String
 		},
 		coberturaAmplitud:{
-
+	  
 		},
 		fechaInicio:{
-
+		  type:Date
 		},
 		fechaFin:{
-
+		  type:Date
 		},
-		//fente de los datos
-		evidencias:{
-
+		precisionInicio:{
+		  type: String
+		},
+		precisionFin:{
+		  type: String
+		},
+		//fuente de los datos
+		evidencia:{
+	  
 		}
-	});
+	  });
 
 	var materiaAsociada=new Schema({
  	id:{
@@ -161,11 +170,12 @@ var mongoose=require('mongoose'),
 		}
 		});
 	
-		var idiomas=new Schema({
-			idioma:{
-				type:String,
-			}
-			});
+		var idiomas = new Schema({
+			id: {
+			  type: Schema.ObjectId,
+			  ref: 'Idioma',
+			},
+		  });
 
 	var RecursoSchema=new Schema({
 	titulo:{

@@ -9,10 +9,10 @@ angular.module('medios').config(['$routeProvider',
 		when('/medios/create',{
 			templateUrl: 'medios/views/create-medio.client.view.html'
 		}).
-		when('/medios/:ejemplarId',{
+		when('/medios/:medioId',{
 			templateUrl:'medios/views/view-medio.client.view.html'
 		}).
-		when('/medios/:ejemplarId/edit',{
+		when('/medios/:medioId/edit',{
 			templateUrl:'medios/views/edit-medio.client.view.html'
 		});
 	}

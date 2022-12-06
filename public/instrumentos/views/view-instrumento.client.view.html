@@ -4,7 +4,7 @@
 
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="tituloVista" data-ng-bind="instrumento.nombre | uppercase"></div>
+		<div class="tituloVistaView" data-ng-bind="instrumento.nombre | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==instrumento.creador._id">
 			<a href="/#!/instrumentos/{{instrumento._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
@@ -12,12 +12,9 @@
 		</div>
 		
 		<!-- Table -->
-		<table class="table table-striped">
+		<table class="table table-striped text-left">
 			<tbody>
-				<tr>
-					<td class="campo">CLASIFICACIÓN</td>
-					<td data-ng-bind="instrumento.clasificacion"></td>
-				</tr>
+				
 
 				<tr>
 						<td class="campo">ALIAS</td>
@@ -25,24 +22,34 @@
 				</tr>
 
 				<tr>
+					<td class="campo">CLASIFICACIÓN HORNBOSTEL-SACHS</td>
+					<td data-ng-bind="instrumento.clasificacion"></td>
+				</tr>
+
+				<tr>
+					<td class="campo">PROYECTO ASOCIADO</td>
+					<td data-ng-bind="verProyecto(instrumento.proyectosAsociados)"></td>
+				</tr>
+
+				<tr>
+					<td class="campo">ANOTACIÓN CARTOGRÁFICO-TEMPORAL</td>
+					<td data-ng-bind="verAnotacion(instrumento.anotacionCartograficoTemporal)"></td>
+				</tr>
+				
+				<tr>
+					<td class="campo">DESCRIPTOR LIBRE</td>
+					<td data-ng-bind="verDescriptor(instrumento.descriptorLibre)"></td>
+				</tr>
+				<tr>
 						<td class="campo">VÍNCULO RELACIONADO</td>
 						<td data-ng-bind="verVinculo(instrumento.vinculoRelacionado)"></td>
 				</tr>
 
-				<tr>
-						<td class="campo">DESCRIPTOR LIBRE</td>
-						<td data-ng-bind="verDescriptor(instrumento.descriptorLibre)"></td>
-				</tr>
+				
 
-				<tr>
-						<td class="campo">ANOTACIÓN CARTOGRÁFICO-TEMPORAL</td>
-						<td data-ng-bind="verAnotacion(instrumento.anotacionCartograficoTemporal)"></td>
-				</tr>
+				
 
-				<tr>
-						<td class="campo">PROYECTO ASOCIADO</td>
-						<td data-ng-bind="verProyecto(instrumento.proyectosAsociados)"></td>
-				</tr>
+				
 			</tbody>
 
 		</table>

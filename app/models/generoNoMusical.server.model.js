@@ -56,11 +56,24 @@ var anotacionCartograficoTemporal = new Schema({
     type: [Number],
     index: "2dsphere",
   },
-  evento: {},
+  evento: {
+    type: String,
+  },
   coberturaAmplitud: {},
-  fechaInicio: {},
-  fechaFin: {},
-  evidencias: {},
+  fechaInicio: {
+    type: Date,
+  },
+  fechaFin: {
+    type: Date,
+  },
+  precisionInicio: {
+    type: String,
+  },
+  precisionFin: {
+    type: String,
+  },
+  //fuente de los datos
+  evidencia: {},
 });
 
 var descriptorLibre = new Schema({
@@ -74,30 +87,45 @@ var descriptorLibre = new Schema({
     require: true,
   },
 });
-var GeneroRelacionado = new Schema({
-  generorelacionadoid: {
-    type: Schema.ObjectId,
-    ref: "Genero",
+
+
+var alias = new Schema({
+  nombre: {
+    type: String,
   },
 });
+
+
+var idiomas = new Schema({
+  id: {
+    type: Schema.ObjectId,
+    ref: "Idioma",
+  },
+});
+
+var GeneroRelacionado = new Schema({
+  id: {
+    type: Schema.ObjectId,
+    ref: "GeneroNoMusical",
+  },
+});
+
+//TODO: Falta implementar tipo de género y proyectos
 var GeneroNoMusicalSchema = new Schema({
   nombre: {
     type: String,
-    trim: true,
     unique: true,
     require: true,
   },
-  alias: [GeneroRelacionado],
+  alias: [alias],
+  generosRelacionados: [GeneroRelacionado],
   padres: [GeneroRelacionado],
   hijos: [GeneroRelacionado],
   descripcion: {
     type: String,
   },
   anotacionCartograficoTemporal: [anotacionCartograficoTemporal],
-  idioma: {
-    type: String,
-  },
-  proyectosAsociados: [proyectoAsociado],
+  idioma: [idiomas],
   descriptorLibre: [descriptorLibre],
   vinculoRelacionado: [vinculoRelacionado],
   creador: {

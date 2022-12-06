@@ -4,7 +4,7 @@
 
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="tituloVista" data-ng-bind="proyecto.nombre | uppercase"></div>
+		<div class="tituloVistaView" data-ng-bind="proyecto.nombre | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==proyecto.creador._id">
 			<a href="/#!/proyectos/{{proyecto._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
@@ -12,11 +12,11 @@
 		</div>
 		
 		<!-- Table -->
-		<table class="table table-striped">
+		<table class="table table-striped text-left">
 
 			<tbody>
 				<tr>
-					<td class="campo">INVESTIGADORES</td>
+					<td class="campo">ACTORES</td>
 					<td data-ng-bind="verInvestigadores(proyecto.investigadores)"></td>
 				</tr>
 				

@@ -1,29 +1,36 @@
 <!-- View obra-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="ObrasController" data-ng-init="findOne()">
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="tituloVista" data-ng-bind="obra.titulo | uppercase"></div>
+		<div class="tituloVistaView" data-ng-bind="obra.titulo | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==obra.creador._id">
 			<a href="/#!/obras/{{obra._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
 			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"></a>
 		</div>
-		
+
 		<!-- Table -->
-		<table class="table table-striped">
+		<table class="table table-striped text-left">
 			<tbody>
+				<!-- TODO: ng-show="obra.denominacionRegional" -->
+				<tr>
+					<td class="campo">DENOMINACIONES REGIONALES</td>
+					<td d id="den" data-ng-bind="verDenominaciones(obra.denominacionRegional)"></td>
+				</tr>
+
 				<tr>
 					<td class="campo">ACTORES RELACIONADOS</td>
 					<td data-ng-bind="verActores(obra.actores)"></td>
 				</tr>
+
 				<tr>
 					<td class="campo">DESCRIPCIÓN</td>
 					<td data-ng-bind="obra.descripcion"></td>
 				</tr>
 
 				<tr>
-					<td class="campo">TIPO DE OBRA</td>
+					<td class="campo">TIPO</td>
 					<td data-ng-bind="obra.tipo"></td>
 				</tr>
 
@@ -33,8 +40,18 @@
 				</tr>
 
 				<tr>
-					<td class="campo">GÉNEROS O FORMAS</td>
+					<td class="campo">ASIENTOS LIGADOS</td>
+					<td data-ng-bind="verAsientoLigado(obra.asientoLigado)"></td>
+				</tr>
+
+				<tr>
+					<td class="campo">GÉNEROS O FORMAS MUSICALES</td>
 					<td data-ng-bind="verGeneros(obra.generosFormas)"></td>
+				</tr>
+
+				<tr>
+					<td class="campo">GÉNEROS O FORMAS NO MUSICALES</td>
+					<td data-ng-bind="verGenerosNoMusicales(obra.GenerosFormasNoMusicales)"></td>
 				</tr>
 
 				<tr>
@@ -53,28 +70,29 @@
 				</tr>
 
 				<tr>
-					<td class="campo">IDIOMAS</td>
+					<td class="campo">IDIOMAS ASOCIADOS</td>
 					<td data-ng-bind="verIdiomas(obra.idiomas)"></td>
-				</tr>	
-
-				<tr>
-						<td class="campo">ANOTACIONES CARTOGRÁFICO TEMPORALES</td>
-						<td data-ng-bind="verAnotacion(obra.anotacionCartograficoTemporal)"></td>
 				</tr>
 
 				<tr>
-						<td class="campo">DESCRIPTORES</td>
-						<td data-ng-bind="verDescriptor(obra.descriptores)"></td>
+					<td class="campo">PROYECTOS</td>
+					<td data-ng-bind="verProyecto(obra.proyectos)"></td>
+				</tr>
+				<tr>
+					<td class="campo">ANOTACIONES CARTOGRÁFICO TEMPORALES</td>
+					<td data-ng-bind="verAnotacion(obra.anotacionCartograficoTemporal)"></td>
 				</tr>
 
 				<tr>
-						<td class="campo">PROYECTOS</td>
-						<td data-ng-bind="verProyecto(obra.proyectos)"></td>
+					<td class="campo">DESCRIPTORES</td>
+					<td data-ng-bind="verDescriptor(obra.descriptores)"></td>
 				</tr>
 
+
+
 				<tr>
-						<td class="campo">VÍNCULOS RELACIONADOS</td>
-						<td data-ng-bind="verVinculo(obra.vinculosRelacionados)"></td>
+					<td class="campo">VÍNCULOS RELACIONADOS</td>
+					<td data-ng-bind="verVinculo(obra.vinculosRelacionados)"></td>
 				</tr>
 
 			</tbody>
@@ -92,5 +110,3 @@
 		<em data-ng-bind="obra.creador.fullName"></em>
 	</div>
 </section>
-
-

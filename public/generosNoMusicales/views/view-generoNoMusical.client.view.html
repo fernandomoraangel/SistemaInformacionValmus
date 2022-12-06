@@ -4,126 +4,76 @@
 
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="tituloVista" data-ng-bind="genero.titulo | uppercase"></div>
+		<div class="tituloVistaView" data-ng-bind="generoNoMusical.nombre | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
-		<div data-ng-show="authentication.user._id==genero.creador._id">
-			<a href="/#!/generos/{{genero._id}}/edit"><span class="glyphicon glyphicon-pencil"</span></a></a>
+		<div data-ng-show="authentication.user._id==generoNoMusical.creador._id">
+			<a href="/#!/generosNoMusicales/{{generoNoMusical._id}}/edit"><span class="glyphicon glyphicon-pencil"</span></a></a>
 			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"  </span></a>
 		</div>
 		
 		<!-- Table -->
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th class="campo">Campo</th>
-					<th class="campo"> Valor</th>
-				</tr>
-			</thead>
+		<table class="table table-striped text-left">
 			<tbody>
 				<tr>
 					<td>Descripción</td>
-					<td data-ng-bind="genero.descripcion"></td>
+					<td data-ng-bind="generoNoMusical.descripcion"></td>
 				</tr>
 
 				<tr>
-					<td>Contenedor</td>
-					<td ng-bind="generoAux(genero.contenedor);"></td>
+					<td>Alias</td>
+					<td ng-bind="verAlias(generoNoMusical.alias)"></td>
+				</tr>
+
+
+				<tr>
+					<td>Géneros relacionados</td>
+					<td ng-bind="verGeneros(generoNoMusical.generosRelacionados)"></td>
 				</tr>
 
 				<tr>
-					<td>Tipo de genero</td>
-					<td data-ng-bind="genero.tipo"></td>
+					<td>Padres</td>
+					<td ng-bind="verGeneros(generoNoMusical.padres)"></td>
 				</tr>
 
 				<tr>
-					<td>Parte o sección</td>
-					<td data-ng-bind="genero.parteOSeccion"></td>
+					<td>Hijos</td>
+					<td ng-bind="verGeneros(generoNoMusical.hijos)"></td>
+				</tr>
+
+
+				<tr>
+					<td>Idioma asociado al género</td>
+					<td data-ng-bind="verIdiomas(generoNoMusical.idioma)"></td>
 				</tr>
 
 				<tr>
-					<td>Medio sonoro</td>
-					<td data-ng-bind="genero.medioSonoro"></td>
+					<td>Anotación cartográfico-temporal</td>
+					<td data-ng-bind="verAnotacion(generoNoMusical.anotacionCartograficoTemporal)"></td>
+				</tr>
+
+
+				<tr>
+					<td>Descriptor libre</td>
+					<td data-ng-bind="verDescriptor(generoNoMusical.descriptorLibre)"></td>
 				</tr>
 
 				<tr>
-					<td>Idioma</td>
-					<td data-ng-bind="genero.idioma"></td>
+					<td>Vïnculo relacionado</td>
+					<td data-ng-bind="verVinculo(generoNoMusical.vinculoRelacionado)"></td>
 				</tr>
-
-				<tr>
-					<td>Género o forma</td>
-					<td data-ng-bind="genero.generoForma"></td>
-				</tr>
-
 			</tbody>
 
 		</table>
 
 
-<section data-ng-controller="ActoresGenerosController" data-ng-init="find()">
-	<label class="subTituloVista">ACTORES</label>
-	<ul>
-		<div class="wrapper">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th> Filtrar <input type="text" ng-model="search">
-						</th>
-						<th>
-						<label> Ordenar </label>
-							<select ng-model="orden">
-							<option value="actorGenero.actor.apellidos">Apellidos</option>
-							<option value="actorGenero.actor.nombrePila">Nombre de pila</option>
-							<option value="actorGenero.actor.fullName">Nombre completo</option>
-							<option value="actorGenero.roll">Rol</option>
-							</select>	
-						</th>
-			</table>
-					</tr>
-				</thead>
-		<!-- Table -->
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th></th>
-					<th class="campo">Nombre y apellidos</th>
-					<th class="campo">Rol</th>
-					<th class="campo">Editar-borrrar</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr  data-ng-repeat="actorGenero in actoresGeneros | orderBy:orden | filter:genero.titulo | filter:search">
-					<!-- actores es el modelo-->
-					<td>
-						<a href="/#!/actoresGeneros/{{actorGenero._id}}"><span class="glyphicon glyphicon-sunglasses"  </span></a>
-					</td>
-	
-					<td class="descripcion"data-ng-bind="actorGenero.actor.fullName"></td>
-					<td class="descripcion"data-ng-bind="actorGenero.roll"></td>
 
-					<td data-ng-show="authentication.user._id == actorGenero.creador._id">
-						<a href="/#!/actoresGeneros/{{actorGenero._id}}/edit"><span class="glyphicon glyphicon-pencil"  </span></a>
-						<a href="/#!/actoresGeneros/{{actorGenero._id}}" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"  </span></a>
-					</td>
-				</tr>
-
-			</tbody>
-		</table>
-	</div>
-</div>
-</ul>
-
-<div data-ng-hide="!actorGenero || actorGenero.length">
-	<a href="/#!/actoresGeneros/create"></a>
-</div>
-</section>
 	</div>
 
 	<div class="creador">
 		<em>Creada en </em>
-		<em data-ng-bind="genero.creado |date:'mediumDate'"></em>
+		<em data-ng-bind="generoNoMusical.creado |date:'mediumDate'"></em>
 		<em>por</em>
-		<em data-ng-bind="genero.creador.fullName"></em>
+		<em data-ng-bind="generoNoMusical.creador.fullName"></em>
 	</div>
 </section>
 

@@ -39,7 +39,7 @@ exports.create=function(req,res){
 // Método que recupera una lista de recursos
 exports.list=function(req,res){
 	//Usa el método model 'find' para obtener una lista de recursos
-	GeneroNoMusical.find().sort('-created').populate('created','nombre id').exec(function(err, generoNoMusical){
+	GeneroNoMusical.find().sort('-created').populate('creador', 'firstName lastName fullName').exec(function(err, generoNoMusical){
 		if(err){
 			return res.status(400).send({
 				message: getErrorMessage(err)
@@ -97,10 +97,10 @@ exports.update=function(req,res){
 	};
 	//Controller middleware para recuperar una genero existente
 	exports.generoNoMusicalByID=function(req,res,next,id){
-		GeneroNoMusical.findById(id).populate('nombre').exec(function(err,genero){
+		GeneroNoMusical.findById(id).populate('creador', 'firstName lastName fullName').exec(function(err,generoNoMusical){
 			if (err) return next(err);
 			if(!generoNoMusical) return next(new Error('Fallo al cargar la genero no musical'+ id));
-			//Si la genero es encontrada, usar el objeto 'request' para pasarla al sgte middleware
+			//Si el genero no musical es encontrado, usar el objeto 'request' para pasarla al sgte middleware
 			req.generoNoMusical=generoNoMusical;
 			//Llamar al sgte middleware
 			next();

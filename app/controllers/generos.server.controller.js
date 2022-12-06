@@ -39,7 +39,7 @@ exports.create=function(req,res){
 // Método que recupera una lista de recursos
 exports.list=function(req,res){
 	//Usa el método model 'find' para obtener una lista de recursos
-	Genero.find().sort('-created').populate('created','nombre id').exec(function(err, genero){
+	Genero.find().sort('-created').populate('creador', 'firstName lastName fullName').exec(function(err, genero){
 		if(err){
 			return res.status(400).send({
 				message: getErrorMessage(err)
@@ -90,7 +90,7 @@ exports.update=function(req,res){
 	};
 	//Controller middleware para recuperar una genero existente
 	exports.generoByID=function(req,res,next,id){
-		Genero.findById(id).populate('nombre').exec(function(err,genero){
+		Genero.findById(id).populate('creador', 'firstName lastName fullName').exec(function(err,genero){
 			if (err) return next(err);
 			if(!genero) return next(new Error('Fallo al cargar la genero'+ id));
 			//Si la genero es encontrada, usar el objeto 'request' para pasarla al sgte middleware

@@ -155,9 +155,14 @@ $scope.fechaAdd = function(f) {
 		});
 		//Usar el método '$save' de obra para enviar una petición POST apropiada
 		coleccion.$save(function(response){
-			alert("El registro ha sido creado");
+			Swal.fire({
+				title: "¡Registro correcto!",
+				text: "El registro se ha creado correctamente",
+				icon: "success",
+				confirmButtonText: "Cerrar",
+			  });
 			//Si la obra fue creada de la manera correcta, redireccionar a la página de la obra
-			//$location.path('obras/' + response._id);
+			$location.path('colecciones/' + response._id);
 		}, function(errorResponse){
 			//En caso contrario, presentar mensaje de error
 			$scope.error=errorResponse.data.message;

@@ -1,5 +1,5 @@
 'use strict'
-//Configuración de rutas para 'generos'
+//Configuración de rutas para 'generos no musicales'
 angular.module('generosNoMusicales').config(['$routeProvider',
 	function($routeProvider){
 		$routeProvider.
@@ -9,7 +9,7 @@ angular.module('generosNoMusicales').config(['$routeProvider',
 		when('/generosnomusicales/create',{
 			templateUrl: 'generosnomusicales/views/create-generonomusical.client.view.html'
 		}).
-		when('/generosnomusicales/:generoId',{
+		when('/generosnomusicales/:generoNoMusicalId',{
 			templateUrl:'generosnomusicales/views/view-generonomusical.client.view.html'
 		}).
 		when('/generosnomusicales/:generonomusicalId/edit',{

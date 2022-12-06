@@ -4,7 +4,7 @@
 
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="tituloVista" data-ng-bind="recurso.titulo | uppercase"></div>
+		<div class="tituloVistaView" data-ng-bind="recurso.titulo | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==recurso.creador._id">
 			<a href="/#!/recursos/{{recurso._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
@@ -12,7 +12,7 @@
 		</div>
 		
 		<!-- Table -->
-		<table class="table table-striped">
+		<table class="table table-striped text-left">
 			
 			<tbody>
 				<tr>
@@ -32,6 +32,11 @@
 						<td class="campo">CONTENEDOR (RECURSOS)</td>
 						<td data-ng-bind="verContenedores(recurso.contenedores)"></td>
 				</tr>
+
+				<tr>
+					<td class="campo">FUENTE</td>
+					<td data-ng-bind="verFuente(recurso.fuente)"></td>
+			</tr>
 				<tr>
 						<td class="campo">NÚMEROS NORMALIZADOS</td>
 						<td data-ng-bind="verNNormalizado(recurso.numeroNormalizado)"></td>
@@ -51,7 +56,7 @@
 				</tr>
 				<tr>
 						<td class="campo">MATERIAS ASOCIADAS</td>
-						<td data-ng-bind="verMateria(recurso.materia)"></td>
+						<td data-ng-bind="verMaterias(recurso.materia)"></td>
 				</tr>
 				<tr>
 						<td class="campo">IDIOMAS</td>

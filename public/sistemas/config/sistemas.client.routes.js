@@ -9,10 +9,10 @@ angular.module('sistemas').config(['$routeProvider',
 		when('/sistemas/create',{
 			templateUrl: 'sistemas/views/create-sistema.client.view.html'
 		}).
-		when('/sistemas/:ejemplarId',{
+		when('/sistemas/:sistemaId',{
 			templateUrl:'sistemas/views/view-sistema.client.view.html'
 		}).
-		when('/sistemas/:ejemplarId/edit',{
+		when('/sistemas/:sistemaId/edit',{
 			templateUrl:'sistemas/views/edit-sistema.client.view.html'
 		});
 	}

@@ -95,7 +95,6 @@ angular.module("obras").controller("ObrasController", [
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idDescriptores = [];
     $scope.idEnlaces = [];
-
     $scope.idiomas = Idiomas.query();
     $scope.diccionarios = Diccionarios.query();
     $scope.proyectos = Proyectos.query();
@@ -108,10 +107,9 @@ angular.module("obras").controller("ObrasController", [
     $scope.obras = Obras.query();
     $scope.control = 0;
     $scope.reverse = false;
-    var generosUpdate = 0;
     $scope.campo = "";
 
-    //Actualizar para editar
+    /* //Actualizar para editar
     $scope.actualizarTodo = function () {
       $scope.idContenedores = this.obra.contenedores;
       $scope.idAsientosLigados = this.obra.asientoLigado;
@@ -126,9 +124,127 @@ angular.module("obras").controller("ObrasController", [
       $scope.idDescriptores = this.obra.descriptores;
       $scope.idProyectos = this.obra.proyectos;
       $scope.idEnlaces = this.obra.vinculosRelacionados;
-      // c;
-    };
+    }; */
+
     // Funciones auxiliares
+    //Cargar los campos que tienen vectores para la vista de edición
+    $scope.cargaDenominaciones = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDenominacionesRegionales = [].concat(d);
+    };
+
+    $scope.cargaActores = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idActores = [].concat(d);
+    };
+    $scope.cargaContenedores = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idContenedores = [].concat(d);
+    };
+
+    $scope.cargaAsientosLigados = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAsientosLigados = [].concat(d);
+    };
+
+    $scope.cargaGeneros = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idGeneros = [].concat(d);
+    };
+
+    $scope.cargaGenerosNoMusicales = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idGenerosNoMusicales= [].concat(d);
+    };
+
+    $scope.cargaMaterias = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idMaterias= [].concat(d);
+    };
+
+    $scope.cargaMedios = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idMedios=[].concat(d);
+    };
+
+    $scope.cargaSistemas= function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idSistemas=[].concat(d);
+    };
+
+    $scope.cargaIdiomas= function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idIdiomas=[].concat(d);
+    };
+
+    $scope.cargaProyectos= function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idProyectos=[].concat(d);
+    };
+
+    $scope.cargaAnotacionesCartograficoTemporales= function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAnotacionesCartograficoTemporales=[].concat(d);
+    };
+
+    $scope.cargaDescriptores= function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores=[].concat(d);
+    };
+
+    $scope.cargaEnlaces= function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces=[].concat(d);
+    };
+
+
+
+    $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.formatDate = (date, precision = "AMD") =>
+      formatDate(date, precision);
+    $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
+
     $scope.abrirVentana = function (url) {
       window.open(url);
     };
@@ -158,8 +274,6 @@ angular.module("obras").controller("ObrasController", [
           y.slice(0, y.indexOf("undefined,")) +
           y.slice(y.indexOf("undefined,") + 10, length);
       }
-
-      y = y.slice(0, y.length - 2);
       return y;
     };
 
@@ -167,7 +281,24 @@ angular.module("obras").controller("ObrasController", [
     $scope.verActores = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.actorAux(x[i].id) + " (" + x[i].rol + ") ,";
+        y = y + $scope.actorAux(x[i].id) + " (" + x[i].rol + ")";
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + "; ";
+        }
+      }
+      return $scope.darFormato(y);
+    };
+
+    $scope.verDenominaciones = function (x) {
+      y = "";
+      for (var i in x) {
+        y =
+          y + x[i].denominacionRegional + " (" + x[i].fuenteDenominacion + ")";
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + "; ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -175,23 +306,74 @@ angular.module("obras").controller("ObrasController", [
     $scope.verGeneros = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.generoAux(x[i].id) + ", ";
+        y = y + $scope.generoAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
+
+      return $scope.darFormato(y);
+    };
+
+    $scope.verGenerosNoMusicales = function (x) {
+      y = "";
+      for (var i in x) {
+        y = y + $scope.generoNoMusicalAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
+      }
+
       return $scope.darFormato(y);
     };
 
     $scope.verContenedores = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.obraAux(x[i].id) + ", ";
+        y = y + $scope.obraAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
       return $scope.darFormato(y);
     };
 
+    $scope.verAsientoLigado = function (x) {
+      y = "";
+      for (var i in x) {
+        y =
+          y +
+          $scope.obraAux(x[i].id) +
+          ", " +
+          "(Relación: " +
+          x[i].tipoDeRelacion +
+          "; Dirección de la relación: " +
+          x[i].direccionDeRelacion +
+          "; Fuente: " +
+          x[i].fuenteAutorRelacion +
+          "; Proyecto: " +
+          $scope.proyectoAux(x[i].proyectoRelacionado) +
+          "; Nota: " +
+          x[i].notaGeneral +
+          ")";
+          //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
+      }
+      return $scope.darFormato(y);
+    };
     $scope.verMaterias = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.materiaAux(x[i].id) + ", ";
+        y = y + $scope.materiaAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -199,7 +381,11 @@ angular.module("obras").controller("ObrasController", [
     $scope.verMedios = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.medioAux(x[i].id) + ", ";
+        y = y + $scope.medioAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -207,7 +393,11 @@ angular.module("obras").controller("ObrasController", [
     $scope.verSistemas = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.sistemaAux(x[i].id) + " " + x[i].centro + ", ";
+        y = y + $scope.sistemaAux(x[i].id) + " " + x[i].centro;
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -217,18 +407,22 @@ angular.module("obras").controller("ObrasController", [
       for (var i in x) {
         y =
           y +
+          "Lugar: " +
           x[i].lugar +
-          ", " +
+          ", Evento: " +
           x[i].evento +
-          ", " +
+          ", Amplitud de cobertura: " +
           x[i].coberturaAmplitud +
-          ", " +
-          x[i].fechaInicio +
-          ", " +
-          x[i].fechaFin +
-          ", " +
-          x[i].evidencias +
-          ". ";
+          ", Inicio: " +
+          $scope.formatDate(x[i].fechaInicio, x[i].precisionInicio) +
+          ", Fin: " +
+          $scope.formatDate(x[i].fechaFin, x[i].precisionFin) +
+          ", Evidencia: " +
+          x[i].evidencia;
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -236,16 +430,23 @@ angular.module("obras").controller("ObrasController", [
     $scope.verDescriptor = function (x) {
       y = "";
       for (var i in x) {
-        y = y + x[i].etiqueta + ": " + x[i].contenido + ", ";
+        y = y + x[i].etiqueta + ": " + x[i].contenido;
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + "; ";
+        }
       }
       return $scope.darFormato(y);
     };
 
     $scope.verIdiomas = function (x) {
       y = "";
-
       for (var i in x) {
-        y = y + x[i].idioma + ", ";
+        y = y + $scope.idiomasAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -253,7 +454,11 @@ angular.module("obras").controller("ObrasController", [
     $scope.verProyecto = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.proyectoAux(x[i].id) + ", ";
+        y = y + $scope.proyectoAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + "; ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -261,7 +466,11 @@ angular.module("obras").controller("ObrasController", [
     $scope.verVinculo = function (x) {
       y = "";
       for (var i in x) {
-        y = y + x[i].etiqueta + " (" + x[i].url + "), ";
+        y = y + x[i].etiqueta + " (" + x[i].url + ") ";
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
       }
       return $scope.darFormato(y);
     };
@@ -318,21 +527,29 @@ angular.module("obras").controller("ObrasController", [
         if (existe === false) {
           $scope.idContenedores.push(obj);
           this.contenedor = "";
+          console.log($scope.idContenedores);
         }
       }
-      // console.log($scope.idContenedores)
     };
 
     $scope.obraRemove = function (x) {
       for (var i in $scope.idContenedores) {
-        Swal.fire({
-          title: "¡Advertencia de eliminación!",
-          text: "Va a eliminar  " + $scope.obraAux(x),
-          icon: "warning",
-          confirmButtonText: "Cerrar",
-        });
         if ($scope.idContenedores[i].id === x) {
-          $scope.idContenedores.splice(i, 1);
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text: "Va a eliminar  " + $scope.obraAux(x),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idContenedores.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire("Eliminado!", "La obra ha sido eliminada", "success");
+            }
+          });
         }
       }
     };
@@ -404,10 +621,21 @@ angular.module("obras").controller("ObrasController", [
               " " +
               $scope.idDenominacionesRegionales[i].fuenteDenominacion,
             icon: "warning",
-            confirmButtonText: "Cerrar",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idDenominacionesRegionales.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "LA denominación ha sido eliminada.",
+                "success"
+              );
+            }
           });
-
-          $scope.idDenominacionesRegionales.splice(i, 1);
         }
       }
     };
@@ -424,15 +652,15 @@ angular.module("obras").controller("ObrasController", [
       //Verificar que los campos están llenos
       existe = false;
       x =
-        "asientoligado:" +
+        "id:" +
         this.asientoligado +
         ",tipoDeRelacion:" +
         this.tipoDeRelacion +
         ",direccionDeRelacion:" +
         this.direccionDeRelacion +
-        ",fuenteRelacion:" +
+        ",fuenteAutorRelacion:" +
         this.fuenteRelacion +
-        ",proyectoRelacion:" +
+        ",proyectoRelacionado:" +
         this.proyectoRelacion +
         ",notaGeneral:" +
         this.notaGeneral;
@@ -483,23 +711,27 @@ angular.module("obras").controller("ObrasController", [
 
     $scope.asientoLigadoRemove = function (x) {
       for (var i in $scope.idAsientosLigados) {
-        Swal.fire({
-          title: "¡Advertencia de eliminación!",
-          text: "Va a eliminar  " + $scope.obraAux(x),
-          icon: "warning",
-          confirmButtonText: "Cerrar",
-        });
         if ($scope.idAsientosLigados[i].asientoligado === x) {
-          $scope.idAsientosLigados.splice(i, 1);
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text: "Va a eliminar  " + $scope.obraAux(x),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idAsientosLigados.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El enlace ha sido eliminado.",
+                "success"
+              );
+            }
+          });
         }
-      }
-    };
-
-    $scope.nombrarSi = function (nombre, x) {
-      if (x === "undefined" || x === "" || x === undefined) {
-        return;
-      } else {
-        return " " + nombre + ": " + x;
       }
     };
 
@@ -558,15 +790,27 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.generoRemove = function (x) {
-      Swal.fire({
-        title: "¡Advertencia de eliminación!",
-        text: "Va a eliminar  " + $scope.generoAux(x),
-        icon: "warning",
-        confirmButtonText: "Cerrar",
-      });
       for (var i in $scope.idGeneros) {
         if ($scope.idGeneros[i].id === x) {
-          $scope.idGeneros.splice(i, 1);
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text: "Va a eliminar  " + $scope.generoAux(x),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idGeneros.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El género ha sido eliminado.",
+                "success"
+              );
+            }
+          });
         }
       }
     };
@@ -626,15 +870,27 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.generoNoMusicalRemove = function (x) {
-      Swal.fire({
-        title: "¡Advertencia de eliminación!",
-        text: "Va a eliminar  " + $scope.generoNoMusicalAux(x),
-        icon: "warning",
-        confirmButtonText: "Cerrar",
-      });
       for (var i in $scope.idGenerosNoMusicales) {
         if ($scope.idGenerosNoMusicales[i].id === x) {
-          $scope.idGenerosNoMusicales.splice(i, 1);
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text: "Va a eliminar  " + $scope.generoNoMusicalAux(x),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idGenerosNoMusicales.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El género ha sido eliminado.",
+                "success"
+              );
+            }
+          });
         }
       }
     };
@@ -681,6 +937,7 @@ angular.module("obras").controller("ObrasController", [
                 confirmButtonText: "Cerrar",
               });
               existe = true;
+              this.materia = "";
               return;
             }
           }
@@ -695,15 +952,26 @@ angular.module("obras").controller("ObrasController", [
 
     $scope.materiaRemove = function (x) {
       for (var i in $scope.idMaterias) {
-        Swal.fire({
-          title: "¡Advertencia de eliminación!",
-          text: "Va a eliminar  " + $scope.materiaAux(x),
-          icon: "warning",
-          confirmButtonText: "Cerrar",
-        });
-
         if ($scope.idMaterias[i].id === x) {
-          $scope.idMaterias.splice(i, 1);
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text: "Va a eliminar  " + $scope.materiaAux(x),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idMaterias.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "La materia ha sido eliminada.",
+                "success"
+              );
+            }
+          });
         }
       }
     };
@@ -763,14 +1031,26 @@ angular.module("obras").controller("ObrasController", [
 
     $scope.medioRemove = function (x) {
       for (var i in $scope.idMedios) {
-        Swal.fire({
-          title: "¡Advertencia de eliminación!",
-          text: "Va a eliminar  " + $scope.medioAux(x),
-          icon: "warning",
-          confirmButtonText: "Cerrar",
-        });
         if ($scope.idMedios[i].id === x) {
-          $scope.idMedios.splice(i, 1);
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text: "Va a eliminar  " + $scope.medioAux(x),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idMedios.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El medio sonoro ha sido eliminado.",
+                "success"
+              );
+            }
+          });
         }
       }
     };
@@ -831,41 +1111,48 @@ angular.module("obras").controller("ObrasController", [
 
     $scope.sistemaRemove = function (x) {
       for (var i in $scope.idSistemas) {
-        Swal.fire({
-          title: "¡Advertencia de eliminación!",
-          text: "Va a eliminar  " + $scope.sistemaAux(x),
-          icon: "warning",
-          confirmButtonText: "Cerrar",
-        });
-
         if ($scope.idSistemas[i].id === x) {
-          $scope.idSistemas.splice(i, 1);
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text: "Va a eliminar  " + $scope.sistemaAux(x),
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idSistemas.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El sistema sonoro ha sido eliminado.",
+                "success"
+              );
+            }
+          });
         }
       }
     };
 
-    //Idiomas
+    $scope.idiomasAux = function (aux) {
+      for (var i in $scope.idiomas) {
+        if ($scope.idiomas[i].id === aux) {
+          return $scope.idiomas[i].idioma;
+        }
+      }
+    };
+
     $scope.idiomaAdd = function () {
       existe = false;
-      //TODO:Revisar que pasa que no se comporta como las otras funciones semejantes y hubo que remendarla
-      try {
-        x = "idioma:" + this.idioma.idioma;
-      } catch (e) {
-        Swal.fire({
-          title: "¡Error!",
-          text: "Debe seleccionar un idioma",
-          icon: "error",
-          confirmButtonText: "Cerrar",
-        });
-        return;
-      }
+      x = "id:" + this.idioma;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
         var tup = property.split(":");
         obj[tup[0]] = tup[1];
       });
-      if (this.idioma.idioma === undefined || this.idioma.idioma === "") {
+      if (this.idioma === undefined || this.idioma === "") {
         //Mostrar mensaje de error
         Swal.fire({
           title: "¡Error!",
@@ -876,7 +1163,7 @@ angular.module("obras").controller("ObrasController", [
       } else {
         if ($scope.idIdiomas.indexOf(x) === -1) {
           for (var i in $scope.idIdiomas) {
-            if ($scope.idIdiomas[i].idioma === this.idioma.idioma) {
+            if ($scope.idIdiomas[i].id === this.idioma) {
               //Mensaje de error
               Swal.fire({
                 title: "¡Error!",
@@ -898,19 +1185,30 @@ angular.module("obras").controller("ObrasController", [
 
     $scope.idiomaRemove = function (x) {
       for (var i in $scope.idIdiomas) {
-        if ($scope.idIdiomas[i] === x) {
+        if ($scope.idIdiomas[i].id === x) {
           Swal.fire({
             title: "¡Advertencia de eliminación!",
-            text: "Va a eliminar  " + $scope.idIdiomas[i].idioma,
+            text: "Va a eliminar  " + $scope.idiomasAux(x),
             icon: "warning",
-            confirmButtonText: "Cerrar",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idIdiomas.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El idioma ha sido eliminado.",
+                "success"
+              );
+            }
           });
-
-          $scope.idIdiomas.splice(i, 1);
-          this.idioma = "";
         }
       }
     };
+
     //Actores
     $scope.updateActores = function () {
       $scope.actores = Actores.query();
@@ -1000,9 +1298,18 @@ angular.module("obras").controller("ObrasController", [
     };
 
     //Anotaciones cartográfico temporales
-
     $scope.anotacionCartograficoTemporalAdd = function () {
       existe = false;
+      //Calcular precisión para fecha inicio
+      var precisionyFechaInicio = precisionFecha(this.fechaDeInicio);
+      this.fechaDeInicio = precisionyFechaInicio.fecha;
+      var precisionInicio = precisionyFechaInicio.precision;
+
+      //Calcular precisión para fecha fin
+      var precisionyFechaFin = precisionFecha(this.fechaDeFin);
+      this.fechaDeFin = precisionyFechaFin.fecha;
+      var precisionFin = precisionyFechaFin.precision;
+
       var x =
         "lugar:" +
         this.lugar +
@@ -1010,10 +1317,14 @@ angular.module("obras").controller("ObrasController", [
         this.evento +
         ",coberturaAmplitud:" +
         this.coberturaAmplitud +
-        ",fechaDeInicio:" +
+        ",fechaInicio:" +
         this.fechaDeInicio +
-        ",fechaDeFin:" +
+        ",fechaFin:" +
         this.fechaDeFin +
+        ",precisionInicio:" +
+        precisionInicio +
+        ",precisionFin:" +
+        precisionFin +
         ",evidencia:" +
         this.evidencia;
       var properties = x.split(",");
@@ -1022,11 +1333,22 @@ angular.module("obras").controller("ObrasController", [
         var tup = property.split(":");
         obj[tup[0]] = tup[1];
       });
-      if (this.evento === undefined || this.evento === "") {
+      if (
+        this.lugar === undefined ||
+        this.lugar === "" ||
+        this.evento === undefined ||
+        this.evento === "" ||
+        this.fechaDeInicio === undefined ||
+        this.fechaDeInicio === "" ||
+        this.fechaDeFin === undefined ||
+        this.fechaDeFin === "" ||
+        this.evidencia === undefined ||
+        this.evidencia === ""
+      ) {
         //Mostrar mensaje de error
         Swal.fire({
           title: "¡Error!",
-          text: "Debe seleccionar un evento",
+          text: "Debe seleccionar completar todos los datos",
           icon: "error",
           confirmButtonText: "Cerrar",
         });
@@ -1035,26 +1357,24 @@ angular.module("obras").controller("ObrasController", [
           for (var i in $scope.idAnotacionesCartograficoTemporales) {
             if (
               $scope.idAnotacionesCartograficoTemporales[i].lugar ===
-                this.lugar &&
+                this.lugar ||
               $scope.idAnotacionesCartograficoTemporales[i].evento ===
-                this.evento &&
-              $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
-                this.coberturaAmplitud &&
-              $scope.idAnotacionesCartograficoTemporales[i].fechaDeInicio ===
-                this.fechaDeInicio &&
-              $scope.idAnotacionesCartograficoTemporales[i].fechaDeFin ===
-                this.fechaDeFin &&
-              $scope.idAnotacionesCartograficoTemporales[i].evidencia ===
-                this.evidencia
+                this.evento
+              //TODO: Resolver comparación de fechas para usar &&
             ) {
               //Mensaje de error
               Swal.fire({
                 title: "¡Error!",
-                text: "La anotación ya se encuentra en la lista",
+                text: "EL elemento ya se encuentra en la lista",
                 icon: "error",
                 confirmButtonText: "Cerrar",
               });
               existe = true;
+              this.lugar = "";
+              this.evento = "";
+              this.fechaDeInicio = "";
+              this.fechaDeFin = "";
+              this.evidencia = "";
               return;
             }
           }
@@ -1063,7 +1383,6 @@ angular.module("obras").controller("ObrasController", [
           $scope.idAnotacionesCartograficoTemporales.push(obj);
           this.lugar = "";
           this.evento = "";
-          this.coberturaAmplitud = "";
           this.fechaDeInicio = "";
           this.fechaDeFin = "";
           this.evidencia = "";
@@ -1071,31 +1390,29 @@ angular.module("obras").controller("ObrasController", [
       }
     };
 
-    $scope.anotacionCartograficoTemporalRemove = function (l,e,c,fi,ff,evi) {
+    $scope.anotacionCartograficoTemporalRemove = function (x) {
       for (var i in $scope.idAnotacionesCartograficoTemporales) {
-        if (
-          $scope.idAnotacionesCartograficoTemporales[i].lugar === l &&
-          $scope.idAnotacionesCartograficoTemporales[i].evento === e &&
-          $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
-            c &&
-          $scope.idAnotacionesCartograficoTemporales[i].fechaDeInicio === fi &&
-          $scope.idAnotacionesCartograficoTemporales[i].fechaDeFin === ff &&
-          $scope.idAnotacionesCartograficoTemporales[i].evidencia === evi
-        ) {
+        if ($scope.idAnotacionesCartograficoTemporales[i].lugar === x) {
           Swal.fire({
             title: "¡Advertencia de eliminación!",
             text:
-              "Va a eliminar a: lugar: " +
+              "va a eliminar a " +
               $scope.idAnotacionesCartograficoTemporales[i].lugar +
-              ", evento: " +
+              "; " +
               $scope.idAnotacionesCartograficoTemporales[i].evento +
-              ", coberturaAmplitud: " +
+              "; " +
               $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud +
-              ", fechaDeInicio: " +
-              $scope.idAnotacionesCartograficoTemporales[i].fechaDeInicio +
-              ", fechaDeFin: " +
-              $scope.idAnotacionesCartograficoTemporales[i].fechaDeFin +
-              ", evidencia: " +
+              "; " +
+              $scope.formatDate(
+                $scope.idAnotacionesCartograficoTemporales[i].fechaInicio,
+                $scope.idAnotacionesCartograficoTemporales[i].precisionInicio
+              ) +
+              "; " +
+              $scope.formatDate(
+                $scope.idAnotacionesCartograficoTemporales[i].fechaFin,
+                $scope.idAnotacionesCartograficoTemporales[i].precisionFin
+              ) +
+              "; " +
               $scope.idAnotacionesCartograficoTemporales[i].evidencia,
             icon: "warning",
             showCancelButton: true,
@@ -1106,16 +1423,21 @@ angular.module("obras").controller("ObrasController", [
               $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
-              Swal.fire("Eliminado!", "El actor ha sido eliminado.", "success");
+              Swal.fire(
+                "Eliminado!",
+                "La anotación cartográfica-temporal ha sido eliminada",
+                "success"
+              );
             }
           });
         }
       }
     };
+
     //Menú descriptores libres
     $scope.dDescriptorAdd = function () {
       existe = false;
-      var x = "dEtiqueta:" + this.dEtiqueta + ",dContenido:" + this.dContenido;
+      var x = "etiqueta:" + this.dEtiqueta + ",contenido:" + this.dContenido;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
@@ -1139,13 +1461,13 @@ angular.module("obras").controller("ObrasController", [
         if ($scope.idDescriptores.indexOf(x) === -1) {
           for (var i in $scope.idDescriptores) {
             if (
-              $scope.idDescriptores[i].dEtiqueta === this.dEtiqueta &&
-              $scope.idDescriptores[i].dContenido === this.dContenido
+              $scope.idDescriptores[i].etiqueta === this.dEtiqueta &&
+              $scope.idDescriptores[i].contenido === this.dContenido
             ) {
               //Mensaje de error
               Swal.fire({
                 title: "¡Error!",
-                text: "La etiqueta se encuentran ya en la lista",
+                text: "La etiqueta ya se encuentran en la lista",
                 icon: "error",
                 confirmButtonText: "Cerrar",
               });
@@ -1159,23 +1481,22 @@ angular.module("obras").controller("ObrasController", [
           this.dEtiqueta = "";
           this.dContenido = "";
         }
-
       }
     };
 
     $scope.dDescriptorRemove = function (x, y) {
       for (var i in $scope.idDescriptores) {
         if (
-          $scope.idDescriptores[i].dContenido === y &&
-          $scope.idDescriptores[i].dEtiqueta === x
+          $scope.idDescriptores[i].contenido === y &&
+          $scope.idDescriptores[i].etiqueta === x
         ) {
           Swal.fire({
             title: "¡Advertencia de eliminación!",
             text:
               "Va a eliminar  " +
-              $scope.idDescriptores[i].dEtiqueta +
+              $scope.idDescriptores[i].etiqueta +
               ", " +
-              $scope.idDescriptores[i].dContenido,
+              $scope.idDescriptores[i].contenido,
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Confirmar",
@@ -1217,10 +1538,7 @@ angular.module("obras").controller("ObrasController", [
         obj[tup[0]] = tup[1];
       });
 
-      if (
-        this.proyecto === undefined ||
-        this.proyecto === ""
-      ) {
+      if (this.proyecto === undefined || this.proyecto === "") {
         //Mostrar mensaje de error
         Swal.fire({
           title: "¡Error!",
@@ -1231,9 +1549,7 @@ angular.module("obras").controller("ObrasController", [
       } else {
         if ($scope.idProyectos.indexOf(x) === -1) {
           for (var i in $scope.idProyectos) {
-            if (
-              $scope.idProyectos[i].id === this.proyecto 
-            ) {
+            if ($scope.idProyectos[i].id === this.proyecto) {
               //Mensaje de error
               Swal.fire({
                 title: "¡Error!",
@@ -1258,16 +1574,14 @@ angular.module("obras").controller("ObrasController", [
         if ($scope.idProyectos[i].id === x) {
           Swal.fire({
             title: "¡Advertencia de eliminación!",
-            text:
-              "Va a eliminar  " +
-              $scope.proyectoAux(x),
+            text: "Va a eliminar  " + $scope.proyectoAux(x),
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Confirmar",
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idProyectos.splice(i, 1); 
+              $scope.idProyectos.splice(i, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(
@@ -1279,13 +1593,12 @@ angular.module("obras").controller("ObrasController", [
           });
         }
       }
-        };
-    
+    };
 
     //Enlaces
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "eEtiqueta:" + this.eEtiqueta + ",eUrl:" + this.eUrl;
+      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
@@ -1294,14 +1607,14 @@ angular.module("obras").controller("ObrasController", [
       });
       if (
         this.eEtiqueta === undefined ||
-        this.eEtiqueta === ""||
+        this.eEtiqueta === "" ||
         this.eUrl === undefined ||
         this.eUrl === ""
       ) {
         //Mostrar mensaje de error
         Swal.fire({
           title: "¡Error!",
-          text: "Debe seleccionar un proyecto",
+          text: "Debe ingresar todos los datos",
           icon: "error",
           confirmButtonText: "Cerrar",
         });
@@ -1310,7 +1623,7 @@ angular.module("obras").controller("ObrasController", [
           for (var i in $scope.idEnlaces) {
             if (
               $scope.idEnlaces[i].eEtiqueta === this.Etiqueta &&
-              $scope.idEnlaces[i].url === this.Url 
+              $scope.idEnlaces[i].url === this.Url
             ) {
               //Mensaje de error
               Swal.fire({
@@ -1330,37 +1643,39 @@ angular.module("obras").controller("ObrasController", [
           this.eUrl = "";
         }
       }
-
     };
 
-    $scope.enlaceRemove = function (x,y) {
+    $scope.enlaceRemove = function (x, y) {
       for (var i in $scope.idEnlaces) {
-        if ($scope.idEnlaces[i].eEtiqueta === x && $scope.idEnlaces[i].eUrl === y) {
-          
-            Swal.fire({
-              title: "¡Advertencia de eliminación!",
-              text:
-                "Va a eliminar: Descripción " +$scope.idEnlaces[i].eEtiqueta+
-                ", Url: " +$scope.idEnlaces[i].eUrl,
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonText: "Confirmar",
-              cancelButtonText: "Cancelar",
-            }).then((result) => {
-              if (result.isConfirmed) {
-                $scope.idEnlaces.splice(i, 1); 
-                // funcion propia de Angular.Js refresca mi scope y recarga mis datos
-                $scope.$apply();
-                Swal.fire(
-                  "Eliminado!",
-                  "El proyecto ha sido eliminado.",
-                  "success"
-                );
-              }
-            });
-          }
+        if (
+          $scope.idEnlaces[i].etiqueta === x &&
+          $scope.idEnlaces[i].url === y
+        ) {
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text:
+              "Va a eliminar: Descripción " +
+              $scope.idEnlaces[i].etiqueta +
+              ", Url: " +
+              $scope.idEnlaces[i].url,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idEnlaces.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El enlace ha sido eliminado.",
+                "success"
+              );
+            }
+          });
         }
-      
+      }
     };
 
     //Crear método controller para crear nuevos registros
@@ -1368,13 +1683,13 @@ angular.module("obras").controller("ObrasController", [
       //Usar los campos form para crear un nuevo objeto $resource obra
       var obra = new Obras({
         titulo: this.titulo,
-        denominacionRegional: this.denominacionRegional,
+        denominacionRegional: $scope.idDenominacionesRegionales,
         descripcion: this.descripcion,
         tipo: this.tipo,
         contenedores: $scope.idContenedores,
-        asientoLigado: $scope.idAsientoLigado,
+        asientoLigado: $scope.idAsientosLigados,
         generosFormas: $scope.idGeneros,
-        GenerosFormasNoMusicales: $scope.idGenerosFormasNoMusicales,
+        GenerosFormasNoMusicales: $scope.idGenerosNoMusicales,
         materias: $scope.idMaterias,
         mediosSonoros: $scope.idMedios,
         sistemasSonoros: $scope.idSistemas,
@@ -1385,6 +1700,7 @@ angular.module("obras").controller("ObrasController", [
         descriptores: $scope.idDescriptores,
         proyectos: $scope.idProyectos,
         vinculosRelacionados: $scope.idEnlaces,
+        descriptores: $scope.idDescriptores,
       });
       //Usar el método '$save' de obra para enviar una petición POST apropiada
       obra.$save(
@@ -1400,7 +1716,13 @@ angular.module("obras").controller("ObrasController", [
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
-          $scope.error = errorResponse.data.message;
+          //TODO:Difuminar
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
         }
       );
     };
@@ -1420,13 +1742,82 @@ angular.module("obras").controller("ObrasController", [
 
     //Método controller para actualizar una única obra
     $scope.update = function () {
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if($scope.idDenominacionesRegionales.length!=0){
+        $scope.obra.denominacionRegional = $scope.idDenominacionesRegionales;
+      }
+    if($scope.idActores.length!=0){
+      $scope.obra.actores=$scope.idActores;
+    }
+      if($scope.idContenedores.length!=0){
+        $scope.obra.contenedores = $scope.idContenedores;
+      }
+      
+      if($scope.idAsientosLigados.length!=0){
+        $scope.obra.asientoLigado=$scope.idAsientosLigados;
+      }
+     
+
+      if($scope.idGeneros.length!=0){
+        $scope.obra.generosFormas=$scope.idGeneros;
+      }
+      
+      if($scope.idGenerosNoMusicales.length!=0){
+        $scope.obra.GenerosFormasNoMusicales=$scope.idGenerosNoMusicales;
+      }
+      
+      if($scope.idMaterias.length!=0){
+        $scope.obra.materias=$scope.idMaterias;
+      }
+
+      if($scope.idMedios.length!=0){
+        $scope.obra.mediosSonoros=$scope.idMedios;
+      }
+      
+      if($scope.idSistemas.length!=0){
+        $scope.obra.sistemasSonoros=$scope.idSistemas;
+      }
+      
+      if($scope.idIdiomas.length!=0){
+        $scope.obra.idiomas=$scope.idIdiomas;
+      }
+      
+      if($scope.idProyectos.length!=0){
+        $scope.obra.proyectos=$scope.idProyectos;
+      }
+
+      if($scope.idAnotacionesCartograficoTemporales.length!=0){
+        $scope.obra.anotacionCartograficoTemporal=$scope.idAnotacionesCartograficoTemporales;
+      }
+      
+     if($scope.idDescriptores.length!=0){
+      $scope.obra.descriptores=$scope.idDescriptores;
+     }
+      
+     if($scope.idEnlaces.length!=0){
+      $scope.obra.vinculosRelacionados=$scope.idEnlaces;
+     }
+      
+
       //Usa el método $update de obra para enviar la petición PUT adecuada
       $scope.obra.$update(
         function () {
           //Si la actualización es correcta, redireccionar
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           $location.path("obras/" + $scope.obra._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );

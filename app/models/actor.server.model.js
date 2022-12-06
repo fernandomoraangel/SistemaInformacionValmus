@@ -32,31 +32,37 @@ var mongoose=require('mongoose'),
  	}
  	});
 
-	var anotacionCartograficoTemporal=new Schema({
-	lugar:{
-
-	},
-	coordenadas:{
-		type:[Number],
-		index:'2dsphere'
-	},
-	evento:{
-
-	},
-	coberturaAmplitud:{
-
-	},
-	fechaInicio:{
-
-	},
-	fechaFin:{
-
-	},
-	evidencias:{
-
-	}
-	});
-
+	 var anotacionCartograficoTemporal=new Schema({
+		lugar:{
+	  
+		},
+		coordenadas:{
+		  type:[Number],
+		  index:'2dsphere'
+		},
+		evento:{
+		  type: String
+		},
+		coberturaAmplitud:{
+	  
+		},
+		fechaInicio:{
+		  type:Date
+		},
+		fechaFin:{
+		  type:Date
+		},
+		precisionInicio:{
+		  type: String
+		},
+		precisionFin:{
+		  type: String
+		},
+		//fuente de los datos
+		evidencia:{
+	  
+		}
+	  });
 
 	var vinculoRelacionado=new Schema({
 		etiqueta:{

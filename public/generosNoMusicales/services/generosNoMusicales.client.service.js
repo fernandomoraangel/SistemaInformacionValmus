@@ -3,7 +3,7 @@
 //Crear el service 'generos'
 angular.module('generosNoMusicales').factory('GenerosNoMusicales',['$resource', function($resource){
 	//Usar el service '$resource' para devolver un objeto '$resource' 
-	console.log("Uso servicio generos no musicales");
+	//console.log("Uso servicio generos no musicales");
 	return $resource('api/generosnomusicales/:generoNoMusicalId',{
 		generoNoMusicalId:'@_id'
 	},{

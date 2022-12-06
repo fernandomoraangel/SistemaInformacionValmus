@@ -91,7 +91,7 @@ exports.update=function(req,res){
 	};
 	//Controller middleware para recuperar una sistema existente
 	exports.sistemaByID=function(req,res,next,id){
-		Sistema.findById(id).populate('nombre').exec(function(err,sistema){
+		Sistema.findById(id).populate('creador', 'firstName lastName fullName').exec(function(err,sistema){
 			if (err) return next(err);
 			if(!sistema) return next(new Error('Fallo al cargar la sistema'+ id));
 			//Si la sistema es encontrada, usar el objeto 'request' para pasarla al sgte middleware

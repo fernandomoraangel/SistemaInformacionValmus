@@ -14,7 +14,6 @@ require('../app/models/user.server.model');
 require('../app/models/actor.server.model');
 require('../app/models/obra.server.model');
 require('../app/models/recurso.server.model');
-require('../app/models/actor-obra.server.model');
 require('../app/models/genero.server.model');
 require('../app/models/generonomusical.server.model');
 require('../app/models/materia.server.model');

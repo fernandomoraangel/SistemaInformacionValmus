@@ -91,7 +91,7 @@ exports.update=function(req,res){
 	};
 	//Controller middleware para recuperar una materia existente
 	exports.materiaByID=function(req,res,next,id){
-		Materia.findById(id).populate('nombre').exec(function(err,materia){
+		Materia.findById(id).populate('creador', 'firstName lastName fullName').exec(function(err,materia){
 			if (err) return next(err);
 			if(!materia) return next(new Error('Fallo al cargar la materia'+ id));
 			//Si la materia es encontrada, usar el objeto 'request' para pasarla al sgte middleware
