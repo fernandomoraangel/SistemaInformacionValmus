@@ -31,17 +31,18 @@ https://rogerdudler.github.io/git-guide/index.es.html
 1. cd C:\Users\ferna\Documents\Desarrollo\SIMR
 2. git add .
 3. git commit -m "Commit message"
-4. git push origin master
+4. git push origin main
 
 ## Pendiente
 
-1. Editar, listar, ver y borrar para todas las páginas.
-2. Organizar listas.
+1. Editar, listar, borrar para todas las páginas.
+2. Organizar listas.js.
 3. Organizar ayuda.
 4. Identificar las vista "ver"
 5. Resolver cómo sera el manual wiki.
 6. Hacer que funcionen los enlaces en el campo enlaces. https://www.cursoangularjs.es/doku.php?id=unidades:04_masdirectivas:03_nghref
 7. Logo en la página central.
-8. Acerca de con version.
-9.  Exportar colección "diccionarios".
-10. Resolver problemas con acentos y ñ al importar. UTF8
+8. Ícono
+9. Acerca de con version.
+10. Exportar colección "diccionarios".
+11. Resolver problemas con acentos y ñ al importar. UTF8
