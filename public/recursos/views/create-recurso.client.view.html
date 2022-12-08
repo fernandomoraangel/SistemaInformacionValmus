@@ -15,9 +15,8 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','Título');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','titulo');" data-toggle="modal"
 						data-target="#ayudaTitulo"></button>
-
 					<!-- Modal Ayuda-->
 					<div class="modal fade" id="ayudaTitulo" tabindex="-1" role="dialog"
 						aria-labelledby="ayudaTituloLabel" aria-hidden="true">
@@ -45,7 +44,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','Descripción');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','descripcion');" data-toggle="modal"
 						data-target="#ayudaDescripción"></button>
 
 					<!-- Modal Ayuda-->
@@ -76,7 +75,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','ObraRelacionada');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','obrasRelacionadas');" data-toggle="modal"
 						data-target="#ayudaObraRelacionada"></button>
 
 					<!-- Modal Ayuda-->
@@ -115,7 +114,7 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="obraRelacionadaAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/obras/create')">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idObrasRelacionadas track by $index" class="items">
@@ -127,7 +126,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','NúmerosNormalizados');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','numerosNormalizados');" data-toggle="modal"
 						data-target="#ayudaNumerosN"></button>
 
 					<!-- Modal Ayuda-->
@@ -169,7 +168,6 @@
 					</div>
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="nnormalizadoAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idNormalizados track by $index" class="campo">
@@ -187,7 +185,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','Faceta');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','faceta');" data-toggle="modal"
 						data-target="#ayudaFaceta"></button>
 
 					<!-- Modal Ayuda-->
@@ -220,7 +218,7 @@
 					<div>
 						<!-- Botón modal ayuda -->
 						<button type="button" class="glyphicon glyphicon-eye-open"
-							ng-click="mostrarAyuda('Recurso','MencionesR');" data-toggle="modal"
+							ng-click="mostrarAyuda('Recurso','mencionesDeResponsabilidad');" data-toggle="modal"
 							data-target="#ayudaMencionesR"></button>
 
 						<!-- Modal Ayuda-->
@@ -263,9 +261,8 @@
 								</option>
 							</select>
 							<h2 class="glyphicon glyphicon-plus" ng-click="actorAdd();">Agregar</h2>
-							<h2 class="glyphicon glyphicon-modal-window"
-								onClick="window.open(this.href, this.target, 'width=500,height=400,left=300, top=200'); return false;">
-								Crear</h2>
+							<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/actores/create')">Crear</h2>
+							
 
 						</div>
 
@@ -279,14 +276,12 @@
 					</div>
 					<!-- Menciones de responsabilidad -->
 
-					
-				
 
 				<!-- Contenedor -->
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','Contenedor');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','contenedor');" data-toggle="modal"
 						data-target="#ayudaContenedor"></button>
 
 					<!-- Modal Ayuda-->
@@ -321,8 +316,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="recursoAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
-
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="c in idContenedores track by $index" class="campo">
@@ -335,7 +328,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('RECURSO','Fuente');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','fuente');" data-toggle="modal"
 						data-target="#ayudaFuente"></button>
 
 					<!-- Modal Ayuda-->
@@ -383,7 +376,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="fuenteAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idFuentes track by $index" class="campo">
@@ -399,7 +391,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','TipoRecurso');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','tipo');" data-toggle="modal"
 						data-target="#ayudaTipoR"></button>
 
 					<!-- Modal Ayuda-->
@@ -433,7 +425,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="tipoAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idTipos track by $index" class="campo">
@@ -446,7 +437,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','AnotacionesCartograficoTemporales');" data-toggle="modal"
 						data-target="#ayudaContenedor"></button>
 
 					<!-- Modal Ayuda-->
@@ -521,7 +512,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','Materia');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','materia');" data-toggle="modal"
 						data-target="#ayudaMateria"></button>
 
 					<!-- Modal Ayuda-->
@@ -556,7 +547,7 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="materiaAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/materias/create')">Crear</h2>
 
 					</div>
 
@@ -571,7 +562,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','Idioma');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','Idiomas');" data-toggle="modal"
 						data-target="#ayudaIdioma"></button>
 
 					<!-- Modal Ayuda-->
@@ -606,7 +597,7 @@
 					</div>
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="idiomaAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/idiomas/create')">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idIdiomas track by $index" class="campo">
@@ -621,7 +612,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','DescripciónT');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','descripciónTécnica');" data-toggle="modal"
 						data-target="#ayudaDescripcionT"></button>
 
 					<!-- Modal Ayuda-->
@@ -664,7 +655,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="dTecnicaAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idDTecnicas track by $index" class="campo">
@@ -682,7 +672,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','MaterialAcompañante');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','materialAcompañante');" data-toggle="modal"
 						data-target="#ayudaMaterialAcompañante"></button>
 
 					<!-- Modal Ayuda-->
@@ -715,7 +705,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','MenciónSerie');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','mencionDeSerie');" data-toggle="modal"
 						data-target="#ayudaMenciónSerie"></button>
 					<div class="modal fade" id="ayudaMenciónSerie" tabindex="-1" role="dialog"
 						aria-labelledby="ayudaMenciónSerie" aria-hidden="true">
@@ -748,7 +738,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recursos','proyectosA');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','proyectosAsociados');" data-toggle="modal"
 						data-target="#ayudaproyectosA"></button>
 
 					<!-- Modal Ayuda-->
@@ -784,7 +774,7 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="proyectoAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/proyectos/create')">Crear</h2>
 
 					</div>
 
@@ -800,7 +790,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','descriptoresLibres');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','descriptorLibre');" data-toggle="modal"
 						data-target="#ayudadescriptoresLibres"></button>
 
 					<!-- Modal Ayuda-->
@@ -841,7 +831,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="dDescriptorAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
@@ -855,11 +844,11 @@
 				</div>
 				<!-- Fin descriptores libres -->
 
-				<!-- Vínculos y archivos -->
+				<!-- Enlaces y archivos -->
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Recurso','VínculosYArchivos');" data-toggle="modal"
+						ng-click="mostrarAyuda('Recurso','enlacesYArchivos');" data-toggle="modal"
 						data-target="#ayudaVínculosYArchivos"></button>
 
 					<!-- Modal Ayuda-->
@@ -881,7 +870,7 @@
 					</div>
 					<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseEyA"
 						role="button" aria-expanded="false" aria-controls="collapseExample"></button>
-					<label class="campo">VÍNCULOS Y ARCHIVOS</label>
+					<label class="campo">ENLACES Y ARCHIVOS</label>
 				</div>
 				<div class="collapse" id="collapseEyA">
 					<div>
@@ -896,7 +885,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="enlaceAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">

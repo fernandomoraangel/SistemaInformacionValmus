@@ -727,6 +727,7 @@
 					</div>
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="idiomaAdd();">Agregar</h2>
+						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/idiomas/create')">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idIdiomas track by $index" class="campo">
@@ -781,8 +782,7 @@
 
 	<div>
 		<h2 class="glyphicon glyphicon-plus" ng-click="proyectoAdd();">Agregar</h2>
-		<h2 class="glyphicon glyphicon-modal-window"
-			ng-click="abrirVentana('/#!/proyectos/create')">Crear</h2>
+		<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/proyectos/create')">Crear</h2>
 
 	</div>
 
@@ -983,7 +983,6 @@
 
 						<div>
 							<h2 class="glyphicon glyphicon-plus" ng-click="enlaceAdd();">Agregar</h2>
-							<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 						</div>
 
 						<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">
@@ -997,7 +996,7 @@
 					</div>
 					<!-- Fin Vínculos y archivos -->
 					<div>
-						<input type="submit" class="btn btn-primary pull-right" value="Crear obra">
+						<input type="submit" class="btn btn-primary pull-right" value="Crear">
 						<div data-ng-show="error">
 							<strong class="error" data-ng-bind="error"></strong>
 						</div>

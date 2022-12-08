@@ -83,7 +83,7 @@ var mongoose=require('mongoose'),
 			require:true
 		}
 	});
-
+//TODO: Campos por implementar: NombreCorporativo, Asiento ligado
 	var ActorSchema=new Schema({
 		nombres:{
 		type:String,

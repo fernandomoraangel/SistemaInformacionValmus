@@ -136,14 +136,14 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.cargaActores = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
       $scope.idActores = [].concat(d);
     };
     $scope.cargaContenedores = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
@@ -151,7 +151,7 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.cargaAsientosLigados = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
@@ -159,7 +159,7 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.cargaGeneros = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
@@ -167,78 +167,76 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.cargaGenerosNoMusicales = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idGenerosNoMusicales= [].concat(d);
+      $scope.idGenerosNoMusicales = [].concat(d);
     };
 
     $scope.cargaMaterias = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idMaterias= [].concat(d);
+      $scope.idMaterias = [].concat(d);
     };
 
     $scope.cargaMedios = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idMedios=[].concat(d);
+      $scope.idMedios = [].concat(d);
     };
 
-    $scope.cargaSistemas= function (d) {
-      console.log(d)
+    $scope.cargaSistemas = function (d) {
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idSistemas=[].concat(d);
+      $scope.idSistemas = [].concat(d);
     };
 
-    $scope.cargaIdiomas= function (d) {
-      console.log(d)
+    $scope.cargaIdiomas = function (d) {
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idIdiomas=[].concat(d);
+      $scope.idIdiomas = [].concat(d);
     };
 
-    $scope.cargaProyectos= function (d) {
-      console.log(d)
+    $scope.cargaProyectos = function (d) {
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idProyectos=[].concat(d);
+      $scope.idProyectos = [].concat(d);
     };
 
-    $scope.cargaAnotacionesCartograficoTemporales= function (d) {
-      console.log(d)
+    $scope.cargaAnotacionesCartograficoTemporales = function (d) {
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idAnotacionesCartograficoTemporales=[].concat(d);
+      $scope.idAnotacionesCartograficoTemporales = [].concat(d);
     };
 
-    $scope.cargaDescriptores= function (d) {
-      console.log(d)
+    $scope.cargaDescriptores = function (d) {
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idDescriptores=[].concat(d);
+      $scope.idDescriptores = [].concat(d);
     };
 
-    $scope.cargaEnlaces= function (d) {
-      console.log(d)
+    $scope.cargaEnlaces = function (d) {
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
-      $scope.idEnlaces=[].concat(d);
+      $scope.idEnlaces = [].concat(d);
     };
-
-
 
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
     $scope.formatDate = (date, precision = "AMD") =>
@@ -359,7 +357,7 @@ angular.module("obras").controller("ObrasController", [
           "; Nota: " +
           x[i].notaGeneral +
           ")";
-          //Poner coma al final
+        //Poner coma al final
         if (i != x.length - 1) {
           y = y + ", ";
         }
@@ -1743,61 +1741,60 @@ angular.module("obras").controller("ObrasController", [
     //Método controller para actualizar una única obra
     $scope.update = function () {
       //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
-      if($scope.idDenominacionesRegionales.length!=0){
+      if ($scope.idDenominacionesRegionales.length != 0) {
         $scope.obra.denominacionRegional = $scope.idDenominacionesRegionales;
       }
-    if($scope.idActores.length!=0){
-      $scope.obra.actores=$scope.idActores;
-    }
-      if($scope.idContenedores.length!=0){
+      if ($scope.idActores.length != 0) {
+        $scope.obra.actores = $scope.idActores;
+      }
+      if ($scope.idContenedores.length != 0) {
         $scope.obra.contenedores = $scope.idContenedores;
       }
-      
-      if($scope.idAsientosLigados.length!=0){
-        $scope.obra.asientoLigado=$scope.idAsientosLigados;
-      }
-     
 
-      if($scope.idGeneros.length!=0){
-        $scope.obra.generosFormas=$scope.idGeneros;
-      }
-      
-      if($scope.idGenerosNoMusicales.length!=0){
-        $scope.obra.GenerosFormasNoMusicales=$scope.idGenerosNoMusicales;
-      }
-      
-      if($scope.idMaterias.length!=0){
-        $scope.obra.materias=$scope.idMaterias;
+      if ($scope.idAsientosLigados.length != 0) {
+        $scope.obra.asientoLigado = $scope.idAsientosLigados;
       }
 
-      if($scope.idMedios.length!=0){
-        $scope.obra.mediosSonoros=$scope.idMedios;
-      }
-      
-      if($scope.idSistemas.length!=0){
-        $scope.obra.sistemasSonoros=$scope.idSistemas;
-      }
-      
-      if($scope.idIdiomas.length!=0){
-        $scope.obra.idiomas=$scope.idIdiomas;
-      }
-      
-      if($scope.idProyectos.length!=0){
-        $scope.obra.proyectos=$scope.idProyectos;
+      if ($scope.idGeneros.length != 0) {
+        $scope.obra.generosFormas = $scope.idGeneros;
       }
 
-      if($scope.idAnotacionesCartograficoTemporales.length!=0){
-        $scope.obra.anotacionCartograficoTemporal=$scope.idAnotacionesCartograficoTemporales;
+      if ($scope.idGenerosNoMusicales.length != 0) {
+        $scope.obra.GenerosFormasNoMusicales = $scope.idGenerosNoMusicales;
       }
-      
-     if($scope.idDescriptores.length!=0){
-      $scope.obra.descriptores=$scope.idDescriptores;
-     }
-      
-     if($scope.idEnlaces.length!=0){
-      $scope.obra.vinculosRelacionados=$scope.idEnlaces;
-     }
-      
+
+      if ($scope.idMaterias.length != 0) {
+        $scope.obra.materias = $scope.idMaterias;
+      }
+
+      if ($scope.idMedios.length != 0) {
+        $scope.obra.mediosSonoros = $scope.idMedios;
+      }
+
+      if ($scope.idSistemas.length != 0) {
+        $scope.obra.sistemasSonoros = $scope.idSistemas;
+      }
+
+      if ($scope.idIdiomas.length != 0) {
+        $scope.obra.idiomas = $scope.idIdiomas;
+      }
+
+      if ($scope.idProyectos.length != 0) {
+        $scope.obra.proyectos = $scope.idProyectos;
+      }
+
+      if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+        $scope.obra.anotacionCartograficoTemporal =
+          $scope.idAnotacionesCartograficoTemporales;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.obra.descriptores = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.obra.vinculosRelacionados = $scope.idEnlaces;
+      }
 
       //Usa el método $update de obra para enviar la petición PUT adecuada
       $scope.obra.$update(

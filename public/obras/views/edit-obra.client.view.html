@@ -677,8 +677,7 @@
 
 						<div>
 							<h2 class="glyphicon glyphicon-plus" ng-click="sistemaAdd();">Agregar</h2>
-							<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/medios/create')">
-								Crear</h2>
+							<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/medios/create')">Crear</h2>
 						</div>
 
 						<div ng-model="todoerase" ng-repeat="p in idSistemas track by $index" class="campo">
@@ -731,6 +730,9 @@
 						</div>
 						<div>
 							<h2 class="glyphicon glyphicon-plus" ng-click="idiomaAdd();">Agregar</h2>
+							<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/idiomas/create')">Crear</h2>
+							
+							
 						</div>
 
 						<div ng-model="todoerase" ng-repeat="n in idIdiomas track by $index" class="campo">
@@ -990,7 +992,6 @@
 
 						<div>
 							<h2 class="glyphicon glyphicon-plus" ng-click="enlaceAdd();">Agregar</h2>
-							<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 						</div>
 
 						<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">

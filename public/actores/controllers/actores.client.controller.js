@@ -7,9 +7,11 @@ angular.module("actores").controller("ActoresController", [
   "$location",
   "Authentication",
   "Actores",
-  function ($scope, $routeParams, $location, Authentication, Actores) {
+  "Diccionarios",
+  function ($scope, $routeParams, $location, Authentication, Actores,Diccionarios) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
+    $scope.diccionarios = Diccionarios.query();
     $scope.coberturas = ["Local", "País", "Mundial"];
     $scope.lugares = ["Andes", "Pacífico", "Atlántico", "Llanos"];
     $scope.dEtiquetas = [
@@ -59,7 +61,41 @@ angular.module("actores").controller("ActoresController", [
       return y;
     };
 
+ // Funciones auxiliares
+    //Cargar los campos que tienen vectores para la vista de edición
     //Actualizar para editar
+
+    $scope.cargaContenedores = function (d) {
+      console.log(d)
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idContenedores = [].concat(d);
+    };
+
+    $scope.cargaAnotacionesCartograficoTemporales = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+    };
+
+    $scope.cargaDescriptores = function (d) {
+      console.log(d);
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      console.log(d);
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
+    };
+
     $scope.actualizarTodo = function () {
       $scope.idContenedores = this.actor.contenedor;
       $scope.idAnotacionesCartograficoTemporales =
@@ -544,6 +580,26 @@ angular.module("actores").controller("ActoresController", [
 
     //Método controller para actualizar una única actor
     $scope.update = function () {
+
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if ($scope.idContenedores.length != 0) {
+        $scope.actor.contenedor = $scope.idContenedores;
+      }
+
+      if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+        $scope.actor.anotacionCartograficoTemporal =
+          $scope.idAnotacionesCartograficoTemporales;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.actor.descriptores = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.actor.vinculoRelacionado = $scope.idEnlaces;
+      }
+      
+
       //Usa el método $update de actor para enviar la petición PUT adecuada
       $scope.actor.$update(
         function () {

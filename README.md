@@ -25,7 +25,9 @@ TODO: Funcionalidad nuevos campos en Obras
 
 1. https://code.visualstudio.com/docs/nodejs/nodejs-debugging
 2. https://es.wikipedia.org/wiki/Markdown
-
+3. Usar npm version para manejar versionado automático npm version minor --force
+   https://docs.npmjs.com/cli/v9/commands/npm-version?v=true
+   
 ## GIT
 https://rogerdudler.github.io/git-guide/index.es.html
 1. cd C:\Users\ferna\Documents\Desarrollo\SIMR
@@ -35,14 +37,18 @@ https://rogerdudler.github.io/git-guide/index.es.html
 
 ## Pendiente
 
-1. Editar, listar, borrar para todas las páginas.
-2. Organizar listas.js.
-3. Organizar ayuda.
-4. Identificar las vista "ver"
-5. Resolver cómo sera el manual wiki.
-6. Hacer que funcionen los enlaces en el campo enlaces. https://www.cursoangularjs.es/doku.php?id=unidades:04_masdirectivas:03_nghref
-7. Logo en la página central.
-8. Ícono
-9. Acerca de con version.
-10. Exportar colección "diccionarios".
-11. Resolver problemas con acentos y ñ al importar. UTF8
+1. Organizar ayuda.
+2. Editar, listar, borrar para todas las páginas.
+3. Botón "crear"
+4. Cambiar alerts de creación y error.
+5. Organizar listas.js.
+6. Identificar las vista "ver"
+7. Resolver cómo sera el manual wiki.
+8. Hacer que funcionen los enlaces en el campo enlaces. https://www.cursoangularjs.es/doku.php?id=unidades:04_masdirectivas:03_nghref
+9. Logo en la página central.
+10. Ícono
+11. Acerca de con version.
+12. Rojo en eliminar (campos array).
+13. Editar campos array (botón editar, copia en formulario y borra).
+14. Exportar colección "diccionarios".
+15. Resolver problemas con acentos y ñ al importar. UTF8

@@ -12,6 +12,7 @@ angular.module("recursos").controller("RecursosController", [
   "Materias",
   "Proyectos",
   "Idiomas",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
@@ -22,82 +23,33 @@ angular.module("recursos").controller("RecursosController", [
     Actores,
     Materias,
     Proyectos,
-    Idiomas
+    Idiomas,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
     $scope.items = ["Si", "No"];
     $scope.roles = ["Autor", "Editor", "Compilador", "Productor"];
-    $scope.tipos = [
-      "Partitura",
-      "Grabación de audio",
-      "Grabación de video",
-      "Libro",
-      "Revista",
-    ];
-    $scope.medios = [
-      "Solista",
-      "Orquesta",
-      "Banda",
-      "Solista con acompañamiento",
-    ];
-    $scope.sistemasSonoros = [
-      "Temperado",
-      "No-temperado",
-      "Tonal",
-      "Modal",
-      "Politonal",
-      "Pantonal",
-    ];
+    $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.tipos=tipos;
     $scope.idiomas = Idiomas.query();
-    $scope.generos = [
-      "Canción",
-      "Bambuco",
-      "Pasillo",
-      "Joropo",
-      "Vals",
-      "Danza",
-      "Bolero",
-    ];
     $scope.eventos = ["Composición", "Estreno", "Primera grabación"];
     $scope.lugares = ["Andes", "Pacífico", "Atlántico", "Llanos"];
     $scope.coberturas = ["Local", "País", "Mundial"];
     $scope.proyectos = ["Andes", "Emisoras", "Industria discográfica"];
-    $scope.nNormalizados = [
-      { sigla: "ISBN", frase: "International Standard Book Number" },
-      { sigla: "ISSN", frase: "International Standard Serial Number" },
-      { sigla: "ISMN", frase: "International Standard Music Number" },
-      { sigla: "ISAN", frase: "International Standard Audiovisual Number" },
-      { sigla: "ISWC", frase: "International Standard Musical Work Code" },
-      { sigla: "ISRC", frase: "International Standard Recording Code" },
-      { sigla: "DOI", frase: "Digital Object Identifier System" },
-      { sigla: "Depósito legal", frase: "" },
-    ];
+    $scope.nNormalizados = nNormalizados;
     $scope.dEtiquetas = [
       "Interés pedagógico",
       "Obra representativa",
       "Relación con línea de investigación",
     ];
-    $scope.tipoFuente = [
-      "Editor",
-      "Fabricante",
-      "Publicador",
-      "Distribuidor",
-      "Matriz",
-    ];
-    $scope.criterio = [
-      "Rata de muestreo",
-      "Resolución",
-      "Tipo de cinta",
-      "Calidad de grabación",
-      "Tipo de archivo",
-      "Dimensiones",
-      "Duración",
-    ];
+    $scope.tipoFuente =tipoFuente
+    $scope.criterio = criterio
     $scope.idMenciones = [];
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idProyectos = [];
     $scope.idNormalizados = [];
+    $scope.diccionarios = Diccionarios.query();
     $scope.idContenedores = [];
     $scope.idDescriptores = [];
     $scope.idSistemasSonoros = [];
@@ -116,6 +68,53 @@ angular.module("recursos").controller("RecursosController", [
     $scope.materias = Materias.query();
     $scope.errorclass = "form-control";
     $scope.reverse = false;
+//Carga vectores
+
+$scope.cargaObrasRelacionadas = function (d) {
+  for (var i in d) {
+    delete d[i]._id;
+  }
+  $scope.idObrasRelacionadas = [].concat(d);
+};
+
+$scope.cargaNNormalizados = function (d) {
+  for (var i in d) {
+    delete d[i]._id;
+  }
+  $scope.idNormalizados = [].concat(d);
+};
+
+$scope.cargaMResponsabilidad = function (d) {
+  for (var i in d) {
+    delete d[i]._id;
+  }
+  $scope.idMenciones = [].concat(d);
+};
+
+$scope.cargaAnotacionesCartograficoTemporales = function (d) {
+  console.log(d);
+  for (var i in d) {
+    delete d[i]._id;
+  }
+  $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+};
+
+$scope.cargaContenedores = function (d) {
+  console.log(d);
+  for (var i in d) {
+    delete d[i]._id;
+  }
+  $scope.idContenedores = [].concat(d);
+};
+
+$scope.cargaFuentes = function (d) {
+  console.log(d);
+  for (var i in d) {
+    delete d[i]._id;
+  }
+  $scope.idFuentes = [].concat(d); 
+};
+
 
     // Funciones auxiliares
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
@@ -130,31 +129,30 @@ angular.module("recursos").controller("RecursosController", [
     $scope.formatDate = (date, precision = "AMD") =>
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
-//Función para calcular la precisión de una fecha
-precisionFecha=function(fecha)
-{
-  var arr = fecha.split("/");
-  var ano = arr[0];
-  var mes = arr[1];
-  var dia = arr[2];
-  var precision = "AMD";
-  if (ano == 0) { 
-    precision = precision.replace("A", "");
-    ano = 3000;
-  }
-  if (mes == 0) {
-    precision = precision.replace("M", "");
-    mes = 1;
-  }
-  if (dia == 0) {
-    precision = precision.replace("D", "");
-    dia = 1;
-  }
-var fechayPrecision = new Object();
-fechayPrecision.fecha=ano + "/" + mes + "/" + dia;
-fechayPrecision.precision=precision;
-return fechayPrecision
-}
+    //Función para calcular la precisión de una fecha
+    precisionFecha = function (fecha) {
+      var arr = fecha.split("/");
+      var ano = arr[0];
+      var mes = arr[1];
+      var dia = arr[2];
+      var precision = "AMD";
+      if (ano == 0) {
+        precision = precision.replace("A", "");
+        ano = 3000;
+      }
+      if (mes == 0) {
+        precision = precision.replace("M", "");
+        mes = 1;
+      }
+      if (dia == 0) {
+        precision = precision.replace("D", "");
+        dia = 1;
+      }
+      var fechayPrecision = new Object();
+      fechayPrecision.fecha = ano + "/" + mes + "/" + dia;
+      fechayPrecision.precision = precision;
+      return fechayPrecision;
+    };
     $scope.mostrarAyuda = function (tabla, campo) {
       for (var i in $scope.diccionarios) {
         //alert($scope.diccionarios[i].campo)
@@ -177,6 +175,10 @@ return fechayPrecision
           y.slice(y.indexOf("undefined,") + 10, length);
       }
       return y;
+    };
+
+    $scope.abrirVentana = function (url) {
+      window.open(url);
     };
 
     //Actualizar para editar
@@ -204,21 +206,29 @@ return fechayPrecision
       for (var i in x) {
         y = y + $scope.actorAux(x[i].actor) + " (" + x[i].tipoDeMencion + ")";
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
     };
-
-
+    
     $scope.verFuente = function (x) {
       y = "";
       for (var i in x) {
-        y = y + "Lugar: "+ x[i].lugar + ", nombre:" + x[i].nombre  + ", Fecha:"+ $scope.formatDate(x[i].fecha, x[i].precision);
+        y =
+          y +
+          "Tipo de fuente:"+
+          x[i].tipoFuente+
+          ",Lugar: " +
+          x[i].lugar +
+          ", nombre:" +
+          x[i].nombre +
+          ", Fecha:" +
+          $scope.formatDate(x[i].fecha, x[i].precision);
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -230,8 +240,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + x[i].id;
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -243,8 +253,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + x[i].nombre + ": " + x[i].numero;
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -256,8 +266,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + x[i].criterio + ": " + x[i].valor;
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -267,9 +277,9 @@ return fechayPrecision
       y = "";
       for (var i in x) {
         y = y + $scope.obraAux(x[i].id);
-         //Poner coma al final
-         if(i!=x.length-1){
-          y=y+"; "
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -280,8 +290,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + $scope.contenedorAux(x[i].id);
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -292,13 +302,13 @@ return fechayPrecision
       for (var i in x) {
         y = y + $scope.materiaAux(x[i].id);
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
     };
-
+//TODO: Difundir formato puntuación
     $scope.verAnotacion = function (x) {
       y = "";
       for (var i in x) {
@@ -315,11 +325,12 @@ return fechayPrecision
           ", Fin: " +
           $scope.formatDate(x[i].fechaFin, x[i].precisionFin) +
           ", Evidencia: " +
-          x[i].evidencia;
-          //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+          x[i].evidencia + ". "
+        //Poner coma al final
+        if (i != x.length - 1) {
+          //y = y + ", ";
         }
+
       }
       return $scope.darFormato(y);
     };
@@ -330,8 +341,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + $scope.idiomasAux(x[i].id);
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
@@ -342,8 +353,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + $scope.proyectoAux(x[i].id);
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -354,8 +365,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + x[i].etiqueta + " (" + x[i].url + ") ";
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
@@ -366,8 +377,8 @@ return fechayPrecision
       for (var i in x) {
         y = y + x[i].etiqueta + ": " + x[i].contenido;
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
@@ -957,9 +968,9 @@ return fechayPrecision
     $scope.fuenteAdd = function () {
       existe = false;
       //Fecha y precisión
-      var precisionyFecha= precisionFecha(this.fechaDeFuente);
-      this.fechaDeFuente = precisionyFecha.fecha
-      precision=precisionyFecha.precision
+      var precisionyFecha = precisionFecha(this.fechaDeFuente);
+      this.fechaDeFuente = precisionyFecha.fecha;
+      precision = precisionyFecha.precision;
       var x =
         "tipoFuente:" +
         this.tipoDeFuente +
@@ -968,9 +979,9 @@ return fechayPrecision
         ",nombre:" +
         this.nombreDeFuente +
         ",fecha:" +
-        precisionyFecha.fecha+
-        ",precision:"
-        +precisionyFecha.precision;
+        precisionyFecha.fecha +
+        ",precision:" +
+        precisionyFecha.precision;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
@@ -1592,7 +1603,12 @@ return fechayPrecision
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
-          alert("No creado: " + errorResponse.data.message);
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );
@@ -1613,6 +1629,31 @@ return fechayPrecision
 
     //Método controller para actualizar una única obra
     $scope.update = function () {
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if ($scope.idObrasRelacionadas.length != 0) {
+        $scope.recurso.obrasRelacionadas = $scope.idObrasRelacionadas;
+      }
+
+      if ($scope.idNormalizados.length != 0) {
+        $scope.recurso.numeroNormalizado = $scope.idNormalizados;
+      }
+
+      if ($scope.idMenciones.length != 0) {
+        $scope.recurso.mencionResponsabilidad = $scope.idMenciones;
+      }
+
+      if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+        $scope.recurso.anotacionCartograficoTemporal =
+          $scope.idAnotacionesCartograficoTemporales;
+      }
+
+      if ($scope.idContenedores.length != 0) {
+        $scope.recurso.contenedores = $scope.idContenedores;
+      }
+
+      if ($scope.idFuentes.length != 0) {
+        $scope.recurso.fuente = $scope.idFuentes;
+      }
       //Usa el método $update de recurso para enviar la petición PUT adecuada
       $scope.recurso.$update(
         function () {

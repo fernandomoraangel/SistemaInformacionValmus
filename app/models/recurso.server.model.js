@@ -27,7 +27,7 @@ var mongoose=require('mongoose'),
 
 	var fuenteAsociada=new Schema({
 		//fabricante, distribuidor,editorial
-		tipo:{
+		tipoFuente:{
 			type:String
 		},
 		lugar:{

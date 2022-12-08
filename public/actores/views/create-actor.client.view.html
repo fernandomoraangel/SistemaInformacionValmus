@@ -78,7 +78,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Actor','Nombre de Reunión')" ; data-toggle="modal"
+						ng-click="mostrarAyuda('Actor','NombreDeReunión')" ; data-toggle="modal"
 						data-target="#ayudaNombreReunion"></button>
 
 					<!-- Modal Ayuda-->
@@ -111,7 +111,7 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Actor','Contenedor');" data-toggle="modal"
+						ng-click="mostrarAyuda('Actor','contenedor');" data-toggle="modal"
 						data-target="#ayudaContenedor"></button>
 
 					<!-- Modal Ayuda-->
@@ -138,7 +138,6 @@
 
 
 				<div class="collapse" id="collapseContenedor">
-					<label class="campo">CONTENEDOR</label>
 					<select class="form-control" ng-model="contenedor" ng-mouseup="updateActores();">
 						<option ng-repeat="actor in actores track by $index" value="{{actor.id}}">
 							{{actor.fullName}}
@@ -167,16 +166,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('Actor','AnotacionesCartograficoTemporales');" data-toggle="modal"
+						data-target="#ayudaAnotacion"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+					<div class="modal fade" id="ayudaAnotacion" tabindex="-1" role="dialog"
 						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">ANOTACIÓN CARTOGRÁFICO-TEMPORAL</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -345,7 +344,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="enlaceAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">
@@ -357,7 +355,7 @@
 				</div>
 				<!-- Fin Vínculos y archivos -->
 				<div>
-					<input type="submit" class="btn btn-primary btn-lg">
+					<input type="submit" class="btn btn-primary btn-lg" value="Crear">
 				</div>
 			</form>
 		</section>

@@ -41,11 +41,21 @@ $scope.darFormato=function(y){
 		//Usar el método '$save' para enviar una petición POST apropiada
 		diccionario.$save(function(response){
 			//Si el diccionario fue creado de la manera correcta, redireccionar a la página del diccionario
-			alert("El registro ha sido creado");
+			Swal.fire({
+				title: "¡Registro correcto!",
+				text: "El registro se ha creado correctamente",
+				icon: "success",
+				confirmButtonText: "Cerrar",
+			  });
 			$location.path('diccionarios/' + response._id);
 		}, function(errorResponse){
 			//En caso contrario, presentar mensaje de error
-			alert("No creado: "+ errorResponse.data.message);
+			Swal.fire({
+				title: "¡Error!",
+				text: ($scope.error = errorResponse.data.message),
+				icon: "error",
+				confirmButtonText: "Cerrar",
+			  });
 			$scope.error=errorResponse.data.message;
 		});	
 	};

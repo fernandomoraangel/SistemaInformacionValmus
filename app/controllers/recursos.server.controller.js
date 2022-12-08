@@ -43,7 +43,7 @@ exports.create=function(req,res){
 exports.list=function(req,res){
 	console.log("Buscando recursos...")
 	//Usa el método model 'find' para obtener una lista de recursos
-	Recurso.find().sort('-created').populate('creador', 'titulo').exec(function(err, recurso){
+	Recurso.find().sort('-created').populate('creador', 'firstName lastName fullName').exec(function(err, recurso){
 		if(err){
 			return res.status(400).send({
 				message: getErrorMessage(err)

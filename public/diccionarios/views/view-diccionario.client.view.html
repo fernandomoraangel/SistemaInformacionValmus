@@ -4,7 +4,7 @@
 
 	<div class="panel panel-default">
 		<!-- Default panel contents -->
-		<div class="tituloVista" data-ng-bind="verDiccionario(diccionario.campo) | uppercase"></div>
+		<div class="tituloVistaView" data-ng-bind="diccionario.campo | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==diccionario.creador._id">
 			<a href="/#!/diccionarios/{{diccionario._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
@@ -12,7 +12,7 @@
 		</div>
 		
 		<!-- Table -->
-		<table class="table table-striped">
+		<table class="table table-striped text-left">
 			<tbody>
 				<tr>
 					<td class="campo">Tabla</td>
