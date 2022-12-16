@@ -1,5 +1,5 @@
 <!-- View obra-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="MateriasController" data-ng-init="findOne()">
 
 	<div class="panel panel-default">
@@ -7,13 +7,13 @@
 		<div class="tituloVistaView" data-ng-bind="materia.nombre | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==materia.creador._id">
-			<a href="/#!/materias/{{materia._id}}/edit"><span class="glyphicon glyphicon-pencil"</span></a></a>
-			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"  </span></a>
+			<a href="/#!/materias/{{materia._id}}/edit"><span class="glyphicon glyphicon-pencil" </span></a></a>
+			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove" </span></a>
 		</div>
-		
+
 		<!-- Table -->
 		<table class="table table-striped text-left">
-			
+
 			<tbody>
 				<tr>
 					<td>Descripción</td>
@@ -31,24 +31,24 @@
 				</tr>
 
 				<tr>
-					<td>MAteriaspadres</td>
+					<td>Materias padres</td>
 					<td data-ng-bind="verMaterias(materia.padres)"></td>
 				</tr>
 
 				<tr>
-					<td>Sistemas hijos</td>
+					<td>Materias hijos</td>
 					<td data-ng-bind="verMaterias(materia.hijos)"></td>
 				</tr>
 
 
 				<tr>
-					<td>Descriptor libre</td>
+					<td>Descriptores libres</td>
 					<td data-ng-bind="verDescriptor(materia.descriptorLibre)"></td>
 				</tr>
 
 				<tr>
-				<td>Enlaces y archivos</td>
-				<td data-ng-bind="verVinculo(materia.vinculoRelacionado)"></td>
+					<td>Enlaces y archivos</td>
+					<td data-ng-bind="verVinculo(materia.vinculoRelacionado)"></td>
 				</tr>
 
 			</tbody>
@@ -60,8 +60,6 @@
 		<em data-ng-bind="materia.creado |date:'mediumDate'"></em>
 		<em>por</em>
 		<em data-ng-bind="materia.creador.fullName"></em>
-		
+
 	</div>
 </section>
-
-

@@ -79,12 +79,15 @@
 						<td data-ng-bind="verProyecto(recurso.proyectos)"></td>
 				</tr>
 				<tr>
+					<!-- TODO: Difundir id="enlaces" -->
 						<td class="campo">VÍNCULOS RELACIONADOS</td>
-						<td data-ng-bind="verVinculo(recurso.vinculoRelacionado)"></td>
+						<td id="enlaces"  data-ng-bind="verVinculo(recurso.vinculoRelacionado)"></td>
 				</tr>
 				<tr>
-						<td class="campo">DESCRIPTOR LIBRE</td>
+						<td class="campo">DESCRIPTORES LIBRES</td>
 						<td data-ng-bind="verDescriptor(recurso.descriptorLibre)"></td>
+						
+						
 				</tr>
 			</tbody>
 

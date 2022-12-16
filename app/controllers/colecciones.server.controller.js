@@ -42,15 +42,18 @@ exports.create=function(req,res){
 // Método que recupera una lista de coleccions
 exports.list=function(req,res){
 	//Usa el método model 'find' para obtener una lista de coleccions
-	Coleccion.find().sort('-created').populate('created','nombre descripcion').exec(function(err, coleccion){
-		if(err){
-			return res.status(400).send({
-				message: getErrorMessage(err)
-			});
-			}else{
-				res.json(coleccion);
-			}
-		});
+	Coleccion.find()
+    .sort("-created")
+    .populate("creador", "firstName lastName fullName")
+    .exec(function (err, coleccion) {
+      if (err) {
+        return res.status(400).send({
+          message: getErrorMessage(err),
+        });
+      } else {
+        res.json(coleccion);
+      }
+    });
 };
 
 //Método que devuelve una coleccion existente

@@ -10,6 +10,7 @@ angular.module("ejemplares").controller("EjemplaresController", [
   "Recursos",
   "Fondos",
   "Colecciones",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
@@ -18,28 +19,13 @@ angular.module("ejemplares").controller("EjemplaresController", [
     Ejemplares,
     Recursos,
     Fondos,
-    Colecciones
+    Colecciones,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
-    $scope.estados = [
-      "Óptimo",
-      "Apostillado",
-      "Marbete rayado o ilegible",
-      "Rayado",
-      "Trozos faltantes",
-      "Mutilado",
-      "Inservible",
-      "Lévemente deteriorado",
-      "Copia de circulación",
-    ];
-    $scope.disponibilidades = [
-      "Disponible",
-      "En préstamo",
-      "Restringido",
-      "Reservado",
-      "En proceso técnico",
-    ];
+    $scope.estados = estados;
+    $scope.disponibilidades = disponibilidades;
     $scope.sitios = ["Andes", "Pacífico", "Atlántico", "Llanos"];
     $scope.coberturas = ["Local", "País", "Mundial"];
     $scope.idEstados = [];
@@ -47,6 +33,7 @@ angular.module("ejemplares").controller("EjemplaresController", [
     $scope.fondos = Fondos.query();
     $scope.coleccions = Colecciones.query();
     $scope.reverse = false;
+    $scope.diccionarios = Diccionarios.query();
 
     //Preparar datos
     $scope.actualizarTodo = function () {
@@ -70,6 +57,21 @@ angular.module("ejemplares").controller("EjemplaresController", [
       $scope.reverse = !$scope.reverse;
     };
 
+    $scope.mostrarAyuda = function (tabla, campo) {
+      for (var i in $scope.diccionarios) {
+        //alert($scope.diccionarios[i].campo)
+        if (
+          $scope.diccionarios[i].campo === campo &&
+          $scope.diccionarios[i].tabla === tabla
+        ) {
+          $scope.campo = $scope.diccionarios[i].definicion;
+          return;
+        }
+      }
+      $scope.campo = "Datos del diccionario no encontrados";
+      return;
+    };
+
     $scope.darFormato = function (y) {
       while (y.indexOf("undefined,") > 0) {
         y =
@@ -79,6 +81,15 @@ angular.module("ejemplares").controller("EjemplaresController", [
       return y;
     };
 
+
+    //Carga de vectores
+
+    $scope.cargaEstados = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEstados= [].concat(d);
+    };
     $scope.verRecurso = function (x) {
       y = "";
       for (var i in x) {
@@ -130,7 +141,16 @@ angular.module("ejemplares").controller("EjemplaresController", [
     $scope.verEstados = function (x) {
       y = "";
       for (var i in x) {
-        y = y + x[i].etiqueta + ": " + x[i].contenido;
+        //FIXME: Hacer que no muestre undefinied
+        if(x[i].contenido===undefined)
+        {
+          c="";
+        }
+        else{
+          c=x[i].contenido;
+        }
+       
+        y = y + x[i].etiqueta + ": " + c;
         //Poner coma al final
         if(i!=x.length-1){
           y=y+"; "
@@ -260,8 +280,13 @@ angular.module("ejemplares").controller("EjemplaresController", [
       });
     };
 
-    //Método controller para actualizar una única obra
+    //Método controller para actualizar
     $scope.update = function () {
+      if ($scope.idEstados.length != 0) {
+        $scope.ejemplar.estados = $scope.idEstados;
+      }
+
+      //FIXME:¿Qué es esto?, creo que se puede borrar
       //Agregar actores
       for (var i in $scope.idActores) {
         actorObra = new ActoresObras({
@@ -270,6 +295,7 @@ angular.module("ejemplares").controller("EjemplaresController", [
           roll: $scope.idActores[i].rol,
         });
 
+        
         //Usar el método '$save' de actor para enviar una petición POST apropiada
         actorObra.$save(
           function (response) {
@@ -286,6 +312,7 @@ angular.module("ejemplares").controller("EjemplaresController", [
       //Usa el método $update de obra para enviar la petición PUT adecuada
       $scope.ejemplar.$update(
         function () {
+  
           //Si la actualización es correcta, redireccionar
           $location.path("ejemplares/" + $scope.ejemplar._id);
         },

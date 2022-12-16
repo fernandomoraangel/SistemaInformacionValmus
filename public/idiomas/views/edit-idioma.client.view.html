@@ -1,20 +1,25 @@
-<!-- View editar artículo-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
-<div class="bodyEdit">
+<!-- View crear obras -->
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
+<div class="jumbotron">
 	<div class="container">
 		<section data-ng-controller="IdiomasController" data-ng-init="findOne()">
-		<label class="tituloVista">EDITAR IDIOMA</label>
-			<form data-ng-submit="update()" novalidate>
-				
-				<div>
-					<input type="text" class="form-control" data-ng-model="idioma.idioma" id="idioma"  required ng-mouseup="actualizarTodo()">
+			<label class="tituloVista">EDITAR IDIOMA</label>
+
+			<form class="form-principal" data-ng-submit="update()" novalidate>
+				<!-- Mensaje de error-->
+				<div data-ng-show="error">
+					<strong class="error" data-ng-bind="error"></strong>
 				</div>
-				<input type="submit" class="btn btn-primary pull-right" value="Actualizar">
-						<div  data-ng-show="error">
-							<strong class="error" data-ng-bind="error"></strong>
-						</div>			
-				
-</div>
-</div>
-</form>
-</section>
+
+				<div>
+					<input type="text" class="form-control" ng-model="idioma.idioma" required>
+				</div>
+
+				<div>
+					<input type="submit" class="btn btn-primary pull-right" value="Actualizar">
+					<div data-ng-show="error">
+						<strong class="error" data-ng-bind="error"></strong>
+					</div>
+				</div>
+			</form>
+	</div>

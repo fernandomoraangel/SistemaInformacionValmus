@@ -1,4 +1,4 @@
-<!-- View crear obras -->
+<!-- View crear  -->
 <ng-include src="'example/views/example.client.view.html'" />
 </ng-include>
 <div class="jumbotron">
@@ -14,16 +14,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','Título uniforme');" data-toggle="modal"
-						data-target="#ayudaTitulo"></button>
+						ng-click="mostrarAyuda('sistema','nombreSistema');" data-toggle="modal"
+						data-target="#ayudanombreSistema"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaTitulo" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaTituloLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudanombreSistema" tabindex="-1" role="dialog"
+						aria-labelledby="ayudanombreSistemaLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">TÍTULO UNIFORME</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -36,10 +36,6 @@
 					</div>
 					<label>NOMBRE DEL SISTEMA SONORO*</label>
 				</div>
-
-
-
-
 				<div>
 					<input type="text" class="form-control" ng-model="nombre" id="titulo" required>
 				</div>
@@ -47,16 +43,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','Título uniforme');" data-toggle="modal"
-						data-target="#ayudaTitulo"></button>
+						ng-click="mostrarAyuda('sistema','descripción');" data-toggle="modal"
+						data-target="#ayudaDescripción"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaTitulo" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaTituloLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaDescripción" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaDescripciónLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">TÍTULO UNIFORME</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -70,27 +66,26 @@
 					<label>DESCRIPCIÓN</label>
 				</div>
 				<div class="campo">
-
 					<div>
 						<textarea class="form-control-big" wrap="soft" ng-model="descripcion"
 							id="descripcion"></textarea>
 					</div>
 				</div>
 
-				<!-- Sistemas relacionadas -->
+				<!-- Alias -->
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','nombresAlternativos');" data-toggle="modal"
+						data-target="#ayudanombresAlternativos"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudanombresAlternativos" tabindex="-1" role="dialog"
+						aria-labelledby="ayudanombresAlternativosLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -133,16 +128,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','SistemasRelacionados');" data-toggle="modal"
+						data-target="#ayudaSistemasRelacionados"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaSistemasRelacionados" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaSistemasRelacionadosLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">SISTEMA RELACIONADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -183,25 +178,20 @@
 				</div>
 				<!-- Fin sistemas relacionados -->
 
-
-
-
-
-
 				<!-- Sistemas padre -->
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','sistemasPadre');" data-toggle="modal"
+						data-target="#ayudaSistemasPadre"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaSistemasPadre" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaSistemasPadreLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -245,16 +235,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','sistemasHijo');" data-toggle="modal"
+						data-target="#ayudaSistemasHijo"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaSistemasHijo" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaSistemasHijoLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -299,16 +289,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','proyectosAsociados');" data-toggle="modal"
+						data-target="#ayudaproyectosAsociados"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaproyectosAsociados" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaproyectosAsociadosLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -349,16 +339,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','anotacionesCT');" data-toggle="modal"
+						data-target="#ayudaanotacionesCT"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaanotacionesCT" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaanotacionesCTLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -424,16 +414,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','descriptoresLibres');" data-toggle="modal"
+						data-target="#ayudaDescriptoresLibres"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaDescriptoresLibres" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaDescriptoresLibresLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -465,7 +455,7 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="dDescriptorAdd();">Agregar</h2>
-						
+
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
@@ -483,16 +473,16 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+						ng-click="mostrarAyuda('sistema','EnlacesYArchivos');" data-toggle="modal"
+						data-target="#EnlacesYArchivos"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+					<div class="modal fade" id="EnlacesYArchivos" tabindex="-1" role="dialog"
+						aria-labelledby="EnlacesYArchivosLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -522,7 +512,7 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="enlaceAdd();">Agregar</h2>
-						
+
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">

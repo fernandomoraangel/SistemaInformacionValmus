@@ -1,5 +1,5 @@
 <!-- View listar fondos-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="FondosController" class="bodyList" data-ng-init="find()">
 	<label class="tituloVista">LISTADO DE FONDOS DOCUMENTALES</label>
 	<ul>
@@ -9,54 +9,54 @@
 					<tr>
 						<th> Filtrar <input type="text" ng-model="search">
 						</th>
-						<th> 
-						<label> Ordenar </label>
+						<th>
+							<label> Ordenar </label>
 							<select ng-model="orden">
-							<option value="nombre">Nombre</option>
-							<option value="tipo">Tipo</option>
-							<option value="propiedadComodato">Propiedad/comodato</option>
-							<option value="fechaDeCreacion">Fecha de creación del fondo</option>
+								<option value="nombre">Nombre</option>
+								<option value="tipo">Tipo</option>
+								<option value="propiedadComodato">Propiedad/comodato</option>
+								<option value="fechaDeCreacion">Fecha de creación del fondo</option>
 							</select>
-							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>	
+							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>
 						</th>
 					</tr>
 				</thead>
 			</table>
-		<!-- Table -->
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th></th>
-					<th class="campo">Nombre</th>
-					<th class="campo">Tipo</th>
-					<th class="campo">Propiedad/comodato</th>
-					<th class="campo">Fecha de creación</th>
-				</tr>
-			</thead>
+			<!-- Table -->
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="campo">Nombre</th>
+						<th class="campo">Tipo</th>
+						<th class="campo">Propiedad/comodato</th>
+						<th class="campo">Fecha de creación</th>
+					</tr>
+				</thead>
 
-			<tbody>
-				<tr data-ng-repeat="fondo in fondos | orderBy:orden:reverse|filter:search">
-					<!-- fondos es el modelo-->
-					<td>
-						<a href="/#!/fondos/{{fondo._id}}"><span class="glyphicon glyphicon-sunglasses"  </span></a>
-					</td>					
-					<td class="descripcion"data-ng-bind="fondo.nombre"></td>
-					<td class="descripcion"data-ng-bind="fondo.tipo"></td>
-					<td class="descripcion"data-ng-bind="fondo.propiedadComodato"></td>
-					<td class="descripcion"data-ng-bind="fondo.fechaDeCreacion"></td>
-					<td data-ng-show="authentication.user._id != fondo.creador._id">
-						<a href="/#!/fondos/{{fondo._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
-					</td>
-				</tr>
+				<tbody>
+					<tr data-ng-repeat="fondo in fondos | orderBy:orden:reverse|filter:search">
+						<!-- fondos es el modelo-->
+						<td>
+							<a href="/#!/fondos/{{fondo._id}}"><span class="glyphicon glyphicon-sunglasses" </span></a>
+						</td>
+						<td class="descripcion" data-ng-bind="fondo.nombre"></td>
+						<td class="descripcion" data-ng-bind="fondo.tipo"></td>
+						<td class="descripcion" data-ng-bind="fondo.propiedadComodato"></td>
+						<td class="descripcion" data-ng-bind="fondo.fechaDeCreacion |date:'mediumDate'"></td>
+						<td data-ng-show="authentication.user._id == fondo.creador._id">
+							<a href="/#!/fondos/{{fondo._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
+						</td>
+					</tr>
 
-			</tbody>
-		</table>
-	</div>
-	
+				</tbody>
+			</table>
+		</div>
 
-</div>
-</ul>
 
-<div data-ng-hide="!fondos || fondos.length">
-	<a href="/#!/fondos/create"></a>
+		</div>
+	</ul>
+
+	<div data-ng-hide="!fondos || fondos.length">
+		<a href="/#!/fondos/create"></a>
 </section>

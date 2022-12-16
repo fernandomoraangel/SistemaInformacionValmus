@@ -9,6 +9,7 @@ angular.module("medios").controller("MediosController", [
   "Medios",
   "Instrumentos",
   "Proyectos",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
@@ -16,7 +17,8 @@ angular.module("medios").controller("MediosController", [
     Authentication,
     Medios,
     Instrumentos,
-    Proyectos
+    Proyectos,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
@@ -61,6 +63,7 @@ angular.module("medios").controller("MediosController", [
     $scope.idAlias = [];
     $scope.idEnlaces = [];
     $scope.reverse = false;
+    $scope.diccionarios = Diccionarios.query();
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idEstados = this.ejemplar.estados;
@@ -75,6 +78,9 @@ angular.module("medios").controller("MediosController", [
     $scope.sortBy = function (propertyName) {
       $scope.reverse = !$scope.reverse;
     };
+    $scope.abrirVentana = function (url) {
+      window.open(url);
+    };
 
     $scope.darFormato = function (y) {
       while (y.indexOf("undefined,") > 0) {
@@ -84,12 +90,77 @@ angular.module("medios").controller("MediosController", [
       }
       return y;
     };
+    //TODO: Difundir versión modificada
+
+    $scope.mostrarAyuda = function (tabla, campo) {
+      var out = new Object();
+      for (var i in $scope.diccionarios) {
+        if (
+          $scope.diccionarios[i].campo === campo &&
+          $scope.diccionarios[i].tabla === tabla
+        ) {
+          $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
+          return;
+        }
+      }
+      $scope.campo = "Datos del diccionario no encontrados";
+      return;
+    };
+
+    //Cargar los campos que tienen vectores para la vista de edición
+    $scope.cargaAlias = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAlias = [].concat(d);
+    };
+
+    $scope.cargaInstrumentos = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idInstrumentos = [].concat(d);
+    };
+
+    $scope.cargaProyectos = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idProyectos = [].concat(d);
+    };
+
+    $scope.cargaAnotaciones = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+    };
+
+    $scope.cargaDescriptores = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
+    };
 
     $scope.verAlias = function (x) {
       y = "";
       for (var i in x) {
-        y = y + x[i].nombre + ", ";
+        y = y + x[i].nombre;
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + "; ";
+        }
       }
+
       return $scope.darFormato(y);
     };
 
@@ -122,7 +193,9 @@ angular.module("medios").controller("MediosController", [
           y = y + ", ";
         }
       }
-      return $scope.darFormato(y);
+      //FIXME:Quité dar formato porque se estaba cortando
+      //return $scope.darFormato(y);
+      return y;
     };
 
     $scope.verDescriptor = function (x) {
@@ -136,7 +209,6 @@ angular.module("medios").controller("MediosController", [
       }
       return $scope.darFormato(y);
     };
-
 
     $scope.verVinculo = function (x) {
       y = "";
@@ -154,7 +226,8 @@ angular.module("medios").controller("MediosController", [
       y = "";
       for (var i in x) {
         y =
-          y+$scope.instrumentoAux(x[i].instrumento) +
+          y +
+          $scope.instrumentoAux(x[i].instrumento) +
           " (" +
           x[i].cantidad +
           ", " +
@@ -762,7 +835,7 @@ angular.module("medios").controller("MediosController", [
             icon: "success",
             confirmButtonText: "Cerrar",
           });
-          $location.path('medios/' + response._id);
+          $location.path("medios/" + response._id);
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
@@ -792,6 +865,27 @@ angular.module("medios").controller("MediosController", [
 
     //Método controller para actualizar una única obra
     $scope.update = function () {
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if ($scope.idAlias.length != 0) {
+        $scope.medio.alias = $scope.idAlias;
+      }
+      if ($scope.idInstrumentos.length != 0) {
+        $scope.medio.instrumentos = $scope.idInstrumentos;
+      }
+      if ($scope.idProyectos.length != 0) {
+        $scope.medio.proyectosAsociados = $scope.idProyectos;
+      }
+
+      if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+        $scope.medio.anotacionCartograficoTemporal =
+          $scope.idAnotacionesCartograficoTemporales;
+      }
+      if ($scope.idDescriptores.length != 0) {
+        $scope.medio.descriptorLibre = $scope.idDescriptores;
+      }
+      if ($scope.idEnlaces.length != 0) {
+        $scope.medio.vinculoRelacionado = $scope.idEnlaces;
+      }
       //Agregar actores
       for (var i in $scope.idActores) {
         actorObra = new ActoresObras({
@@ -814,10 +908,10 @@ angular.module("medios").controller("MediosController", [
       }
 
       //Usa el método $update de obra para enviar la petición PUT adecuada
-      $scope.obra.$update(
+      $scope.medio.$update(
         function () {
           //Si la actualización es correcta, redireccionar
-          $location.path("obras/" + $scope.obra._id);
+          $location.path("medios/" + $scope.medio._id);
         },
         function (errorResponse) {
           $scope.error = errorResponse.data.message;

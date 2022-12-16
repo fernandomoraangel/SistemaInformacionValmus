@@ -265,7 +265,7 @@ angular.module("obras").controller("ObrasController", [
       $scope.campo = "Datos del diccionario no encontrados";
       return;
     };
-
+    //Elimina subcadenas "undefinied"
     $scope.darFormato = function (y) {
       while (y.indexOf("undefined,") > 0) {
         y =

@@ -14,8 +14,8 @@ validarFecha = function (fecha, id) {
 };
 
 //Validar número
-esEnteroPositivo=function(n,id){
-const regex =/^[0-9]+$/;
+esEnteroPositivo = function (n, id) {
+  const regex = /^[0-9]+$/;
   if (regex.test(n)) {
     document.getElementById(id).style = "color:black";
   } else {
@@ -27,7 +27,7 @@ const regex =/^[0-9]+$/;
     });
     document.getElementById(id).style = "color:red";
   }
-}
+};
 //Función para calcular la precisión de una fecha
 
 precisionFecha = function (fecha = "") {
@@ -57,37 +57,34 @@ precisionFecha = function (fecha = "") {
   return fechayPrecision;
 };
 
-
 //Función para mostrar las fechas con una precisión dada
 formatDate = function (date, precision = "AMD") {
-    const fechaActual = new Date(date);
-    //var opciones = {month: 'long', day: 'numeric' };
-    var opciones = new Object();
+  const fechaActual = new Date(date);
+  //var opciones = {month: 'long', day: 'numeric' };
+  var opciones = new Object();
 
-    if (precision.indexOf("A") != -1) {
-      opciones["year"] = "numeric";
-    }
+  if (precision.indexOf("A") != -1) {
+    opciones["year"] = "numeric";
+  }
 
-    if (precision.indexOf("M") != -1) {
-      opciones["month"] = "long";
-    }
+  if (precision.indexOf("M") != -1) {
+    opciones["month"] = "long";
+  }
 
-    if (precision.indexOf("D") != -1) {
-      opciones["day"] = "numeric";
-    }
-    return fechaActual.toLocaleDateString("es-MX", opciones);
-  };
+  if (precision.indexOf("D") != -1) {
+    opciones["day"] = "numeric";
+  }
+  return fechaActual.toLocaleDateString("es-MX", opciones);
+};
 
 nombrarSi = function (nombre, x) {
-    if (x === "undefined" || x === "" || x === undefined) {
-      return;
+  if (x === "undefined" || x === "" || x === undefined) {
+    return;
+  } else {
+    if (nombre != "") {
+      return " " + nombre + ": " + x;
     } else {
-      if (nombre != "") {
-        return " " + nombre + ": " + x;
-      } else {
-        return " " + x;
-      }
+      return " " + x;
     }
-  };
-
-  
+  }
+};

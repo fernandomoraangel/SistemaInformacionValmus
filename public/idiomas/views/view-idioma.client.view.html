@@ -1,5 +1,5 @@
 <!-- View obra-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="IdiomasController" data-ng-init="findOne()">
 
 	<div class="panel panel-default">
@@ -10,7 +10,7 @@
 			<a href="/#!/idiomas/{{idioma._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
 			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"></a>
 		</div>
-		
+
 		<!-- Table -->
 		<table class="table table-striped">
 			<tbody>
@@ -25,10 +25,8 @@
 
 	<div class="creador">
 		<em>Creada en </em>
-		<em data-ng-bind="ejemplar.creado |date:'mediumDate'"></em>
+		<em data-ng-bind="idioma.creado |date:'mediumDate'"></em>
 		<em>por</em>
-		<em data-ng-bind="ejemplar.creador.fullName"></em>
+		<em data-ng-bind="idioma.creador.fullName"></em>
 	</div>
 </section>
-
-

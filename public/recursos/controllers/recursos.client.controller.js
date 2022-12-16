@@ -31,7 +31,7 @@ angular.module("recursos").controller("RecursosController", [
     $scope.items = ["Si", "No"];
     $scope.roles = ["Autor", "Editor", "Compilador", "Productor"];
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
-    $scope.tipos=tipos;
+    $scope.tipos = tipos;
     $scope.idiomas = Idiomas.query();
     $scope.eventos = ["Composición", "Estreno", "Primera grabación"];
     $scope.lugares = ["Andes", "Pacífico", "Atlántico", "Llanos"];
@@ -43,8 +43,8 @@ angular.module("recursos").controller("RecursosController", [
       "Obra representativa",
       "Relación con línea de investigación",
     ];
-    $scope.tipoFuente =tipoFuente
-    $scope.criterio = criterio
+    $scope.tipoFuente = tipoFuente;
+    $scope.criterio = criterio;
     $scope.idMenciones = [];
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idProyectos = [];
@@ -68,53 +68,102 @@ angular.module("recursos").controller("RecursosController", [
     $scope.materias = Materias.query();
     $scope.errorclass = "form-control";
     $scope.reverse = false;
-//Carga vectores
+    var control=0; 
+    //Carga vectores
 
-$scope.cargaObrasRelacionadas = function (d) {
-  for (var i in d) {
-    delete d[i]._id;
-  }
-  $scope.idObrasRelacionadas = [].concat(d);
-};
+    $scope.cargaObrasRelacionadas = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idObrasRelacionadas = [].concat(d);
+    };
 
-$scope.cargaNNormalizados = function (d) {
-  for (var i in d) {
-    delete d[i]._id;
-  }
-  $scope.idNormalizados = [].concat(d);
-};
+    $scope.cargaNNormalizados = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idNormalizados = [].concat(d);
+    };
 
-$scope.cargaMResponsabilidad = function (d) {
-  for (var i in d) {
-    delete d[i]._id;
-  }
-  $scope.idMenciones = [].concat(d);
-};
+    $scope.cargaMResponsabilidad = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idMenciones = [].concat(d);
+    };
 
-$scope.cargaAnotacionesCartograficoTemporales = function (d) {
-  console.log(d);
-  for (var i in d) {
-    delete d[i]._id;
-  }
-  $scope.idAnotacionesCartograficoTemporales = [].concat(d);
-};
+    $scope.cargaAnotacionesCartograficoTemporales = function (d) {
+      console.log(d);
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+    };
 
-$scope.cargaContenedores = function (d) {
-  console.log(d);
-  for (var i in d) {
-    delete d[i]._id;
-  }
-  $scope.idContenedores = [].concat(d);
-};
+    $scope.cargaContenedores = function (d) {
+      console.log(d);
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idContenedores = [].concat(d);
+    };
 
-$scope.cargaFuentes = function (d) {
-  console.log(d);
-  for (var i in d) {
-    delete d[i]._id;
-  }
-  $scope.idFuentes = [].concat(d); 
-};
+    $scope.cargaFuentes = function (d) {
+      console.log(d);
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idFuentes = [].concat(d);
+    };
 
+    $scope.cargaTipoRecurso = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idTipos = [].concat(d);
+    };
+
+    $scope.cargaMaterias = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idMaterias = [].concat(d);
+    };
+
+    $scope.cargaIdiomas = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idIdiomas = [].concat(d);
+    };
+
+    $scope.cargadTecnica = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDTecnicas = [].concat(d);
+    };
+
+    $scope.cargaProyectos = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idProyectos = [].concat(d);
+    };
+
+    $scope.cargaDescriptores = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
+    };
 
     // Funciones auxiliares
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
@@ -212,14 +261,14 @@ $scope.cargaFuentes = function (d) {
       }
       return $scope.darFormato(y);
     };
-    
+
     $scope.verFuente = function (x) {
       y = "";
       for (var i in x) {
         y =
           y +
-          "Tipo de fuente:"+
-          x[i].tipoFuente+
+          "Tipo de fuente:" +
+          x[i].tipoFuente +
           ",Lugar: " +
           x[i].lugar +
           ", nombre:" +
@@ -308,7 +357,7 @@ $scope.cargaFuentes = function (d) {
       }
       return $scope.darFormato(y);
     };
-//TODO: Difundir formato puntuación
+    //TODO: Difundir formato puntuación
     $scope.verAnotacion = function (x) {
       y = "";
       for (var i in x) {
@@ -325,12 +374,12 @@ $scope.cargaFuentes = function (d) {
           ", Fin: " +
           $scope.formatDate(x[i].fechaFin, x[i].precisionFin) +
           ", Evidencia: " +
-          x[i].evidencia + ". "
+          x[i].evidencia +
+          ". ";
         //Poner coma al final
         if (i != x.length - 1) {
           //y = y + ", ";
         }
-
       }
       return $scope.darFormato(y);
     };
@@ -359,17 +408,24 @@ $scope.cargaFuentes = function (d) {
       }
       return $scope.darFormato(y);
     };
-
+//TODO:Difundir, recordar control como variable global
     $scope.verVinculo = function (x) {
-      y = "";
-      for (var i in x) {
-        y = y + x[i].etiqueta + " (" + x[i].url + ") ";
-        //Poner coma al final
-        if (i != x.length - 1) {
-          y = y + ", ";
-        }
+      //Garantiza que Angulasjs no vuelva a ejecutar la función
+      if(control==1){
+        return
       }
-      return $scope.darFormato(y);
+      for (var i in x) {
+        //Crear enlace
+        var a = document.createElement("a");
+        a.title = x[i].etiqueta;
+        a.href = x[i].url;
+        a.target = "blank";
+        var aTexto = document.createTextNode(x[i].etiqueta + " ");
+        a.appendChild(aTexto);
+        document.getElementById("enlaces").appendChild(a);
+        control=1;
+      };
+      return
     };
 
     $scope.verDescriptor = function (x) {
@@ -1475,15 +1531,18 @@ $scope.cargaFuentes = function (d) {
     };
 
     //Menú enlaces
+    //TODO: Difundir
+    //Los asteriscos se usan porque la url contiene ":"
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
-        var tup = property.split(":");
+        var tup = property.split("*");
         obj[tup[0]] = tup[1];
       });
+
       if (
         this.eEtiqueta === undefined ||
         this.eEtiqueta === "" ||
@@ -1653,6 +1712,34 @@ $scope.cargaFuentes = function (d) {
 
       if ($scope.idFuentes.length != 0) {
         $scope.recurso.fuente = $scope.idFuentes;
+      }
+
+      if ($scope.idTipos.length != 0) {
+        $scope.recurso.tiposDeRecurso = $scope.idTipos;
+      }
+
+      if ($scope.idMaterias.length != 0) {
+        $scope.recurso.materia = $scope.idMaterias;
+      }
+
+      if ($scope.idIdiomas.length != 0) {
+        $scope.recurso.idiomas = $scope.idIdiomas;
+      }
+
+      if ($scope.idDTecnicas.length != 0) {
+        $scope.recurso.descripcionTecnica = $scope.idDTecnicas;
+      }
+
+      if ($scope.idProyectos.length != 0) {
+        $scope.recurso.proyectos = $scope.idProyectos;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.recurso.descriptorLibre = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.recurso.vinculoRelacionado = $scope.idEnlaces;
       }
       //Usa el método $update de recurso para enviar la petición PUT adecuada
       $scope.recurso.$update(

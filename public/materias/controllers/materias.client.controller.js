@@ -9,6 +9,7 @@ angular.module("materias").controller("MateriasController", [
   "Obras",
   "Actores",
   "Materias",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
@@ -16,59 +17,18 @@ angular.module("materias").controller("MateriasController", [
     Authentication,
     Obras,
     Actores,
-    Materias
+    Materias,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
-    $scope.items = ["Si", "No"];
-    $scope.rols = ["Autor letra", "Autor música", "Arreglista", "Compilador"];
-    $scope.tipos = [
-      "Partitura",
-      "Grabación de audio",
-      "Grabación de video",
-      "Libro",
-      "Revista",
-    ];
-    $scope.medios = [
-      "Solista",
-      "Orquesta",
-      "Banda",
-      "Solista con acompañamiento",
-    ];
-    $scope.sistemasSonoros = [
-      "Temperado",
-      "No-temperado",
-      "Tonal",
-      "Modal",
-      "Politonal",
-      "Pantonal",
-    ];
-    $scope.idiomas = ["Español", "Inglés", "Francés", "Quechua", "Aymara"];
-    $scope.generos = [
-      "Canción",
-      "Bambuco",
-      "Pasillo",
-      "Joropo",
-      "Vals",
-      "Danza",
-      "Bolero",
-    ];
-    $scope.eventos = ["Composición", "Estreno", "Primera grabación"];
-    $scope.lugares = ["Andes", "Pacífico", "Atlántico", "Llanos"];
-    $scope.coberturas = ["Local", "País", "Mundial"];
-    $scope.proyectos = ["Andes", "Emisoras", "Industria discográfica"];
-    $scope.nNormalizados = ["ISBN", "ISSN", "ISMN", "ISAN", "ISWC", "ISRC"];
-    $scope.dEtiquetas = [
-      "Interés pedagógico",
-      "Obra representativa",
-      "Relación con línea de investigación",
-    ];
+    $scope.dEtiquetas = dEtiquetas;
     $scope.idActores = [];
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idProyectos = [];
     $scope.idNormalizados = [];
     $scope.idDescriptores = [];
-	$scope.idEnlaces=[];
+    $scope.idEnlaces = [];
     $scope.idSistemasSonoros = [];
     $scope.idIdiomas = [];
     $scope.idTipos = [];
@@ -78,6 +38,7 @@ angular.module("materias").controller("MateriasController", [
     $scope.idPadres = [];
     $scope.idHijos = [];
     $scope.materias = Materias.query();
+    $scope.diccionarios = Diccionarios.query();
     $scope.actorName = [];
     $scope.reverse = false;
     //Preparar datos
@@ -104,8 +65,68 @@ angular.module("materias").controller("MateriasController", [
       return y;
     };
 
+    $scope.mostrarAyuda = function (tabla, campo) {
+      var out = new Object();
+      for (var i in $scope.diccionarios) {
+        if (
+          $scope.diccionarios[i].campo === campo &&
+          $scope.diccionarios[i].tabla === tabla
+        ) {
+          $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
+          return;
+        }
+      }
+      $scope.campo = "Datos del diccionario no encontrados";
+      return;
+    };
+    //Cargar campos con vectores
+
+    $scope.cargaAlias = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAlias = [].concat(d);
+    };
+
+    $scope.cargaMateriasRelacionadas = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idMateriasRelacionadas = [].concat(d);
+    };
+
+    $scope.cargaMateriasPadre = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idPadres = [].concat(d);
+    };
+
+    $scope.cargaMateriasHijo = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idHijos = [].concat(d);
+    };
+
+    $scope.cargaDescriptoresLibres = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
+    };
+
     $scope.verAlias = function (x) {
       y = "";
+
       for (var i in x) {
         y = y + x[i].nombre;
         //Poner coma al final
@@ -127,7 +148,6 @@ angular.module("materias").controller("MateriasController", [
       }
       return $scope.darFormato(y);
     };
-
 
     $scope.verVinculo = function (x) {
       y = "";
@@ -539,89 +559,88 @@ angular.module("materias").controller("MateriasController", [
       }
     };
 
-//Menú enlaces
-$scope.enlaceAdd = function () {
-	existe = false;
-	var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
-	var properties = x.split(",");
-	var obj = {};
-	properties.forEach(function (property) {
-	  var tup = property.split(":");
-	  obj[tup[0]] = tup[1];
-	});
-	if (
-	  this.eEtiqueta === undefined ||
-	  this.eEtiqueta === "" ||
-	  this.eUrl === undefined ||
-	  this.eUrl === ""
-	) {
-	  //Mostrar mensaje de error
-	  Swal.fire({
-		title: "¡Error!",
-		text: "Debe ingresar todos los datos",
-		icon: "error",
-		confirmButtonText: "Cerrar",
-	  });
-	} else {
-	  if ($scope.idEnlaces.indexOf(x) === -1) {
-		for (var i in $scope.idEnlaces) {
-		  if (
-			$scope.idEnlaces[i].etiqueta === this.eEtiqueta &&
-			$scope.idEnlaces[i].url === this.eUrl
-		  ) {
-			//Mensaje de error
-			Swal.fire({
-			  title: "¡Error!",
-			  text: "El enlace se ya encuentra en la lista",
-			  icon: "error",
-			  confirmButtonText: "Cerrar",
-			});
-			existe = true;
-			return;
-		  }
-		}
-	  }
-	  if (existe === false) {
-		$scope.idEnlaces.push(obj);
-		this.eEtiqueta = "";
-		this.eUrl = "";
-	  }
-	}
-  };
+    //Menú enlaces
+    $scope.enlaceAdd = function () {
+      existe = false;
+      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var properties = x.split(",");
+      var obj = {};
+      properties.forEach(function (property) {
+        var tup = property.split(":");
+        obj[tup[0]] = tup[1];
+      });
+      if (
+        this.eEtiqueta === undefined ||
+        this.eEtiqueta === "" ||
+        this.eUrl === undefined ||
+        this.eUrl === ""
+      ) {
+        //Mostrar mensaje de error
+        Swal.fire({
+          title: "¡Error!",
+          text: "Debe ingresar todos los datos",
+          icon: "error",
+          confirmButtonText: "Cerrar",
+        });
+      } else {
+        if ($scope.idEnlaces.indexOf(x) === -1) {
+          for (var i in $scope.idEnlaces) {
+            if (
+              $scope.idEnlaces[i].etiqueta === this.eEtiqueta &&
+              $scope.idEnlaces[i].url === this.eUrl
+            ) {
+              //Mensaje de error
+              Swal.fire({
+                title: "¡Error!",
+                text: "El enlace se ya encuentra en la lista",
+                icon: "error",
+                confirmButtonText: "Cerrar",
+              });
+              existe = true;
+              return;
+            }
+          }
+        }
+        if (existe === false) {
+          $scope.idEnlaces.push(obj);
+          this.eEtiqueta = "";
+          this.eUrl = "";
+        }
+      }
+    };
 
-  $scope.enlaceRemove = function (x, y) {
-	for (var i in $scope.idEnlaces) {
-	  if (
-		$scope.idEnlaces[i].etiqueta === x &&
-		$scope.idEnlaces[i].url === y
-	  ) {
-		Swal.fire({
-		  title: "¡Advertencia de eliminación!",
-		  text:
-			"Va a eliminar: Descripción " +
-			$scope.idEnlaces[i].etiqueta +
-			", Url: " +
-			$scope.idEnlaces[i].url,
-		  icon: "warning",
-		  showCancelButton: true,
-		  confirmButtonText: "Confirmar",
-		  cancelButtonText: "Cancelar",
-		}).then((result) => {
-		  if (result.isConfirmed) {
-			$scope.idEnlaces.splice(i, 1);
-			// funcion propia de Angular.Js refresca mi scope y recarga mis datos
-			$scope.$apply();
-			Swal.fire(
-			  "Eliminado!",
-			  "El enlace ha sido eliminado.",
-			  "success"
-			);
-		  }
-		});
-	  }
-	}
-  };
-
+    $scope.enlaceRemove = function (x, y) {
+      for (var i in $scope.idEnlaces) {
+        if (
+          $scope.idEnlaces[i].etiqueta === x &&
+          $scope.idEnlaces[i].url === y
+        ) {
+          Swal.fire({
+            title: "¡Advertencia de eliminación!",
+            text:
+              "Va a eliminar: Descripción " +
+              $scope.idEnlaces[i].etiqueta +
+              ", Url: " +
+              $scope.idEnlaces[i].url,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Confirmar",
+            cancelButtonText: "Cancelar",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              $scope.idEnlaces.splice(i, 1);
+              // funcion propia de Angular.Js refresca mi scope y recarga mis datos
+              $scope.$apply();
+              Swal.fire(
+                "Eliminado!",
+                "El enlace ha sido eliminado.",
+                "success"
+              );
+            }
+          });
+        }
+      }
+    };
 
     //Crear método controller para crear nuevas materias
     $scope.create = function () {
@@ -629,36 +648,36 @@ $scope.enlaceAdd = function () {
       var materia = new Materias({
         nombre: this.nombre,
         alias: $scope.idAlias,
-        materiasRelacionadas:$scope.idMateriasRelacionadas,
+        materiasRelacionadas: $scope.idMateriasRelacionadas,
         padres: $scope.idPadres,
         hijos: $scope.idHijos,
         descripcion: this.descripcion,
         descriptorLibre: $scope.idDescriptores,
-        vinculoRelacionado:$scope.idEnlaces
+        vinculoRelacionado: $scope.idEnlaces,
       });
 
       //Usar el método '$save' de obra para enviar una petición POST apropiada
       materia.$save(
         function (response) {
           //Si la obra fue creada de la manera correcta, redireccionar a la página de la obra
-         
+
           Swal.fire({
             title: "¡Registro correcto!",
             text: "El registro se ha creado correctamente",
             icon: "success",
             confirmButtonText: "Cerrar",
           });
-          $location.path('materias/' + response._id);
+          $location.path("materias/" + response._id);
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
           Swal.fire({
             title: "¡Error!",
-            text: $scope.error = errorResponse.data.message,
+            text: ($scope.error = errorResponse.data.message),
             icon: "error",
             confirmButtonText: "Cerrar",
           });
-          $scope.error = errorResponse.data.message;   
+          $scope.error = errorResponse.data.message;
         }
       );
     };
@@ -676,36 +695,53 @@ $scope.enlaceAdd = function () {
       });
     };
 
-    //Método controller para actualizar una única obra
-    $scope.update = function () {
-      //Agregar actores
-      for (var i in $scope.idActores) {
-        actorObra = new ActoresObras({
-          actor: $scope.idActores[i].id,
-          obra: $routeParams.obraId,
-          roll: $scope.idActores[i].rol,
-        });
+    //Método controller para actualizar un único registro
 
-        //Usar el método '$save' de actor para enviar una petición POST apropiada
-        actorObra.$save(
-          function (response) {
-            //$location.path('obras/' + obraId);
-          },
-          function (errorResponse) {
-            //En caso contrario, presentar mensaje de error
-            $scope.error = errorResponse.data.message;
-            alert("Problemas al crear el registro " + $scope.error);
-          }
-        );
+    $scope.update = function () {
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if ($scope.idAlias.length != 0) {
+        $scope.materia.alias = $scope.idAlias;
+      }
+
+      if ($scope.idMateriasRelacionadas.length != 0) {
+        $scope.materia.materiasRelacionadas = $scope.idMateriasRelacionadas;
+      }
+
+      if ($scope.idPadres.length != 0) {
+        $scope.materia.padres = $scope.idPadres;
+      }
+
+      if ($scope.idHijos.length != 0) {
+        $scope.materia.hijos = $scope.idHijos;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.materia.descriptorLibre = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.materia.vinculoRelacionado = $scope.idEnlaces;
       }
 
       //Usa el método $update de obra para enviar la petición PUT adecuada
-      $scope.obra.$update(
+      $scope.materia.$update(
         function () {
           //Si la actualización es correcta, redireccionar
-          $location.path("obras/" + $scope.obra._id);
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
+          $location.path("materias/" + $scope.materia._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );

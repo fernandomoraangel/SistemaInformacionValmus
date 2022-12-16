@@ -42,15 +42,18 @@ exports.create=function(req,res){
 // Método que recupera una lista de fondos
 exports.list=function(req,res){
 	//Usa el método model 'find' para obtener una lista de fondos
-	Fondo.find().sort('-created').populate('created','nombre descripcion').exec(function(err, fondo){
-		if(err){
-			return res.status(400).send({
-				message: getErrorMessage(err)
-			});
-			}else{
-				res.json(fondo);
-			}
-		});
+	Fondo.find()
+    .sort("-created")
+    .populate("creador", "firstName lastName fullName")
+    .exec(function (err, fondo) {
+      if (err) {
+        return res.status(400).send({
+          message: getErrorMessage(err),
+        });
+      } else {
+        res.json(fondo);
+      }
+    });
 };
 
 //Método que devuelve una fondo existente

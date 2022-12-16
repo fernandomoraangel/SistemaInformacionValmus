@@ -8,13 +8,15 @@ angular.module("sistemas").controller("SistemasController", [
   "Authentication",
   "Sistemas",
   "Proyectos",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
     $location,
     Authentication,
     Sistemas,
-    Proyectos
+    Proyectos,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
@@ -60,6 +62,7 @@ angular.module("sistemas").controller("SistemasController", [
     $scope.idHijos = [];
     $scope.idEnlaces = [];
     $scope.sistemas = Sistemas.query();
+    $scope.diccionarios = Diccionarios.query();
     $scope.reverse = false;
     //Preparar datos
     $scope.actualizarTodo = function () {
@@ -76,6 +79,62 @@ angular.module("sistemas").controller("SistemasController", [
       $scope.reverse = !$scope.reverse;
     };
 
+    $scope.cargaAlias = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAlias = [].concat(d);
+    };
+
+    $scope.cargaSistemasRelacionados = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idSistemasRelacionados = [].concat(d);
+    };
+
+    $scope.cargaSistemasPadre = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idPadres = [].concat(d);
+    };
+
+    $scope.cargaSistemasHijo = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idHijos = [].concat(d);
+    };
+
+    $scope.cargaProyectosAsociados = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idProyectos = [].concat(d);
+    };
+
+    $scope.cargaAnotaciones = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+    };
+
+    $scope.cargaDescriptoresLibres = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
+    };
+
     $scope.verAlias = function (x) {
       y = "";
       for (var i in x) {
@@ -87,7 +146,6 @@ angular.module("sistemas").controller("SistemasController", [
       }
       return $scope.darFormato(y);
     };
-
 
     $scope.verAnotacion = function (x) {
       y = "";
@@ -126,7 +184,6 @@ angular.module("sistemas").controller("SistemasController", [
       return $scope.darFormato(y);
     };
 
-
     $scope.darFormato = function (y) {
       while (y.indexOf("undefined,") > 0) {
         y =
@@ -134,6 +191,22 @@ angular.module("sistemas").controller("SistemasController", [
           y.slice(y.indexOf("undefined,") + 10, length);
       }
       return y;
+    };
+
+    $scope.mostrarAyuda = function (tabla, campo) {
+      var out = new Object();
+      for (var i in $scope.diccionarios) {
+        if (
+          $scope.diccionarios[i].campo === campo &&
+          $scope.diccionarios[i].tabla === tabla
+        ) {
+          $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
+          return;
+        }
+      }
+      $scope.campo = "Datos del diccionario no encontrados";
+      return;
     };
 
     $scope.verProyecto = function (x) {
@@ -147,7 +220,7 @@ angular.module("sistemas").controller("SistemasController", [
       }
       return $scope.darFormato(y);
     };
-    
+
     $scope.verDescriptor = function (x) {
       y = "";
       for (var i in x) {
@@ -184,7 +257,6 @@ angular.module("sistemas").controller("SistemasController", [
       }
       return $scope.darFormato(y);
     };
-
 
     $scope.verRecurso = function (x) {
       y = "";
@@ -927,7 +999,7 @@ angular.module("sistemas").controller("SistemasController", [
         nombre: this.nombre,
         descripcion: this.descripcion,
         alias: $scope.idAlias,
-        sistemasRelacionados:$scope.idSistemasRelacionados,
+        sistemasRelacionados: $scope.idSistemasRelacionados,
         padres: $scope.idPadres,
         hijos: $scope.idHijos,
         proyectosAsociados: $scope.idProyectos,
@@ -946,7 +1018,7 @@ angular.module("sistemas").controller("SistemasController", [
             icon: "success",
             confirmButtonText: "Cerrar",
           });
-          $location.path('sistemas/' + response._id);
+          $location.path("sistemas/" + response._id);
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
@@ -976,34 +1048,59 @@ angular.module("sistemas").controller("SistemasController", [
 
     //Método controller para actualizar una única obra
     $scope.update = function () {
-      //Agregar actores
-      for (var i in $scope.idActores) {
-        actorObra = new ActoresObras({
-          actor: $scope.idActores[i].id,
-          obra: $routeParams.obraId,
-          roll: $scope.idActores[i].rol,
-        });
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if ($scope.idAlias.length != 0) {
+        $scope.sistema.alias = $scope.idAlias;
+      }
 
-        //Usar el método '$save' de actor para enviar una petición POST apropiada
-        actorObra.$save(
-          function (response) {
-            //$location.path('obras/' + obraId);
-          },
-          function (errorResponse) {
-            //En caso contrario, presentar mensaje de error
-            $scope.error = errorResponse.data.message;
-            alert("Problemas al crear el registro " + $scope.error);
-          }
-        );
+      if ($scope.idSistemasRelacionados.length != 0) {
+        $scope.sistema.sistemasRelacionados = $scope.idSistemasRelacionados;
+      }
+
+      if ($scope.idPadres.length != 0) {
+        $scope.sistema.padres = $scope.idPadres;
+      }
+
+      if ($scope.idHijos.length != 0) {
+        $scope.sistema.hijos = $scope.idHijos;
+      }
+
+      if ($scope.idProyectos.length != 0) {
+        $scope.sistema.proyectosAsociados = $scope.idProyectos;
+      }
+
+      if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+        $scope.sistema.anotacionCartograficoTemporal =
+          $scope.idAnotacionesCartograficoTemporales;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.sistema.descriptorLibre = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.sistema.vinculoRelacionado = $scope.idEnlaces;
       }
 
       //Usa el método $update de obra para enviar la petición PUT adecuada
-      $scope.obra.$update(
+      $scope.sistema.$update(
         function () {
           //Si la actualización es correcta, redireccionar
-          $location.path("obras/" + $scope.obra._id);
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
+          $location.path("sistemas/" + $scope.sistema._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );

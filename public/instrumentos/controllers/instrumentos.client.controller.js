@@ -8,13 +8,15 @@ angular.module("instrumentos").controller("InstrumentosController", [
   "Authentication",
   "Instrumentos",
   "Proyectos",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
     $location,
     Authentication,
     Instrumentos,
-    Proyectos
+    Proyectos,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
@@ -49,7 +51,7 @@ angular.module("instrumentos").controller("InstrumentosController", [
     $scope.errorclass = "form-control";
     $scope.reverse = false;
     $scope.proyectos = Proyectos.query();
-
+    $scope.diccionarios = Diccionarios.query();
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idProyectos = this.instrumento.proyectosAsociados;
@@ -65,7 +67,7 @@ angular.module("instrumentos").controller("InstrumentosController", [
     $scope.formatDate = (date, precision = "AMD") =>
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
-    $scope.esEnteroPositivo=(n,id)=>esEnteroPositivo=(n,id)
+    $scope.esEnteroPositivo = (n, id) => (esEnteroPositivo = (n, id));
     $scope.sortBy = function (propertyName) {
       $scope.reverse = !$scope.reverse;
     };
@@ -95,9 +97,9 @@ angular.module("instrumentos").controller("InstrumentosController", [
           $scope.formatDate(x[i].fechaFin, x[i].precisionFin) +
           ", Evidencia: " +
           x[i].evidencia;
-          //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
@@ -113,6 +115,42 @@ angular.module("instrumentos").controller("InstrumentosController", [
         }
       }
       return $scope.darFormato(y);
+    };
+
+    //Cargar los campos que tienen vectores para la vista de edición
+    $scope.cargaAlias = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAlias = [].concat(d);
+    };
+
+    $scope.cargaProyectos = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idProyectos = [].concat(d);
+    };
+
+    $scope.cargaAnotaciones = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+    };
+
+    $scope.cargaDescriptores = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
     };
 
     $scope.verDescriptor = function (x) {
@@ -142,13 +180,28 @@ angular.module("instrumentos").controller("InstrumentosController", [
     $scope.verVinculo = function (x) {
       y = "";
       for (var i in x) {
-        y = x[i].etiqueta + "(" + x[i].url + ")";
+        y = y + x[i].etiqueta + "(" + x[i].url + ")";
         //Poner coma al final
         if (i != x.length - 1) {
           y = y + ", ";
         }
       }
       return $scope.darFormato(y);
+    };
+
+    $scope.mostrarAyuda = function (tabla, campo) {
+      for (var i in $scope.diccionarios) {
+        //alert($scope.diccionarios[i].campo)
+        if (
+          $scope.diccionarios[i].campo === campo &&
+          $scope.diccionarios[i].tabla === tabla
+        ) {
+          $scope.campo = $scope.diccionarios[i].definicion;
+          return;
+        }
+      }
+      $scope.campo = "Datos del diccionario no encontrados";
+      return;
     };
 
     //Proyectos
@@ -210,7 +263,9 @@ angular.module("instrumentos").controller("InstrumentosController", [
         if ($scope.idProyectos[i].proyecto === x) {
           Swal.fire({
             title: "¡Advertencia de eliminación!",
-            text: "Va a eliminar  " + $scope.proyectoAux($scope.idProyectos[i].proyecto),
+            text:
+              "Va a eliminar  " +
+              $scope.proyectoAux($scope.idProyectos[i].proyecto),
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Confirmar",
@@ -632,14 +687,12 @@ angular.module("instrumentos").controller("InstrumentosController", [
           });
           //Si el instrumento fue creado de la manera correcta, redireccionar a la página de la obra
           $location.path("instrumentos/" + response._id);
-          
-          
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
           Swal.fire({
             title: "¡Error!",
-            text: $scope.error = errorResponse.data.message,
+            text: ($scope.error = errorResponse.data.message),
             icon: "error",
             confirmButtonText: "Cerrar",
           });
@@ -663,6 +716,27 @@ angular.module("instrumentos").controller("InstrumentosController", [
 
     //Método controller para actualizar una única obra
     $scope.update = function () {
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+
+      if ($scope.idAlias.length != 0) {
+        $scope.instrumento.alias = $scope.idAlias;
+      }
+      if ($scope.idProyectos.length != 0) {
+        $scope.instrumento.proyectosAsociados = $scope.idProyectos;
+      }
+      if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+        $scope.instrumento.anotacionCartograficoTemporal =
+          $scope.idAnotacionesCartograficoTemporales;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.instrumento.descriptorLibre = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.instrumento.vinculoRelacionado = $scope.idEnlaces;
+      }
+
       //Usa el método $update de obra para enviar la petición PUT adecuada
       $scope.instrumento.$update(
         function () {

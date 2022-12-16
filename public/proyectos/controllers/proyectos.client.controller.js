@@ -8,42 +8,48 @@ angular.module("proyectos").controller("ProyectosController", [
   "Authentication",
   "Proyectos",
   "Actores",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
     $location,
     Authentication,
     Proyectos,
-    Actores
+    Actores,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
     $scope.items = ["Si", "No"];
+    //Específica 
     $scope.roles = [
-      "Investigador principal",
-      "Investigador",
-      "Estudiante de maestría",
-      "Estudiante de pregrado",
-      "Colaborador",
+    "Asesor",
+    "Auxiliar administrativo",
+    "Colaborador",
+    "Estudiante de doctorado",
+    "Estudiante de maestría",
+    "Estudiante de pregrado",
+    "Investigador principal",
+    "Investigador",
+    "Servicios técnicos"
     ];
-    $scope.estados = [
-      "Formulación",
-      "Ejecución",
-      "Terminado",
-      "Suspendido",
-      "Prorroga",
-    ];
+    $scope.estadosProyecto = estadosProyecto;
     $scope.eventos = [
-      "inicio",
-      "finalización",
-      "Inicio Prorroga",
-      "Fin Prorroga",
+      "Acta de finalización",
+      "Acta de inicio",
+      "Análisis de datos",
+      "Construcción de informe",
+      "Envío a convocatoria",
+      "Finalización",
+      "Formulación",
+      "Inicio",
+      "Procesamiento de información",
+      "Prórroga",
+      "Solicitud de prórroga",
+      "Terminación",
+      "Trabajo de campo",
     ];
-    $scope.dEtiquetas = [
-      "Interés pedagógico",
-      "Obra representativa",
-      "Relación con línea de investigación",
-    ];
+    $scope.dEtiquetas = dEtiquetas;
     $scope.idActores = [];
     $scope.idFechas = [];
     $scope.idDescriptores = [];
@@ -52,6 +58,7 @@ angular.module("proyectos").controller("ProyectosController", [
     $scope.actorName = [];
     $scope.idEnlaces = [];
     $scope.reverse = false;
+    $scope.diccionarios = Diccionarios.query();
 
     //Preparar datos
     $scope.actualizarTodo = function () {
@@ -63,10 +70,9 @@ angular.module("proyectos").controller("ProyectosController", [
 
     // Funciones auxiliares
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
-      $scope.formatDate = (date, precision = "AMD") =>
-        formatDate(date, precision);
-      $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
-
+    $scope.formatDate = (date, precision = "AMD") =>
+      formatDate(date, precision);
+    $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
 
     $scope.sortBy = function (propertyName) {
       $scope.reverse = !$scope.reverse;
@@ -81,14 +87,65 @@ angular.module("proyectos").controller("ProyectosController", [
       return y;
     };
 
+    $scope.mostrarAyuda = function (tabla, campo) {
+      for (var i in $scope.diccionarios) {
+        //alert($scope.diccionarios[i].campo)
+        if (
+          $scope.diccionarios[i].campo === campo &&
+          $scope.diccionarios[i].tabla === tabla
+        ) {
+          $scope.campo = $scope.diccionarios[i].definicion;
+          return;
+        }
+      }
+      $scope.campo = "Datos del diccionario no encontrados";
+      return;
+    };
+
+    //Cargar los campos que tienen vectores para la vista de edición
+    $scope.cargaActores = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idActores = [].concat(d);
+    };
+
+    $scope.cargaFechas = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idFechas = [].concat(d);
+    };
+
+    $scope.cargaDescriptores = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
+    };
+
     $scope.verInvestigadores = function (x) {
       y = "";
       for (var i in x) {
-        y = y + $scope.actorAux(x[i].id) + " (" + x[i].rol + "), Activo desde: "+ $scope.formatDate(x[i].activoDesde,"AMD")+", Hasta:"+ 
-        $scope.formatDate(x[i].activoHasta,"AMD");
+        y =
+          y +
+          $scope.actorAux(x[i].id) +
+          " (" +
+          x[i].rol +
+          "), Activo desde: " +
+          $scope.formatDate(x[i].activoDesde, "AMD") +
+          ", Hasta:" +
+          $scope.formatDate(x[i].activoHasta, "AMD");
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
@@ -105,9 +162,13 @@ angular.module("proyectos").controller("ProyectosController", [
     $scope.verFechas = function (x) {
       y = "";
       for (var i in x) {
-        y = y + x[i].evento+": "+ $scope.formatDate(x[i].fecha, x[i].precision);
-        if(i!=x.length-1){
-          y=y+", "
+        y =
+          y +
+          x[i].evento +
+          ": " +
+          $scope.formatDate(x[i].fecha, x[i].precision);
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
@@ -217,39 +278,37 @@ angular.module("proyectos").controller("ProyectosController", [
         }
       }
     };
-//Función para calcular la precisión de una fecha
-precisionFecha=function(fecha)
-{
-  var arr = fecha.split("/");
-  var ano = arr[0];
-  var mes = arr[1];
-  var dia = arr[2];
-  var precision = "AMD";
-  if (ano == 0) { 
-    precision = precision.replace("A", "");
-    ano = 3000;
-  }
-  if (mes == 0) {
-    precision = precision.replace("M", "");
-    mes = 1;
-  }
-  if (dia == 0) {
-    precision = precision.replace("D", "");
-    dia = 1;
-  }
-var fechayPrecision = new Object();
-fechayPrecision.fecha=ano + "/" + mes + "/" + dia;
-fechayPrecision.precision=precision;
-return fechayPrecision
-}
-
+    //Función para calcular la precisión de una fecha
+    precisionFecha = function (fecha) {
+      var arr = fecha.split("/");
+      var ano = arr[0];
+      var mes = arr[1];
+      var dia = arr[2];
+      var precision = "AMD";
+      if (ano == 0) {
+        precision = precision.replace("A", "");
+        ano = 3000;
+      }
+      if (mes == 0) {
+        precision = precision.replace("M", "");
+        mes = 1;
+      }
+      if (dia == 0) {
+        precision = precision.replace("D", "");
+        dia = 1;
+      }
+      var fechayPrecision = new Object();
+      fechayPrecision.fecha = ano + "/" + mes + "/" + dia;
+      fechayPrecision.precision = precision;
+      return fechayPrecision;
+    };
 
     $scope.fechaAdd = function (f) {
       existe = false;
       //Fecha y precisión
-      var precisionyFecha= precisionFecha(this.fecha);
-      this.fecha = precisionyFecha.fecha
-      precision=precisionyFecha.precision
+      var precisionyFecha = precisionFecha(this.fecha);
+      this.fecha = precisionyFecha.fecha;
+      precision = precisionyFecha.precision;
       var x =
         "fecha:" +
         this.fecha +
@@ -549,6 +608,23 @@ return fechayPrecision
 
     //Método controller para actualizar una única obra
     $scope.update = function () {
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if ($scope.idActores.length != 0) {
+        $scope.proyecto.investigadores = $scope.idActores;
+      }
+
+      if ($scope.idFechas.length != 0) {
+        $scope.proyecto.fechasAsociadas = $scope.idFechas;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.proyecto.descriptoresLibres = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.proyecto.vinculoRelacionado = $scope.idEnlaces;
+      }
+      
       //Usa el método $update de proyecto para enviar la petición PUT adecuada
       $scope.proyecto.$update(
         function () {

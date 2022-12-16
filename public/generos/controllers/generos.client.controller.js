@@ -11,6 +11,7 @@ angular.module("generos").controller("GenerosController", [
   "Sistemas",
   "Medios",
   "Idiomas",
+  "Diccionarios",
   function (
     $scope,
     $routeParams,
@@ -20,41 +21,16 @@ angular.module("generos").controller("GenerosController", [
     Proyectos,
     Sistemas,
     Medios,
-    Idiomas
+    Idiomas,
+    Diccionarios
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
     $scope.items = ["Si", "No"];
-    $scope.rols = ["Autor letra", "Autor música", "Arreglista", "Compilador"];
-    $scope.tipos = [
-      "Partitura",
-      "Grabación de audio",
-      "Grabación de video",
-      "Libro",
-      "Revista",
-    ];
     $scope.medios = Medios.query();
     $scope.sistemas = Sistemas.query();
     $scope.idiomas = Idiomas.query();
-    $scope.generos = [
-      "Canción",
-      "Bambuco",
-      "Pasilo",
-      "Joropo",
-      "Vals",
-      "Danza",
-      "Bolero",
-    ];
-    $scope.eventos = ["Composición", "Estreno", "Primera grabación"];
-    $scope.lugares = ["Andes", "Pacífico", "Atlántico", "Llanos"];
-    $scope.coberturas = ["Local", "País", "Mundial"];
-    $scope.proyectos = ["Andes", "Emisoras", "Industria discográfica"];
-    $scope.nNormalizados = ["ISBN", "ISSN", "ISMN", "ISAN", "ISWC", "ISRC"];
-    $scope.dEtiquetas = [
-      "Interés pedagógico",
-      "Obra representativa",
-      "Relación con línea de investigación",
-    ];
+    $scope.dEtiquetas = dEtiquetas;
     $scope.idActores = [];
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idProyectos = [];
@@ -72,8 +48,12 @@ angular.module("generos").controller("GenerosController", [
     $scope.idPadres = [];
     $scope.idHijos = [];
     $scope.generos = Generos.query();
+    $scope.diccionarios = Diccionarios.query();
     var obraId;
     $scope.reverse = false;
+    // TODO:Didundir
+    $scope.lugares = lugares;
+    $scope.coberturas = coberturas;
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idEstados = this.ejemplar.estados;
@@ -96,6 +76,100 @@ angular.module("generos").controller("GenerosController", [
           y.slice(y.indexOf("undefined,") + 10, length);
       }
       return y;
+    };
+
+    $scope.mostrarAyuda = function (tabla, campo) {
+      var out = new Object();
+      for (var i in $scope.diccionarios) {
+        if (
+          $scope.diccionarios[i].campo === campo &&
+          $scope.diccionarios[i].tabla === tabla
+        ) {
+          $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
+          return;
+        }
+      }
+      $scope.campo = "Datos del diccionario no encontrados";
+      return;
+    };
+
+    //Cargar los campos que tienen vectores para la vista de edición
+    $scope.cargaAlias = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAlias = [].concat(d);
+    };
+
+    $scope.cargaGenerosRel = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idGenerosRelacionados = [].concat(d);
+    };
+
+    $scope.cargaPadres = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idPadres = [].concat(d);
+    };
+
+    $scope.cargaHijos = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idHijos = [].concat(d);
+    };
+
+    $scope.cargaMedios = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idMedios = [].concat(d);
+    };
+
+    $scope.cargaSistemas = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idSistemas = [].concat(d);
+    };
+
+    $scope.cargaIdiomas = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idIdiomas = [].concat(d);
+    };
+
+    $scope.cargaProyectos = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idProyectos = [].concat(d);
+    };
+
+    $scope.cargaAnotaciones = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+    };
+
+    $scope.cargaDescriptores = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idDescriptores = [].concat(d);
+    };
+
+    $scope.cargaEnlaces = function (d) {
+      for (var i in d) {
+        delete d[i]._id;
+      }
+      $scope.idEnlaces = [].concat(d);
     };
 
     $scope.verAnotacion = function (x) {
@@ -156,32 +230,31 @@ angular.module("generos").controller("GenerosController", [
           y = y + ", ";
         }
       }
-    }
+    };
 
-      $scope.verMedios = function (x) {
-        y = "";
-        for (var i in x) {
-          y = y + $scope.medioAux(x[i].id);
-          //Poner coma al final
-          if (i != x.length - 1) {
-            y = y + ", ";
-          }
+    $scope.verMedios = function (x) {
+      y = "";
+      for (var i in x) {
+        y = y + $scope.medioAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
-        return $scope.darFormato(y);
-      };
-  
-      $scope.verSistemas = function (x) {
-        y = "";
-        for (var i in x) {
-          y = y + $scope.sistemaAux(x[i].id);
-          //Poner coma al final
-          if (i != x.length - 1) {
-            y = y + ", ";
-          }
-        }
-        return $scope.darFormato(y);
-      };
+      }
+      return $scope.darFormato(y);
+    };
 
+    $scope.verSistemas = function (x) {
+      y = "";
+      for (var i in x) {
+        y = y + $scope.sistemaAux(x[i].id);
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
+      }
+      return $scope.darFormato(y);
+    };
 
     $scope.verDescriptor = function (x) {
       y = "";
@@ -637,7 +710,6 @@ angular.module("generos").controller("GenerosController", [
         }
       }
     };
-
 
     $scope.medioAdd = function () {
       var existe = false;
@@ -1179,7 +1251,7 @@ angular.module("generos").controller("GenerosController", [
         sistemasSonoros: $scope.idSistemas,
         idioma: $scope.idIdiomas,
         descriptorLibre: $scope.idDescriptores,
-        vinculoRelacionado:$scope.idEnlaces,
+        vinculoRelacionado: $scope.idEnlaces,
         proyectosAsociados: $scope.idProyectos,
       });
 
@@ -1187,25 +1259,24 @@ angular.module("generos").controller("GenerosController", [
       genero.$save(
         function (response) {
           //Si la obra fue creada de la manera correcta, redireccionar a la página de la obra
-          $location.path('recursos/' + response._id);
+          $location.path("recursos/" + response._id);
           Swal.fire({
             title: "¡Registro correcto!",
             text: "El registro se ha creado correctamente",
             icon: "success",
             confirmButtonText: "Cerrar",
           });
-          $location.path('generos/' + response._id);
+          $location.path("generos/" + response._id);
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
           Swal.fire({
             title: "¡Error!",
-            text: $scope.error = errorResponse.data.message,
+            text: ($scope.error = errorResponse.data.message),
             icon: "error",
             confirmButtonText: "Cerrar",
           });
           $scope.error = errorResponse.data.message;
-          
         }
       );
     };
@@ -1226,34 +1297,75 @@ angular.module("generos").controller("GenerosController", [
 
     //Método controller para actualizar una única obra
     $scope.update = function () {
-      //Agregar actores
-      for (var i in $scope.idActores) {
-        actorObra = new ActoresObras({
-          actor: $scope.idActores[i].id,
-          obra: $routeParams.obraId,
-          roll: $scope.idActores[i].rol,
-        });
+      //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+      if ($scope.idAlias.length != 0) {
+        $scope.genero.alias = $scope.idAlias;
+      }
 
-        //Usar el método '$save' de actor para enviar una petición POST apropiada
-        actorObra.$save(
-          function (response) {
-            //$location.path('obras/' + obraId);
-          },
-          function (errorResponse) {
-            //En caso contrario, presentar mensaje de error
-            $scope.error = errorResponse.data.message;
-            alert("Problemas al crear el registro " + $scope.error);
-          }
-        );
+      if ($scope.idGenerosRelacionados.length != 0) {
+        $scope.genero.GeneroRelacionado = $scope.idGenerosRelacionados;
+      }
+
+      if ($scope.idPadres.length != 0) {
+        $scope.genero.padres = $scope.idPadres;
+      }
+
+      if ($scope.idHijos.length != 0) {
+        $scope.genero.hijos = $scope.idHijos;
+      }
+
+      if ($scope.idMedios.length != 0) {
+        $scope.genero.mediosSonoros = $scope.idMedios;
+      }
+
+      if ($scope.idMedios.length != 0) {
+        $scope.genero.mediosSonoros = $scope.idMedios;
+      }
+
+      if ($scope.idSistemas.length != 0) {
+        $scope.genero.sistemasSonoros = $scope.idSistemas;
+      }
+
+      if ($scope.idIdiomas.length != 0) {
+        $scope.genero.idioma = $scope.idIdiomas;
+      }
+
+      if ($scope.idProyectos.length != 0) {
+        $scope.genero.proyectosAsociados = $scope.idProyectos;
+      }
+
+      if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+        $scope.genero.anotacionCartograficoTemporal =
+          $scope.idAnotacionesCartograficoTemporales;
+      }
+
+      if ($scope.idDescriptores.length != 0) {
+        $scope.genero.descriptorLibre = $scope.idDescriptores;
+      }
+
+      if ($scope.idEnlaces.length != 0) {
+        $scope.genero.vinculoRelacionado = $scope.idEnlaces;
       }
 
       //Usa el método $update de obra para enviar la petición PUT adecuada
-      $scope.obra.$update(
+      $scope.genero.$update(
         function () {
           //Si la actualización es correcta, redireccionar
-          $location.path("obras/" + $scope.obra._id);
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
+          $location.path("generos/" + $scope.genero._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );

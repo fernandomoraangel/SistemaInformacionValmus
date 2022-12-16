@@ -38,17 +38,23 @@ https://rogerdudler.github.io/git-guide/index.es.html
 ## Pendiente
 
 1. Organizar ayuda.
-2. Editar, listar, borrar para todas las páginas.
-3. Botón "crear"
-4. Cambiar alerts de creación y error.
-5. Organizar listas.js.
-6. Identificar las vista "ver"
-7. Resolver cómo sera el manual wiki.
-8. Hacer que funcionen los enlaces en el campo enlaces. https://www.cursoangularjs.es/doku.php?id=unidades:04_masdirectivas:03_nghref
-9. Logo en la página central.
-10. Ícono
-11. Acerca de con version.
-12. Rojo en eliminar (campos array).
-13. Editar campos array (botón editar, copia en formulario y borra).
-14. Exportar colección "diccionarios".
-15. Resolver problemas con acentos y ñ al importar. UTF8
+2. Ayuda para cada tabla.
+3. Editar, listar, borrar para todas las páginas.
+4. Revisar funcionamiento íconos "Crear", quitar los que sobren.
+5. Eliminar carpetas "relaciones" "descriptores"
+6. Cambiar el nombre de la carpeta example
+7. Unificar botón "crear"
+8. Difundir cambios en "mostrar ayuda" (a partir de Medio Sonoro)
+9. Cambiar alerts de creación, actualización, borrado y error.
+10. Resolver problemas con las fechas (input date) en Fondos y colecciones
+11. Organizar listas.js. y eliminar listas redundantes.
+12. Eliminar variables redundantes.
+13. Identificar las vista "ver"
+14. Resolver cómo sera el manual wiki.
+15. Copiar Enlaces y archivos de recursos en las otras páginas.
+16. Logo en la página central.
+17. Acerca de con version.
+18. Rojo en eliminar (campos array).
+19. Editar campos array (botón editar, copia en formulario y borra).
+20. Exportar colección "diccionarios".
+21. Resolver problemas con acentos y ñ al importar. UTF8

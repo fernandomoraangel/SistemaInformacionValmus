@@ -1,43 +1,146 @@
-<!-- View editar artículo-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<!-- View crear obras -->
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <div class="jumbotron">
-	<div class="bodyEdit">
+	<div class="container">
 		<section data-ng-controller="ColeccionesController" data-ng-init="findOne()">
-		<label class="tituloVista">EDITAR COLECCION</label>
-			<form data-ng-submit="update()" novalidate>
+			<label class="tituloVista">EDITAR COLECCIÓN</label>
+
+			<form class="form-principal" data-ng-submit="update()" novalidate>
+				<!-- Mensaje de error-->
+				<div data-ng-show="error">
+					<strong class="error" data-ng-bind="error"></strong>
+				</div>
 				<div>
-					<label class="campo" for="titulo">Nombre de la Colección</label>
-					<div>
-						<input type="text" class="form-control" data-ng-model="coleccion.nombre" id="titulo" placeholder="Titulo" required>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('coleccion','nombreColeccion');" data-toggle="modal"
+						data-target="#ayudanombreColeccion"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudanombreColeccion" tabindex="-1" role="dialog"
+						aria-labelledby="ayudanombreColeccionLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">NOMBRE DE LA COLECCION</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
 					</div>
+					<label>NOMBRE DE LA COLECCIÓN*</label>
 				</div>
 
-				<label class="campo">Fecha de creación</label>
-						<input type="text" class="form-control" data-ng-model="coleccion.fechaDeCreacion">
 
 				<div>
-					<label class="campo" for="tipo">Tipo</label>
-					<select  select name=tipoSelect class="form-control" ng-options="tipo for tipo in tipos" data-ng-model="coleccion.tipo">
+					<input type="text" class="form-control" ng-model="coleccion.nombre" id="titulo" placeholder=""
+						required>
+				</div>
+				<!-- Fecha de creación -->
+
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('coleccion','fechaColeccion');" data-toggle="modal"
+						data-target="#ayudaFechaColeccion"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaFechaColeccion" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaFechaColeccionLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">FECHA DE LA COLECCIÓN</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label>FECHA DE CREACIÓN</label>
+				</div>
+
+				<input type="text" class="form-control" ng-model="coleccion.fechaDeCreacion | date:'d/M/yyyy'"
+					placeholder="">
+				<!-- Tipo de colección -->
+				<div>
+
+					<div>
+						<!-- Botón modal ayuda -->
+						<button type="button" class="glyphicon glyphicon-eye-open"
+							ng-click="mostrarAyuda('coleccion','tipoColeccion');" data-toggle="modal"
+							data-target="#ayudaTipoColeccion"></button>
+
+						<!-- Modal Ayuda-->
+						<div class="modal fade" id="ayudaTipoColeccion" tabindex="-1" role="dialog"
+							aria-labelledby="ayudaTipoColeccionLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="Ayuda">TIPO DE COLECCION</h5>
+									</div>
+									<div class="modal-body">
+										{{campo}}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">Cerrar</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<label>TIPO DE COLECCIÓN</label>
+					</div>
+
+					<select select name=tipoSelect class="form-control"
+						ng-options="tipo for tipo in tiposFondosColecciones" ng-model="coleccion.tipo">
 						<option value="">Seleccione un valor</option>
 						<tt>tipoSelect={{tipo}}</tt>
 					</select>
 				</div>
-
-				<div class="campo">
-						<label  for="descripcion">Propiedad/Comodato</label>	
-						<div>
-							<textarea class="form-control" placeholder="" data-ng-model="coleccion.propiedadComodato" id="descripcion"></textarea>
+				<!-- Propiedad-comodato -->
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('coleccion','propiedadComodatoColeccion');" data-toggle="modal"
+						data-target="#ayudaPropiedadComodatoColeccion"></button>
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaPropiedadComodatoColeccion" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaPropiedadComodatoColeccionLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">PROPIEDAD/COMODATO</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
 						</div>
-				</div>
-				<div data-ng-show="error">
-						<strong data-ng-bind="error"></strong>
 					</div>
-	
-					<div>
-						<input class="btn btn-primary btn-lg" type="submit" value="Actualizar">
-					</div>		
-			</form>
-		</div>
-	</section>
-</div>
+					<label>PROPIEDAD/COMODATO</label>
+				</div>
+				<textarea class="form-control" placeholder="" ng-model="coleccion.propiedadComodato"
+					id="descripcion"></textarea>
+				<div>
+					<input type="submit" class="btn btn-primary btn-lg2" value="Actualizar">
+					<div data-ng-show="error">
+						<strong class="error" data-ng-bind="error"></strong>
+					</div>
+				</div>
+		</section>
+	</div>
+	</form>
 </div>

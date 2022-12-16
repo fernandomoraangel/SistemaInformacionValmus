@@ -1,106 +1,294 @@
-<!-- View editar artículo-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
-<div class="bodyEdit">
+<!-- View crear Ejemplares -->
+<ng-include src="'example/views/example.client.view.html'" />
+</ng-include>
+<div class="jumbotron">
 	<div class="container">
 		<section data-ng-controller="EjemplaresController" data-ng-init="findOne()">
-		<label class="tituloVista">EDITAR EJEMPLAR</label>
-			<form data-ng-submit="update()" novalidate>
-				
+			<label class="tituloVista">EDITAR EJEMPLAR</label>
+
+			<form class="form-principal" data-ng-submit="update()" novalidate>
+				<!-- Mensaje de error-->
+				<div data-ng-show="error">
+					<strong class="error" data-ng-bind="error"></strong>
+				</div>
 				<!-- Recurso -->
-				<label class="campo">RECURSO</label>
 				<div>
-				<select select name=tipoSelect data-ng-model="ejemplar.recurso" class="form-control">
-							<option value="">-----</option>
-							<option ng-repeat="r in recursos track by $index" value="{{r.id}}">
-								{{r.titulo}}
-							</option>	
-						</select>
-				</div>
-				
-				<!-- Ejemplar -->
-				<div class="campo">
-					<label  for "titulo">IDENTIFICADOR DE EJEMPLAR</label>
-				</div>
-				<div>
-					<input type="text" class="form-control" data-ng-model="ejemplar.numeroEjemplar" placeholder="" required ng-mouseup="actualizarTodo()">
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Ejemplar','recurso');" data-toggle="modal"
+						data-target="#ayudaContenedor"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">RECURSO</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label class="campo">RECURSO</label>
 				</div>
 
-<!-- Disponibilidad -->
+
 				<div>
-					<label class="campo" for="tipo">DISPONIBILIDAD</label>
-					<select  select name=tipoSelect class="form-control" data-ng-model="ejemplar.disponibilidad">
+					<select select name=tipoSelect data-ng-model="ejemplar.recurso" class="form-control">
+						<option value="">-----</option>
+						<option ng-repeat="r in recursos track by $index" value="{{r.id}}">
+							{{r.titulo}}
+						</option>
+					</select>
+				</div>
+
+				<!-- Ejemplar -->
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Ejemplar','idEjemplar');" data-toggle="modal"
+						data-target="#ayudaIdEjemplar"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaIdEjemplar" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaIdEjemplarLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">IDENTIFICADOR DE EJEMPLAR</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<label class="campo">IDENTIFICADOR DE EJEMPLAR</label>
+				</div>
+				<div>
+					<input type="text" class="form-control" data-ng-model="ejemplar.numeroEjemplar" id="titulo"
+						placeholder="" required>
+				</div>
+
+				<!-- Disponibilidad -->
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Ejemplar','disponibilidad');" data-toggle="modal"
+						data-target="#ayudaDisponibilidad"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaDisponibilidad" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaDisponibilidadLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">DISPONIBILIDAD</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<label class="campo">DISPONIBILIDAD</label>
+				</div>
+				<div>
+
+					<select select name=tipoSelect class="form-control" ng-model="ejemplar.disponibilidad">
 						<option value="">Seleccione un valor</option>
 						<option ng-repeat="d in disponibilidades | orderBy: d track by $index" value="{{d}}">
-						{{d}}
+							{{d}}
 						</option>
-						</select>
+					</select>
 				</div>
 
 
-<!-- Fondo -->
-				<label class="campo">FONDO</label>
+				<!-- Fondo -->
 				<div>
-				<select select name=tipoSelect data-ng-model="ejemplar.fondo" class="form-control">
-							<option value="">-----</option>
-							<option ng-repeat="f in fondos | orderBy: f track by $index" value="{{f.id}}">
-								{{f.nombre}}
-							</option>	
-						</select>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Ejemplar','fondo');" data-toggle="modal"
+						data-target="#ayudaFondo"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaFondo" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaFondoLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">FONDO DOCUMENTAL</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<label class="campo">FONDO</label>
 				</div>
 
-<!-- Colección -->
-				<label class="campo">COLECCIÓN</label>
-				<div>
-				<select select name=tipoSelect data-ng-model="ejemplar.coleccion" class="form-control">
-							<option value="">-----</option>
-							<option ng-repeat="c in coleccions | orderBy: c track by $index" value="{{c.id}}">
-								{{c.nombre}}
-							</option>	
-						</select>
-				</div>
-<!-- Procedencia -->
-				<div class="campo">
-					<label  for "titulo">PROCEDENCIA</label>
-				</div>
-
-				<div>
-					<input type="text" class="form-control" data-ng-model="ejemplar.procedencia"  placeholder="Lugar, precio y condiciones de adquisición"required>
-				</div>
-<!-- Estado-->
-				<hr class="division">
-				<hr><label class="seccion">ESTADO</label></hr>
-
-				<hr><label class="campo">Criterio</label></hr>
-				<select ng-model="estadoEtiqueta" class="form-control">
-					<option ng-repeat="e in estados | orderBy: e track by $index" value="{{e}}">
-						{{e}}
-					</option>
-					<option value="">-----</option>	
-
-				</select>
 
 				<div>
-					<label class="campo">Valor</label>
-					<input type="text" class="form-control" data-ng-model="estadoContenido" placeholder=""></input>
+					<select select name=tipoSelect ng-model="ejemplar.fondo" class="form-control">
+						<option value="">-----</option>
+						<option ng-repeat="f in fondos | orderBy: f track by $index" value="{{f.id}}">
+							{{f.nombre}}
+						</option>
+					</select>
+				</div>
+
+				<!-- Colección -->
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Ejemplar','coleccion');" data-toggle="modal"
+						data-target="#ayudaColeccion"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaColeccion" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaColeccionLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">COLECCIÓN</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<label class="campo">COLECCIÓN</label>
+				</div>
+
+
+				<div>
+					<select select name=tipoSelect ng-model="ejemplar.coleccion" class="form-control">
+						<option value="">-----</option>
+						<option ng-repeat="c in coleccions | orderBy: c track by $index" value="{{c.id}}">
+							{{c.nombre}}
+						</option>
+					</select>
+				</div>
+				<!-- Procedencia -->
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Ejemplar','procedencia');" data-toggle="modal"
+						data-target="#ayudaProcedencia"></button>
+
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaProcedencia" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaProcedenciaLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">PROCEDENCIA DEL EJEMPLAR</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<label class="campo">PROCEDENCIA</label>
 				</div>
 
 				<div>
-					<h2  class="glyphicon glyphicon-plus" ng-click="estadoAdd();">Agregar</h2>
-					<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+					<input type="text" class="form-control" ng-model="ejemplar.procedencia" id="titulo" required>
 				</div>
+				<!-- Estado-->
+				<div>
+					<!-- Botón modal ayuda -->
+					<button type="button" class="glyphicon glyphicon-eye-open"
+						ng-click="mostrarAyuda('Ejemplar','estado');" data-toggle="modal"
+						data-target="#ayudaEstado"></button>
 
-				<div ng-model="todoerase" ng-repeat="n in idEstados track by $index" class="campo">
-					<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="estadoRemove(n.etiqueta);"> {{n.etiqueta}}: {{n.contenido}}</h2>
+					<!-- Modal Ayuda-->
+					<div class="modal fade" id="ayudaEstado" tabindex="-1" role="dialog"
+						aria-labelledby="ayudaEstadoLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="Ayuda">ESTADO DEL EJEMPLAR</h5>
+								</div>
+								<div class="modal-body">
+									{{campo}}
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseEstado"
+						ng-click="cargaEstados(ejemplar.estados)" role="button" aria-expanded="false"
+						aria-controls="collapseExample"></button>
+					<label class="campo">ESTADO</label>
 				</div>
-				<hr class="division">
-<!-- Fin Estado -->	
-					
-						<div>
-						<input type="submit" class="btn btn-primary btn-lg2" value="Editar">
-						<div  data-ng-show="error">
-							<strong class="error" data-ng-bind="error"></strong>
-						</div>			
-				
-</div>
-</div>
-</section>
+				<div class="collapse" id="collapseEstado">
+
+					<hr><label class="campo">Criterio</label></hr>
+					<select ng-model="estadoEtiqueta" class="form-control">
+						<option ng-repeat="e in estados | orderBy: e track by $index" value="{{e}}">
+							{{e}}
+						</option>
+						<option value="">-----</option>
+
+					</select>
+
+					<div>
+						<label class="campo">Valor</label>
+						<input type="text" class="form-control" ng-model="estadoContenido" placeholder=""></input>
+					</div>
+
+					<div>
+						<h2 class="glyphicon glyphicon-plus" ng-click="estadoAdd();">Agregar</h2>
+
+					</div>
+
+					<div ng-model="todoerase" ng-repeat="n in idEstados track by $index" class="campo">
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="estadoRemove(n.etiqueta);">
+							{{nombrarSi("Criterio", n.etiqueta)}}
+							{{nombrarSi("Valor", n.contenido)}}
+
+					</div>
+				</div>
+				<!-- Fin Estado -->
+
+				<div>
+					<input type="submit" class="btn btn-primary btn-lg2" value="Actualizar">
+					<div data-ng-show="error">
+						<strong class="error" data-ng-bind="error"></strong>
+					</div>
+
+
+				</div>
+			</form>
+	</div>
