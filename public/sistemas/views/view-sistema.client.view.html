@@ -1,5 +1,5 @@
 <!-- View obra-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="SistemasController" data-ng-init="findOne()">
 
 	<div class="panel panel-default">
@@ -8,9 +8,9 @@
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==sistema.creador._id">
 			<a href="/#!/sistemas/{{sistema._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
-				<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"></a>
+			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"></a>
 		</div>
-		
+
 		<!-- Table -->
 		<table class="table table-striped text-left">
 
@@ -40,7 +40,7 @@
 					<td data-ng-bind="verSistemas(sistema.hijos)"></td>
 				</tr>
 
-				
+
 
 				<tr>
 					<td>Proyectos asociados</td>
@@ -58,17 +58,17 @@
 				</tr>
 
 				<tr>
-				<td>Enlaces y archivos</td>
-				<td data-ng-bind="verVinculo(sistema.vinculoRelacionado)"></td>
+					<td>Enlaces y archivos</td>
+					<td id="enlaces" data-ng-bind="verVinculo(sistema.vinculoRelacionado)"></td>
 				</tr>
-				
+
 
 			</tbody>
 
 		</table>
 
 	</div>
-		
+
 
 	<div class="creador">
 		<em>Creada en </em>
@@ -77,5 +77,3 @@
 		<em data-ng-bind="sistema.creador.fullName"></em>
 	</div>
 </section>
-
- 

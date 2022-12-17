@@ -1,23 +1,15 @@
 <!-- View listar fondos-->
 <ng-include src="'example/views/example.client.view.html'" /></ng-include>
-<section data-ng-controller="FondosController" class="bodyList" data-ng-init="find()">
-	<label class="tituloVista">LISTADO DE FONDOS DOCUMENTALES</label>
+<section class="bodyList" data-ng-controller="FondosController" class="bodyList" data-ng-init="find()">
+	<label class="tituloVista">FONDOS DOCUMENTALES</label>
 	<ul>
 		<div class="wrapper">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th> Filtrar <input type="text" ng-model="search">
-						</th>
-						<th>
-							<label> Ordenar </label>
-							<select ng-model="orden">
-								<option value="nombre">Nombre</option>
-								<option value="tipo">Tipo</option>
-								<option value="propiedadComodato">Propiedad/comodato</option>
-								<option value="fechaDeCreacion">Fecha de creación del fondo</option>
-							</select>
-							<span class="sortOrder" ng-class="{reverse: reverse}" ng-click="sortBy()"></span>
+						<th> <span class="glyphicon glyphicon-filter"> </span> <input type="text" class="campoList"
+								ng-model="search">
+							<!-- <button ng-click="propertyName = null; reverse = false">NO ORDENAR</button> -->
 						</th>
 					</tr>
 				</thead>
@@ -26,16 +18,40 @@
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th></th>
-						<th class="campo">Nombre</th>
-						<th class="campo">Tipo</th>
-						<th class="campo">Propiedad/comodato</th>
-						<th class="campo">Fecha de creación</th>
+						<th>
+							<!-- Columna sin título -->
+						</th>
+						<th>
+							<button class="btn-lg3" ng-click="sortBy('nombre')">NOMBRE</button>
+							<span class="sortorder" ng-show="propertyName === 'nombre'"
+								ng-class="{reverse: reverse}"></span>
+						</th>
+
+						<th>
+							<button class="btn-lg3" ng-click="sortBy('tipo')">TIPO</button>
+							<span class="sortorder" ng-show="propertyName === 'tipo'"
+								ng-class="{reverse: reverse}"></span>
+						</th>
+
+						<th>
+							<button class="btn-lg3" ng-click="sortBy('propiedadComodato')">PROPIEDAD/COMODATO</button>
+							<span class="sortorder" ng-show="propertyName === 'propiedadComodato'"
+								ng-class="{reverse: reverse}"></span>
+						</th>
+
+						<th>
+							<button class="btn-lg3" ng-click="sortBy('fechaDeCreacion')">CREACIÓN</button>
+							<span class="sortorder" ng-show="propertyName === 'fechaDeCreacion'"
+								ng-class="{reverse: reverse}"></span>
+						</th>
+
+
+
 					</tr>
 				</thead>
 
 				<tbody>
-					<tr data-ng-repeat="fondo in fondos | orderBy:orden:reverse|filter:search">
+					<tr data-ng-repeat="fondo in fondos | orderBy:propertyName:reverse|filter:search">
 						<!-- fondos es el modelo-->
 						<td>
 							<a href="/#!/fondos/{{fondo._id}}"><span class="glyphicon glyphicon-sunglasses" </span></a>

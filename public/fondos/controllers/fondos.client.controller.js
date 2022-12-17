@@ -32,15 +32,22 @@ angular.module("fondos").controller("FondosController", [
     $scope.todoInput = [];
     $scope.actorName = [];
     $scope.diccionarios = Diccionarios.query();
-    $scope.reverse = false;
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idEstados = this.ejemplar.estados;
     };
 
     // Funciones auxiliares
+
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "nombre";
+    $scope.reverse = false;
+
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
     };
 
     $scope.darFormato = function (y) {
@@ -168,7 +175,7 @@ angular.module("fondos").controller("FondosController", [
       }
     };
 
-    //Crear método controller para crear nuevas obras
+    //Crear método controller para crear nuevas registros
     $scope.create = function () {
       //Usar los campos form para crear un nuevo objeto $resource obra
       var fondo = new Fondos({
@@ -180,14 +187,23 @@ angular.module("fondos").controller("FondosController", [
       //Usar el método '$save' de obra para enviar una petición POST apropiada
       fondo.$save(
         function (response) {
-          alert("El registro ha sido creado");
           //Si la obra fue creada de la manera correcta, redireccionar a la página de la obra
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha creado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           $location.path("fondos/" + response._id);
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
-          $scope.error = errorResponse.data.message;
-          alert("No creado:" + errorResponse.data.message);
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
         }
       );
     };
@@ -211,9 +227,21 @@ angular.module("fondos").controller("FondosController", [
       $scope.fondo.$update(
         function () {
           //Si la actualización es correcta, redireccionar
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           $location.path("fondos/" + $scope.fondo._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );
@@ -221,29 +249,42 @@ angular.module("fondos").controller("FondosController", [
 
     //Método controller para borrar una fondo
     $scope.delete = function (fondo) {
-      var r = confirm("¿Realmente desea borrar el registro?");
-      if (r == true) {
-        //Si una fondo es enviado al método, borrarlo
-        if (fondo) {
-          //Confirmar
-
-          //Usar el método '$remove' del la fondo para borrarla
-          fondo.$remove(function () {
-            //Eliminar la fondo de la lista
-            for (var i in $scope.fondos) {
-              if ($scope.fondos[i] === fondo) {
-                $scope.fondos.splice(i, 1);
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (fondo) {
+            //Borrado
+            //Usar el método '$remove' del fondo para borrarlo
+            fondo.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.fondos) {
+                if ($scope.fondos[i] === fondo) {
+                  $scope.fondos.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.fondo.$remove(function () {
-            $location.path("fondos");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.fondo.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("fondos");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);

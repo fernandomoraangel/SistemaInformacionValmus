@@ -49,9 +49,9 @@ angular.module("instrumentos").controller("InstrumentosController", [
     $scope.idDTecnicas = [];
     $scope.actorName = [];
     $scope.errorclass = "form-control";
-    $scope.reverse = false;
     $scope.proyectos = Proyectos.query();
     $scope.diccionarios = Diccionarios.query();
+    var control = 0;
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idProyectos = this.instrumento.proyectosAsociados;
@@ -68,8 +68,15 @@ angular.module("instrumentos").controller("InstrumentosController", [
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
     $scope.esEnteroPositivo = (n, id) => (esEnteroPositivo = (n, id));
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "nombre";
+    $scope.reverse = false;
+
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
     };
 
     $scope.darFormato = function (y) {
@@ -80,6 +87,11 @@ angular.module("instrumentos").controller("InstrumentosController", [
       }
       return y;
     };
+
+    $scope.abrirVentana = function (url) {
+      window.open(url);
+    };
+
     $scope.verAnotacion = function (x) {
       y = "";
       for (var i in x) {
@@ -178,15 +190,22 @@ angular.module("instrumentos").controller("InstrumentosController", [
     };
 
     $scope.verVinculo = function (x) {
-      y = "";
-      for (var i in x) {
-        y = y + x[i].etiqueta + "(" + x[i].url + ")";
-        //Poner coma al final
-        if (i != x.length - 1) {
-          y = y + ", ";
-        }
+      //Garantiza que Angulasjs no vuelva a ejecutar la función
+      if (control == 1) {
+        return;
       }
-      return $scope.darFormato(y);
+      for (var i in x) {
+        //Crear enlace
+        var a = document.createElement("a");
+        a.title = x[i].etiqueta;
+        a.href = x[i].url;
+        a.target = "blank";
+        var aTexto = document.createTextNode(x[i].etiqueta + " ");
+        a.appendChild(aTexto);
+        document.getElementById("enlaces").appendChild(a);
+        control = 1;
+      }
+      return;
     };
 
     $scope.mostrarAyuda = function (tabla, campo) {
@@ -582,11 +601,11 @@ angular.module("instrumentos").controller("InstrumentosController", [
     //Menú enlaces
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
-        var tup = property.split(":");
+        var tup = property.split("*");
         obj[tup[0]] = tup[1];
       });
       if (
@@ -740,40 +759,65 @@ angular.module("instrumentos").controller("InstrumentosController", [
       //Usa el método $update de obra para enviar la petición PUT adecuada
       $scope.instrumento.$update(
         function () {
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           //Si la actualización es correcta, redireccionar
           $location.path("instrumentos/" + $scope.instrumento._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );
     };
 
     //Método controller para borrar una obra
-    $scope.delete = function (obra) {
-      var r = confirm("¿Realmente desea borrar el registro?");
-      if (r == true) {
-        //Si una obra es enviado al método, borrarlo
-        if (obra) {
-          //Confirmar
-
-          //Usar el método '$remove' del la obra para borrarla
-          obra.$remove(function () {
-            //Eliminar la obra de la lista
-            for (var i in $scope.obras) {
-              if ($scope.obras[i] === obra) {
-                $scope.obras.splice(i, 1);
+    $scope.delete = function (instrumento) {
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (instrumento) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            instrumento.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.instrumentos) {
+                if ($scope.instrumentos[i] === instrumento) {
+                  $scope.instrumentos.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.obra.$remove(function () {
-            $location.path("obras");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.instrumento.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("instrumentos");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);

@@ -63,7 +63,8 @@ angular.module("sistemas").controller("SistemasController", [
     $scope.idEnlaces = [];
     $scope.sistemas = Sistemas.query();
     $scope.diccionarios = Diccionarios.query();
-    $scope.reverse = false;
+    var control = 0;
+
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idEstados = this.ejemplar.estados;
@@ -75,8 +76,19 @@ angular.module("sistemas").controller("SistemasController", [
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
 
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "nombre";
+    $scope.reverse = false;
+
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
+    };
+
+    $scope.abrirVentana = function (url) {
+      window.open(url);
     };
 
     $scope.cargaAlias = function (d) {
@@ -234,15 +246,22 @@ angular.module("sistemas").controller("SistemasController", [
     };
 
     $scope.verVinculo = function (x) {
-      y = "";
-      for (var i in x) {
-        y = y + x[i].etiqueta + " (" + x[i].url + ") ";
-        //Poner coma al final
-        if (i != x.length - 1) {
-          y = y + ", ";
-        }
+      //Garantiza que Angulasjs no vuelva a ejecutar la función
+      if (control == 1) {
+        return;
       }
-      return $scope.darFormato(y);
+      for (var i in x) {
+        //Crear enlace
+        var a = document.createElement("a");
+        a.title = x[i].etiqueta;
+        a.href = x[i].url;
+        a.target = "blank";
+        var aTexto = document.createTextNode(x[i].etiqueta + " ");
+        a.appendChild(aTexto);
+        document.getElementById("enlaces").appendChild(a);
+        control = 1;
+      }
+      return;
     };
 
     $scope.verDenominaciones = function (x) {
@@ -691,11 +710,11 @@ angular.module("sistemas").controller("SistemasController", [
     //Menú enlaces
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
-        var tup = property.split(":");
+        var tup = property.split("*");
         obj[tup[0]] = tup[1];
       });
       if (
@@ -1107,30 +1126,43 @@ angular.module("sistemas").controller("SistemasController", [
     };
 
     //Método controller para borrar una obra
-    $scope.delete = function (obra) {
-      var r = confirm("¿Realmente desea borrar el registro?");
-      if (r == true) {
-        //Si una obra es enviado al método, borrarlo
-        if (obra) {
-          //Confirmar
-
-          //Usar el método '$remove' del la obra para borrarla
-          obra.$remove(function () {
-            //Eliminar la obra de la lista
-            for (var i in $scope.obras) {
-              if ($scope.obras[i] === obra) {
-                $scope.obras.splice(i, 1);
+    $scope.delete = function (sistema) {
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (sistema) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            sistema.$remove(function () {
+              //Eliminar el sistema de la lista
+              for (var i in $scope.sistemas) {
+                if ($scope.sistemas[i] === sistema) {
+                  $scope.sistemas.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.obra.$remove(function () {
-            $location.path("obras");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.sistema.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("sistemas");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);

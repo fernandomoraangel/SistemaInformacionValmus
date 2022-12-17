@@ -50,7 +50,7 @@ angular.module("generos").controller("GenerosController", [
     $scope.generos = Generos.query();
     $scope.diccionarios = Diccionarios.query();
     var obraId;
-    $scope.reverse = false;
+    var control = 0;
     // TODO:Didundir
     $scope.lugares = lugares;
     $scope.coberturas = coberturas;
@@ -64,9 +64,15 @@ angular.module("generos").controller("GenerosController", [
     $scope.formatDate = (date, precision = "AMD") =>
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "nombre";
+    $scope.reverse = false;
 
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
     };
 
     $scope.darFormato = function (y) {
@@ -92,6 +98,10 @@ angular.module("generos").controller("GenerosController", [
       }
       $scope.campo = "Datos del diccionario no encontrados";
       return;
+    };
+
+    $scope.abrirVentana = function (url) {
+      window.open(url);
     };
 
     //Cargar los campos que tienen vectores para la vista de edición
@@ -230,6 +240,7 @@ angular.module("generos").controller("GenerosController", [
           y = y + ", ";
         }
       }
+      return $scope.darFormato(y);
     };
 
     $scope.verMedios = function (x) {
@@ -269,15 +280,22 @@ angular.module("generos").controller("GenerosController", [
     };
 
     $scope.verVinculo = function (x) {
-      y = "";
-      for (var i in x) {
-        y = y + x[i].etiqueta + " (" + x[i].url + ") ";
-        //Poner coma al final
-        if (i != x.length - 1) {
-          y = y + ", ";
-        }
+      //Garantiza que Angulasjs no vuelva a ejecutar la función
+      if (control == 1) {
+        return;
       }
-      return $scope.darFormato(y);
+      for (var i in x) {
+        //Crear enlace
+        var a = document.createElement("a");
+        a.title = x[i].etiqueta;
+        a.href = x[i].url;
+        a.target = "blank";
+        var aTexto = document.createTextNode(x[i].etiqueta + " ");
+        a.appendChild(aTexto);
+        document.getElementById("enlaces").appendChild(a);
+        control = 1;
+      }
+      return;
     };
 
     $scope.verProyecto = function (x) {
@@ -304,7 +322,6 @@ angular.module("generos").controller("GenerosController", [
     $scope.generoAux = function (aux) {
       var out = "";
       try {
-        //aux = aux.trim();
         for (var i in $scope.generos) {
           if ($scope.generos[i]._id === aux) {
             out = $scope.generos[i].nombre;
@@ -1154,11 +1171,11 @@ angular.module("generos").controller("GenerosController", [
     //Menú enlaces
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
-        var tup = property.split(":");
+        var tup = property.split("*");
         obj[tup[0]] = tup[1];
       });
       if (
@@ -1259,7 +1276,7 @@ angular.module("generos").controller("GenerosController", [
       genero.$save(
         function (response) {
           //Si la obra fue creada de la manera correcta, redireccionar a la página de la obra
-          $location.path("recursos/" + response._id);
+
           Swal.fire({
             title: "¡Registro correcto!",
             text: "El registro se ha creado correctamente",
@@ -1372,30 +1389,43 @@ angular.module("generos").controller("GenerosController", [
     };
 
     //Método controller para borrar una obra
-    $scope.delete = function (obra) {
-      var r = confirm("¿Realmente desea borrar el registro?");
-      if (r == true) {
-        //Si una obra es enviado al método, borrarlo
-        if (obra) {
-          //Confirmar
-
-          //Usar el método '$remove' del la obra para borrarla
-          obra.$remove(function () {
-            //Eliminar la obra de la lista
-            for (var i in $scope.obras) {
-              if ($scope.obras[i] === obra) {
-                $scope.obras.splice(i, 1);
+    $scope.delete = function (genero) {
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (genero) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            genero.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.generos) {
+                if ($scope.generos[i] === genero) {
+                  $scope.generos.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.obra.$remove(function () {
-            $location.path("obras");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.genero.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("generos");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);

@@ -3,7 +3,7 @@
 <div class="jumbotron">
 	<div class="container">
 		<section data-ng-controller="DiccionariosController" data-ng-init="findOne()">
-			<label class="tituloVista">CREAR CAMPO EN DICCIONARIO DE DATOS</label>
+			<label class="tituloVista">EDITAR CAMPO EN DICCIONARIO DE DATOS</label>
 
 			<form class="form-principal" data-ng-submit="update()" novalidate>
 				<!-- Mensaje de error-->
@@ -130,7 +130,7 @@
 				</div>
 
 				<div>
-					<input type="submit" class="btn btn-primary pull-right" value="Crear">
+					<input type="submit" class="btn btn-primary pull-right" value="Actualizar">
 					<div data-ng-show="error">
 						<strong class="error" data-ng-bind="error"></strong>
 					</div>

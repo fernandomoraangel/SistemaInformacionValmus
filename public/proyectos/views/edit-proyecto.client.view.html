@@ -134,10 +134,8 @@
 						<input type="date" class="form-control" ng-model="fechaFinActivo" placeholder="">
 
 						<h2 class="glyphicon glyphicon-plus" ng-click="actorAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" href="/#!/actores/create" target="popup"
-							value="Crear actor"
-							onclick="window.open(this.href, this.target, 'width=500,height=400,left=300, top=200'); return false;">
-							Crear</h2>
+						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/actores/create')">Crear
+						</h2>
 					</div>
 					<div ng-model="todoerase" ng-repeat="x in idActores track by $index" class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="x" ng-click="actorRemove(x.id)">
@@ -254,7 +252,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="dDescriptorAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
@@ -309,7 +306,6 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="enlaceAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">

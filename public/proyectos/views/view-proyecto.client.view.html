@@ -1,5 +1,5 @@
 <!-- View obra-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="ProyectosController" data-ng-init="findOne()">
 
 	<div class="panel panel-default">
@@ -10,7 +10,7 @@
 			<a href="/#!/proyectos/{{proyecto._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
 			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"></a>
 		</div>
-		
+
 		<!-- Table -->
 		<table class="table table-striped text-left">
 
@@ -19,25 +19,25 @@
 					<td class="campo">ACTORES</td>
 					<td data-ng-bind="verInvestigadores(proyecto.investigadores)"></td>
 				</tr>
-				
-				<tbody>
+
+			<tbody>
 				<tr>
 					<td class="campo">FECHAS ASOCIADAS</td>
 					<td data-ng-bind="verFechas(proyecto.fechasAsociadas)"></td>
 				</tr>
 				<tr>
-						<td class="campo">ESTADO</td>
-						<td data-ng-bind="proyecto.estado"></td>
+					<td class="campo">ESTADO</td>
+					<td data-ng-bind="proyecto.estado"></td>
 				</tr>
 				<tr>
-						<td class="campo">DESCRIPTORES LIBRES</td>
-						<td data-ng-bind="verDescriptor(proyecto.descriptoresLibres)"></td>
+					<td class="campo">DESCRIPTORES LIBRES</td>
+					<td data-ng-bind="verDescriptor(proyecto.descriptoresLibres)"></td>
 				</tr>
-				
+
 				<tr>
-						<td class="campo">VÍNCULOS Y ARCHIVOS</td>
-						<td data-ng-bind="verVinculo(proyecto.vinculoRelacionado)"></td>
-				</tr>	
+					<td class="campo">VÍNCULOS Y ARCHIVOS</td>
+					<td id="enlaces" data-ng-bind="verVinculo(proyecto.vinculoRelacionado)"></td>
+				</tr>
 			</tbody>
 
 		</table>
@@ -53,5 +53,3 @@
 		<em data-ng-bind="proyecto.creador.fullName"></em>
 	</div>
 </section>
-
-

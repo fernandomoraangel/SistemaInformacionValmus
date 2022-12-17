@@ -1,5 +1,5 @@
 <!-- View obra-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="InstrumentosController" data-ng-init="findOne()">
 
 	<div class="panel panel-default">
@@ -10,15 +10,15 @@
 			<a href="/#!/instrumentos/{{instrumento._id}}/edit"><span class="glyphicon glyphicon-pencil"></a></a>
 			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"></a>
 		</div>
-		
+
 		<!-- Table -->
 		<table class="table table-striped text-left">
 			<tbody>
-				
+
 
 				<tr>
-						<td class="campo">ALIAS</td>
-						<td data-ng-bind="verAlias(instrumento.alias)"></td>
+					<td class="campo">ALIAS</td>
+					<td data-ng-bind="verAlias(instrumento.alias)"></td>
 				</tr>
 
 				<tr>
@@ -35,21 +35,21 @@
 					<td class="campo">ANOTACIÓN CARTOGRÁFICO-TEMPORAL</td>
 					<td data-ng-bind="verAnotacion(instrumento.anotacionCartograficoTemporal)"></td>
 				</tr>
-				
+
 				<tr>
 					<td class="campo">DESCRIPTOR LIBRE</td>
 					<td data-ng-bind="verDescriptor(instrumento.descriptorLibre)"></td>
 				</tr>
 				<tr>
-						<td class="campo">VÍNCULO RELACIONADO</td>
-						<td data-ng-bind="verVinculo(instrumento.vinculoRelacionado)"></td>
+					<td class="campo">VÍNCULO RELACIONADO</td>
+					<td id="enlaces" data-ng-bind="verVinculo(instrumento.vinculoRelacionado)"></td>
 				</tr>
 
-				
 
-				
 
-				
+
+
+
 			</tbody>
 
 		</table>
@@ -63,5 +63,3 @@
 		<em data-ng-bind="instrumento.creador.fullName"></em>
 	</div>
 </section>
-
-

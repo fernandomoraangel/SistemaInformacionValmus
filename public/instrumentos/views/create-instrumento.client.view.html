@@ -55,7 +55,8 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">Clasificación Hornbostel-Sachs del instrumento</h5>
+									<h5 class="modal-title" id="Ayuda">Clasificación Hornbostel-Sachs del instrumento
+									</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -69,7 +70,7 @@
 					<label>CLASIFICACIÓN HORNBOSTEL-SACHS</label>
 				</div>
 
-<!-- TODO: Validar clasificación-->
+				<!-- TODO: Validar clasificación-->
 				<input type="text" class="form-control" ng-model="clasificacion">
 
 
@@ -161,7 +162,9 @@
 
 					<div>
 						<h2 class="glyphicon glyphicon-plus" ng-click="proyectoAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="">Crear</h2>
+						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/proyectos/create')">
+							Crear
+						</h2>
 
 					</div>
 
@@ -175,12 +178,13 @@
 				<div>
 					<!-- Botón modal ayuda -->
 					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('instrumento','AnotacionesCartograficoTemporalesIntrumento');" data-toggle="modal"
-						data-target="#ayudaAnotacionesCartograficoTemporalesIntrumento"></button>
+						ng-click="mostrarAyuda('instrumento','AnotacionesCartograficoTemporalesIntrumento');"
+						data-toggle="modal" data-target="#ayudaAnotacionesCartograficoTemporalesIntrumento"></button>
 
 					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaAnotacionesCartograficoTemporalesIntrumento" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaAnotacionesCartograficoTemporalesIntrumentoLabel" aria-hidden="true">
+					<div class="modal fade" id="ayudaAnotacionesCartograficoTemporalesIntrumento" tabindex="-1"
+						role="dialog" aria-labelledby="ayudaAnotacionesCartograficoTemporalesIntrumentoLabel"
+						aria-hidden="true">
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
@@ -294,7 +298,8 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="dDescriptorRemove(n.etiqueta,n.contenido);">
+						<h2 class="glyphicon glyphicon-remove" ng-model="n"
+							ng-click="dDescriptorRemove(n.etiqueta,n.contenido);">
 							{{nombrarSi("Etiqueta", n.etiqueta)}}
 							{{nombrarSi("Contenido", n.contenido)}}</h2>
 					</div>

@@ -8,7 +8,14 @@ angular.module("actores").controller("ActoresController", [
   "Authentication",
   "Actores",
   "Diccionarios",
-  function ($scope, $routeParams, $location, Authentication, Actores,Diccionarios) {
+  function (
+    $scope,
+    $routeParams,
+    $location,
+    Authentication,
+    Actores,
+    Diccionarios
+  ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
     $scope.diccionarios = Diccionarios.query();
@@ -24,8 +31,8 @@ angular.module("actores").controller("ActoresController", [
     $scope.idDescriptores = [];
     $scope.idEnlaces = [];
     $scope.actores = Actores.query();
-    $scope.reverse = false;
 
+    var control = 0;
     // Funciones auxiliares
 
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
@@ -33,8 +40,15 @@ angular.module("actores").controller("ActoresController", [
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
 
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "apellidos";
+    $scope.reverse = false;
+
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
     };
 
     $scope.mostrarAyuda = function (tabla, campo) {
@@ -61,12 +75,12 @@ angular.module("actores").controller("ActoresController", [
       return y;
     };
 
- // Funciones auxiliares
+    // Funciones auxiliares
     //Cargar los campos que tienen vectores para la vista de edición
     //Actualizar para editar
 
     $scope.cargaContenedores = function (d) {
-      console.log(d)
+      console.log(d);
       for (var i in d) {
         delete d[i]._id;
       }
@@ -109,8 +123,8 @@ angular.module("actores").controller("ActoresController", [
       for (var i in x) {
         y = y + $scope.actorAux(x[i].id);
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
@@ -133,9 +147,9 @@ angular.module("actores").controller("ActoresController", [
           $scope.formatDate(x[i].fechaFin, x[i].precisionFin) +
           ", Evidencia: " +
           x[i].evidencia;
-          //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
+        //Poner coma al final
+        if (i != x.length - 1) {
+          y = y + ", ";
         }
       }
       return $scope.darFormato(y);
@@ -146,25 +160,31 @@ angular.module("actores").controller("ActoresController", [
       for (var i in x) {
         y = y + x[i].etiqueta + ": " + x[i].contenido;
         //Poner coma al final
-        if(i!=x.length-1){
-          y=y+"; "
+        if (i != x.length - 1) {
+          y = y + "; ";
         }
       }
       return $scope.darFormato(y);
     };
 
     $scope.verVinculo = function (x) {
-      y = "";
-      for (var i in x) {
-        y = y + x[i].etiqueta + " (" + x[i].url + ") ";
-        //Poner coma al final
-        if(i!=x.length-1){
-          y=y+", "
-        }
+      //Garantiza que Angulasjs no vuelva a ejecutar la función
+      if (control == 1) {
+        return;
       }
-      return $scope.darFormato(y);
+      for (var i in x) {
+        //Crear enlace
+        var a = document.createElement("a");
+        a.title = x[i].etiqueta;
+        a.href = x[i].url;
+        a.target = "blank";
+        var aTexto = document.createTextNode(x[i].etiqueta + " ");
+        a.appendChild(aTexto);
+        document.getElementById("enlaces").appendChild(a);
+        control = 1;
+      }
+      return;
     };
-
     //Actores
     $scope.updateActores = function () {
       $scope.actores = Actores.query();
@@ -462,11 +482,11 @@ angular.module("actores").controller("ActoresController", [
     //Menú enlaces
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
-        var tup = property.split(":");
+        var tup = property.split("*");
         obj[tup[0]] = tup[1];
       });
       if (
@@ -556,11 +576,22 @@ angular.module("actores").controller("ActoresController", [
       actor.$save(
         function (response) {
           //Si el actor fue creada de la manera correcta, redireccionar a la página de la actor
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha creado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           $location.path("actores/" + response._id);
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
-          $scope.error = errorResponse.data.message;
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
         }
       );
     };
@@ -580,7 +611,6 @@ angular.module("actores").controller("ActoresController", [
 
     //Método controller para actualizar una única actor
     $scope.update = function () {
-
       //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
       if ($scope.idContenedores.length != 0) {
         $scope.actor.contenedor = $scope.idContenedores;
@@ -598,15 +628,26 @@ angular.module("actores").controller("ActoresController", [
       if ($scope.idEnlaces.length != 0) {
         $scope.actor.vinculoRelacionado = $scope.idEnlaces;
       }
-      
 
       //Usa el método $update de actor para enviar la petición PUT adecuada
       $scope.actor.$update(
         function () {
           //Si la actualización es correcta, redireccionar
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           $location.path("actores/" + $scope.actor._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );
@@ -614,9 +655,46 @@ angular.module("actores").controller("ActoresController", [
 
     //Método controller para borrar una actor
     $scope.delete = function (actor) {
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (actor) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            actor.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.actores) {
+                if ($scope.actores[i] === actor) {
+                  $scope.obras.splice(i, 1);
+                }
+              }
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.actor.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("actores");
+            });
+          }
+        }
+      });
+
       //Si una actor es enviado al método, borrarlo
       if (actor) {
-        //Usar el método '$remove' del la actor para borrarla
+        //Usar el método '$remove' del  actor para borrarlo
         actor.$remove(function () {
           //Eliminar la actor de la lista
           for (var i in $scope.Actores) {
@@ -628,7 +706,7 @@ angular.module("actores").controller("ActoresController", [
       } else {
         //En otro caso usar el método $remove para borrar
         $scope.actor.$remove(function () {
-          $location.path("Actores");
+          $location.path("actores");
         });
       }
     };

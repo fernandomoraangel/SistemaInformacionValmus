@@ -106,8 +106,8 @@ angular.module("obras").controller("ObrasController", [
     $scope.materias = Materias.query();
     $scope.obras = Obras.query();
     $scope.control = 0;
-    $scope.reverse = false;
     $scope.campo = "";
+    var control = 0;
 
     /* //Actualizar para editar
     $scope.actualizarTodo = function () {
@@ -246,9 +246,15 @@ angular.module("obras").controller("ObrasController", [
     $scope.abrirVentana = function (url) {
       window.open(url);
     };
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "titulo";
+    $scope.reverse = false;
 
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
     };
 
     $scope.mostrarAyuda = function (tabla, campo) {
@@ -462,15 +468,22 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.verVinculo = function (x) {
-      y = "";
-      for (var i in x) {
-        y = y + x[i].etiqueta + " (" + x[i].url + ") ";
-        //Poner coma al final
-        if (i != x.length - 1) {
-          y = y + ", ";
-        }
+      //Garantiza que Angulasjs no vuelva a ejecutar la función
+      if (control == 1) {
+        return;
       }
-      return $scope.darFormato(y);
+      for (var i in x) {
+        //Crear enlace
+        var a = document.createElement("a");
+        a.title = x[i].etiqueta;
+        a.href = x[i].url;
+        a.target = "blank";
+        var aTexto = document.createTextNode(x[i].etiqueta + " ");
+        a.appendChild(aTexto);
+        document.getElementById("enlaces").appendChild(a);
+        control = 1;
+      }
+      return;
     };
 
     //Obras-contenedores
@@ -1596,11 +1609,11 @@ angular.module("obras").controller("ObrasController", [
     //Enlaces
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
-        var tup = property.split(":");
+        var tup = property.split("*");
         obj[tup[0]] = tup[1];
       });
       if (
@@ -1626,7 +1639,7 @@ angular.module("obras").controller("ObrasController", [
               //Mensaje de error
               Swal.fire({
                 title: "¡Error!",
-                text: "El proyecto se ya encuentra en la lista",
+                text: "El enlace se ya encuentra en la lista",
                 icon: "error",
                 confirmButtonText: "Cerrar",
               });
@@ -1822,29 +1835,42 @@ angular.module("obras").controller("ObrasController", [
 
     //Método controller para borrar una obra
     $scope.delete = function (obra) {
-      var r = confirm("¿Realmente desea borrar el registro?");
-      if (r == true) {
-        //Si una obra es enviado al método, borrarlo
-        if (obra) {
-          //Confirmar
-
-          //Usar el método '$remove' del la obra para borrarla
-          obra.$remove(function () {
-            //Eliminar la obra de la lista
-            for (var i in $scope.obras) {
-              if ($scope.obras[i] === obra) {
-                $scope.obras.splice(i, 1);
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (obra) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            obra.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.obras) {
+                if ($scope.obras[i] === obra) {
+                  $scope.obras.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.obra.$remove(function () {
-            $location.path("obras");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.obra.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("obras");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);

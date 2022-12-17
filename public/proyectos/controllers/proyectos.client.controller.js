@@ -21,17 +21,17 @@ angular.module("proyectos").controller("ProyectosController", [
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
     $scope.items = ["Si", "No"];
-    //Específica 
+    //Específica
     $scope.roles = [
-    "Asesor",
-    "Auxiliar administrativo",
-    "Colaborador",
-    "Estudiante de doctorado",
-    "Estudiante de maestría",
-    "Estudiante de pregrado",
-    "Investigador principal",
-    "Investigador",
-    "Servicios técnicos"
+      "Asesor",
+      "Auxiliar administrativo",
+      "Colaborador",
+      "Estudiante de doctorado",
+      "Estudiante de maestría",
+      "Estudiante de pregrado",
+      "Investigador principal",
+      "Investigador",
+      "Servicios técnicos",
     ];
     $scope.estadosProyecto = estadosProyecto;
     $scope.eventos = [
@@ -57,9 +57,8 @@ angular.module("proyectos").controller("ProyectosController", [
     $scope.todoInput = [];
     $scope.actorName = [];
     $scope.idEnlaces = [];
-    $scope.reverse = false;
     $scope.diccionarios = Diccionarios.query();
-
+    var control = 0;
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idActores = this.proyecto.investigadores;
@@ -74,8 +73,15 @@ angular.module("proyectos").controller("ProyectosController", [
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
 
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "nombre";
+    $scope.reverse = false;
+
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
     };
 
     $scope.darFormato = function (y) {
@@ -100,6 +106,10 @@ angular.module("proyectos").controller("ProyectosController", [
       }
       $scope.campo = "Datos del diccionario no encontrados";
       return;
+    };
+
+    $scope.abrirVentana = function (url) {
+      window.open(url);
     };
 
     //Cargar los campos que tienen vectores para la vista de edición
@@ -152,11 +162,22 @@ angular.module("proyectos").controller("ProyectosController", [
     };
 
     $scope.verVinculo = function (x) {
-      y = "";
-      for (var i in x) {
-        y = y + x[i].etiqueta + " (" + x[i].url + "), ";
+      //Garantiza que Angulasjs no vuelva a ejecutar la función
+      if (control == 1) {
+        return;
       }
-      return $scope.darFormato(y);
+      for (var i in x) {
+        //Crear enlace
+        var a = document.createElement("a");
+        a.title = x[i].etiqueta;
+        a.href = x[i].url;
+        a.target = "blank";
+        var aTexto = document.createTextNode(x[i].etiqueta + " ");
+        a.appendChild(aTexto);
+        document.getElementById("enlaces").appendChild(a);
+        control = 1;
+      }
+      return;
     };
 
     $scope.verFechas = function (x) {
@@ -483,11 +504,11 @@ angular.module("proyectos").controller("ProyectosController", [
     //Menú enlaces
     $scope.enlaceAdd = function () {
       existe = false;
-      var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+      var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
-        var tup = property.split(":");
+        var tup = property.split("*");
         obj[tup[0]] = tup[1];
       });
       if (
@@ -624,44 +645,69 @@ angular.module("proyectos").controller("ProyectosController", [
       if ($scope.idEnlaces.length != 0) {
         $scope.proyecto.vinculoRelacionado = $scope.idEnlaces;
       }
-      
+
       //Usa el método $update de proyecto para enviar la petición PUT adecuada
       $scope.proyecto.$update(
         function () {
           //Si la actualización es correcta, redireccionar
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           $location.path("proyectos/" + $scope.proyecto._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );
     };
 
     //Método controller para borrar una obra
-    $scope.delete = function (obra) {
-      var r = confirm("¿Realmente desea borrar el registro?");
-      if (r == true) {
-        //Si una obra es enviado al método, borrarlo
-        if (obra) {
-          //Confirmar
-
-          //Usar el método '$remove' del la obra para borrarla
-          obra.$remove(function () {
-            //Eliminar la obra de la lista
-            for (var i in $scope.obras) {
-              if ($scope.obras[i] === obra) {
-                $scope.obras.splice(i, 1);
+    $scope.delete = function (proyecto) {
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (proyecto) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            proyecto.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.proyectos) {
+                if ($scope.proyectos[i] === proyecto) {
+                  $scope.proyectos.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.obra.$remove(function () {
-            $location.path("obras");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.proyecto.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("proyectos");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);

@@ -10,35 +10,21 @@ angular
     "Authentication",
     "GenerosNoMusicales",
     "Idiomas",
+    "Diccionarios",
     function (
       $scope,
       $routeParams,
       $location,
       Authentication,
       GenerosNoMusicales,
-      Idiomas
+      Idiomas,
+      Diccionarios
     ) {
       //Exponer el servicio Authentication
       $scope.authentication = Authentication;
-      $scope.items = ["Si", "No"];
-      $scope.rols = ["Autor letra", "Autor música", "Arreglista", "Compilador"];
-      $scope.tipos = [
-        "Partitura",
-        "Grabación de audio",
-        "Grabación de video",
-        "Libro",
-        "Revista",
-      ];
-      $scope.eventos = ["Composición", "Estreno", "Primera grabación"];
-      $scope.lugares = ["Andes", "Pacífico", "Atlántico", "Llanos"];
-      $scope.coberturas = ["Local", "País", "Mundial"];
-      $scope.proyectos = ["Andes", "Emisoras", "Industria discográfica"];
-      $scope.nNormalizados = ["ISBN", "ISSN", "ISMN", "ISAN", "ISWC", "ISRC"];
-      $scope.dEtiquetas = [
-        "Interés pedagógico",
-        "Obra representativa",
-        "Relación con línea de investigación",
-      ];
+      $scope.lugares = lugares;
+      $scope.coberturas = coberturas;
+      $scope.dEtiquetas = dEtiquetas;
       $scope.idActores = [];
       $scope.idAnotacionesCartograficoTemporales = [];
       $scope.idDescriptores = [];
@@ -50,9 +36,10 @@ angular
       $scope.idPadres = [];
       $scope.idHijos = [];
       $scope.idIdiomas = [];
+      $scope.diccionarios = Diccionarios.query();
       $scope.generosNoMusicales = GenerosNoMusicales.query();
       var generoNoMusicalId;
-      $scope.reverse = false;
+      var control = 0;
       //Preparar datos
       $scope.actualizarTodo = function () {
         $scope.idEstados = this.generoNoMusical.estados;
@@ -64,8 +51,15 @@ angular
         formatDate(date, precision);
       $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
 
+      //Variables globales para ordenar la vista de lista
+      $scope.propertyName = "nombre";
+      $scope.reverse = false;
+
+      //Ordena la vista de lista
       $scope.sortBy = function (propertyName) {
-        $scope.reverse = !$scope.reverse;
+        $scope.reverse =
+          $scope.propertyName === propertyName ? !$scope.reverse : false;
+        $scope.propertyName = propertyName;
       };
 
       $scope.darFormato = function (y) {
@@ -75,6 +69,79 @@ angular
             y.slice(y.indexOf("undefined,") + 10, length);
         }
         return y;
+      };
+
+      $scope.mostrarAyuda = function (tabla, campo) {
+        var out = new Object();
+        for (var i in $scope.diccionarios) {
+          if (
+            $scope.diccionarios[i].campo === campo &&
+            $scope.diccionarios[i].tabla === tabla
+          ) {
+            $scope.campo = $scope.diccionarios[i].definicion;
+            $scope.campoLargo = $scope.diccionarios[i].campoLargo;
+            return;
+          }
+        }
+        $scope.campo = "Datos del diccionario no encontrados";
+        return;
+      };
+
+      //Cargar los campos que tienen vectores para la vista de edición
+      $scope.cargaAlias = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idAlias = [].concat(d);
+      };
+
+      $scope.cargaGenerosRel = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idGenerosRelacionados = [].concat(d);
+      };
+
+      $scope.cargaPadres = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idPadres = [].concat(d);
+      };
+
+      $scope.cargaHijos = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idHijos = [].concat(d);
+      };
+
+      $scope.cargaIdiomas = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idIdiomas = [].concat(d);
+      };
+
+      $scope.cargaAnotaciones = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idAnotacionesCartograficoTemporales = [].concat(d);
+      };
+
+      $scope.cargaDescriptores = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idDescriptores = [].concat(d);
+      };
+
+      $scope.cargaEnlaces = function (d) {
+        for (var i in d) {
+          delete d[i]._id;
+        }
+        $scope.idEnlaces = [].concat(d);
       };
 
       $scope.verAlias = function (x) {
@@ -99,8 +166,7 @@ angular
           }
         }
         return $scope.darFormato(y);
-      }
-  
+      };
 
       $scope.verAnotacion = function (x) {
         y = "";
@@ -126,7 +192,9 @@ angular
         }
         return $scope.darFormato(y);
       };
-
+      $scope.abrirVentana = function (url) {
+        window.open(url);
+      };
       $scope.verDescriptor = function (x) {
         y = "";
         for (var i in x) {
@@ -138,19 +206,26 @@ angular
         }
         return $scope.darFormato(y);
       };
-  
+
       $scope.verVinculo = function (x) {
-        y = "";
-        for (var i in x) {
-          y = y + x[i].etiqueta + " (" + x[i].url + ") ";
-          //Poner coma al final
-          if (i != x.length - 1) {
-            y = y + ", ";
-          }
+        //Garantiza que Angulasjs no vuelva a ejecutar la función
+        if (control == 1) {
+          return;
         }
-        return $scope.darFormato(y);
+        for (var i in x) {
+          //Crear enlace
+          var a = document.createElement("a");
+          a.title = x[i].etiqueta;
+          a.href = x[i].url;
+          a.target = "blank";
+          var aTexto = document.createTextNode(x[i].etiqueta + " ");
+          a.appendChild(aTexto);
+          document.getElementById("enlaces").appendChild(a);
+          control = 1;
+        }
+        return;
       };
-  
+
       $scope.verIdiomas = function (x) {
         y = "";
         for (var i in x) {
@@ -163,7 +238,6 @@ angular
         return $scope.darFormato(y);
       };
 
-      
       $scope.verRecurso = function (x) {
         y = "";
         for (var i in x) {
@@ -646,7 +720,7 @@ angular
           }
         }
       };
-   
+
       $scope.anotacionCartograficoTemporalRemove = function (x) {
         for (var i in $scope.idAnotacionesCartograficoTemporales) {
           if ($scope.idAnotacionesCartograficoTemporales[i].lugar === x) {
@@ -778,11 +852,11 @@ angular
       //Menú enlaces
       $scope.enlaceAdd = function () {
         existe = false;
-        var x = "etiqueta:" + this.eEtiqueta + ",url:" + this.eUrl;
+        var x = "etiqueta*" + this.eEtiqueta + ",url*" + this.eUrl;
         var properties = x.split(",");
         var obj = {};
         properties.forEach(function (property) {
-          var tup = property.split(":");
+          var tup = property.split("*");
           obj[tup[0]] = tup[1];
         });
         if (
@@ -874,7 +948,7 @@ angular
             $scope.idAnotacionesCartograficoTemporales,
           idioma: $scope.idIdiomas,
           descriptorLibre: $scope.idDescriptores,
-          vinculoRelacionado:$scope.idEnlaces
+          vinculoRelacionado: $scope.idEnlaces,
         });
 
         //Usar el método '$save' de genero no musical para enviar una petición POST apropiada
@@ -887,13 +961,13 @@ angular
               confirmButtonText: "Cerrar",
             });
             //Si la obra fue creada de la manera correcta, redireccionar a la página de la obra
-            $location.path('generosnomusicales/' + response._id);
+            $location.path("generosnomusicales/" + response._id);
           },
           function (errorResponse) {
             //En caso contrario, presentar mensaje de error
             Swal.fire({
               title: "¡Error!",
-              text: $scope.error = errorResponse.data.message,
+              text: ($scope.error = errorResponse.data.message),
               icon: "error",
               confirmButtonText: "Cerrar",
             });
@@ -904,7 +978,7 @@ angular
 
       //Método controller para recuperar la lista de registros
       $scope.find = function () {
-        //Usar el método 'querry' de obra, para enviar una petición GET apropiada
+        //Usar el método 'querry' , para enviar una petición GET apropiada
         $scope.generosNoMusicales = GenerosNoMusicales.query();
       };
 
@@ -918,64 +992,103 @@ angular
 
       //Método controller para actualizar una única obra
       $scope.update = function () {
-        //Agregar actores
-        for (var i in $scope.idActores) {
-          actorObra = new ActoresObras({
-            actor: $scope.idActores[i].id,
-            obra: $routeParams.obraId,
-            roll: $scope.idActores[i].rol,
-          });
+        //Agregar vectores para que se actualicen, el  es porque si no se hace click en la carga, el vector queda vacío
+        if ($scope.idAlias.length != 0) {
+          $scope.generoNoMusical.alias = $scope.idAlias;
+        }
 
-          //Usar el método '$save' de actor para enviar una petición POST apropiada
-          generoNoMusical.$save(
-            function (response) {
-              //$location.path('obras/' + obraId);
-            },
-            function (errorResponse) {
-              //En caso contrario, presentar mensaje de error
-              $scope.error = errorResponse.data.message;
-              alert("Problemas al crear el registro " + $scope.error);
-            }
-          );
+        if ($scope.idGenerosRelacionados.length != 0) {
+          $scope.generoNoMusical.generosRelacionados =
+            $scope.idGenerosRelacionados;
+        }
+
+        if ($scope.idPadres.length != 0) {
+          $scope.generoNoMusical.padres = $scope.idPadres;
+        }
+
+        if ($scope.idHijos.length != 0) {
+          $scope.generoNoMusical.hijos = $scope.idHijos;
+        }
+
+        if ($scope.idIdiomas.length != 0) {
+          $scope.generoNoMusical.idioma = $scope.idIdiomas;
+        }
+
+        if ($scope.idAnotacionesCartograficoTemporales.length != 0) {
+          $scope.generoNoMusical.anotacionCartograficoTemporal =
+            $scope.idAnotacionesCartograficoTemporales;
+        }
+
+        if ($scope.idDescriptores.length != 0) {
+          $scope.generoNoMusical.descriptorLibre = $scope.idDescriptores;
+        }
+
+        if ($scope.idEnlaces.length != 0) {
+          $scope.generoNoMusical.vinculoRelacionado = $scope.idEnlaces;
         }
 
         //Usa el método $update de obra para enviar la petición PUT adecuada
-        $scope.obra.$update(
+        $scope.generoNoMusical.$update(
           function () {
             //Si la actualización es correcta, redireccionar
-            $location.path("generoNoMusical/" + $scope.generoNoMusical._id);
+            Swal.fire({
+              title: "¡Registro correcto!",
+              text: "El registro se ha actualizado correctamente",
+              icon: "success",
+              confirmButtonText: "Cerrar",
+            });
+            $location.path("generosnomusicales/" + $scope.generoNoMusical._id);
           },
           function (errorResponse) {
+            Swal.fire({
+              title: "¡Error!",
+              text: ($scope.error = errorResponse.data.message),
+              icon: "error",
+              confirmButtonText: "Cerrar",
+            });
             $scope.error = errorResponse.data.message;
           }
         );
       };
 
       //Método controller para borrar una obra
-      $scope.delete = function (obra) {
-        var r = confirm("¿Realmente desea borrar el registro?");
-        if (r == true) {
-          //Si una obra es enviado al método, borrarlo
-          if (generoNoMusical) {
-            //Confirmar
-
-            //Usar el método '$remove' del la obra para borrarla
-            generoNoMusical.$remove(function () {
-              //Eliminar la obra de la lista
-              for (var i in $scope.obras) {
-                if ($scope.generoNoMusical[i] === generoNoMusical) {
-                  $scope.generosNoMusicales.splice(i, 1);
+      $scope.delete = function (generoNoMusical) {
+        //Confirmación
+        Swal.fire({
+          title: "¡Advertencia de eliminación!",
+          text: "¿Realmente desea borrar el registro?",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Confirmar",
+          cancelButtonText: "Cancelar",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if (generoNoMusical) {
+              //Borrado
+              //Usar el método '$remove' para borrar
+              generoNoMusical.$remove(function () {
+                //Eliminar la obra de la lista
+                for (var i in $scope.generosNoMusicales) {
+                  if ($scope.generosNoMusicales[i] === generoNoMusical) {
+                    $scope.generosNoMusicales.splice(i, 1);
+                  }
                 }
-              }
-            });
-          } else {
-            //En otro caso usar el método $remove para borrar
-            $scope.generoNoMusical.$remove(function () {
-              $location.path("generosNoMusicales");
-            });
+              });
+            } else {
+              //En otro caso usar el método $remove para borrar
+              //Borrado exitoso
+              $scope.generoNoMusical.$remove(function () {
+                Swal.fire({
+                  title: "Eliminación exitosa!",
+                  text: "El registro se ha eliminado correctamente",
+                  icon: "success",
+                  confirmButtonText: "Cerrar",
+                });
+                $location.path("generosnomusicales");
+              });
+            }
           }
-        } else {
-        }
+        });
       };
     },
   ]);

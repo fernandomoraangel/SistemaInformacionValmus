@@ -101,9 +101,8 @@
 
 				<div>
 					<!-- Botón modal ayuda -->
-					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','Actor');" data-toggle="modal"
-						data-target="#ayudaActores"></button>
+					<button type="button" class="glyphicon glyphicon-eye-open" ng-click="mostrarAyuda('Obra','Actor');"
+						data-toggle="modal" data-target="#ayudaActores"></button>
 
 					<!-- Modal Ayuda-->
 					<div class="modal fade" id="ayudaActores" tabindex="-1" role="dialog"
@@ -117,8 +116,7 @@
 									{{campo}}
 								</div>
 								<div class="modal-footer">
-									<button type="button" class="btn btn-primary"
-										data-dismiss="modal">Cerrar</button>
+									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
 								</div>
 							</div>
 						</div>
@@ -374,7 +372,7 @@
 					<div ng-model="todoerase" ng-repeat="c in idAsientosLigados track by $index" class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="al"
 							ng-click="asientoLigadoRemove(c.asientoligado)">
-							{{nombrarSi("Obra",obraAux(c.id))}} 
+							{{nombrarSi("Obra",obraAux(c.id))}}
 							{{nombrarSi("Tipo de relación", c.tipoDeRelacion)}}
 							{{nombrarSi("Dirección de la relación", c.direccionDeRelacion)}}
 							{{nombrarSi("Fuente de la relación", c.fuenteRelacion)}}
@@ -688,111 +686,114 @@
 						<!-- Fin centro de sistema sonoro -->
 					</div>
 					<!-- Idioma -->
-				<div>
-					<!-- Botón modal ayuda -->
-					<button type="button" class="glyphicon glyphicon-eye-open"
-						ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
-						data-target="#ayudaContenedor"></button>
+					<div>
+						<!-- Botón modal ayuda -->
+						<button type="button" class="glyphicon glyphicon-eye-open"
+							ng-click="mostrarAyuda('Obra','asientoligado');" data-toggle="modal"
+							data-target="#ayudaContenedor"></button>
 
-					<!-- Modal Ayuda-->
-					<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
-						aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
-						<div class="modal-dialog" role="document">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
-								</div>
-								<div class="modal-body">
-									{{campo}}
-								</div>
-								<div class="modal-footer">
-									<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+						<!-- Modal Ayuda-->
+						<div class="modal fade" id="ayudaContenedor" tabindex="-1" role="dialog"
+							aria-labelledby="ayudaContenedorLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="Ayuda">ASIENTO LIGADO</h5>
+									</div>
+									<div class="modal-body">
+										{{campo}}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">Cerrar</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseI"
-						role="button" aria-expanded="false" aria-controls="collapseExample"></button>
-					<label class="campo">IDIOMAS ASOCIADOS AL GÉNERO</label>
-				</div>
-
-				<div class="collapse" id="collapseI">
-					<div>
-
-						<select  class="form-control" ng-model="idioma">
-							<option ng-repeat="idioma in idiomas track by $index" value="{{idioma.id}}">
-								{{idioma.idioma}}
-							</option>
-						</select>
-					</div>
-					<div>
-						<h2 class="glyphicon glyphicon-plus" ng-click="idiomaAdd();">Agregar</h2>
-						<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/idiomas/create')">Crear</h2>
+						<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseI"
+							role="button" aria-expanded="false" aria-controls="collapseExample"></button>
+						<label class="campo">IDIOMAS ASOCIADOS AL GÉNERO</label>
 					</div>
 
-					<div ng-model="todoerase" ng-repeat="n in idIdiomas track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="idiomaRemove(n.id);"> 
-							{{idiomasAux(n.id)}}</h2>
+					<div class="collapse" id="collapseI">
+						<div>
+
+							<select class="form-control" ng-model="idioma">
+								<option ng-repeat="idioma in idiomas track by $index" value="{{idioma.id}}">
+									{{idioma.idioma}}
+								</option>
+							</select>
+						</div>
+						<div>
+							<h2 class="glyphicon glyphicon-plus" ng-click="idiomaAdd();">Agregar</h2>
+							<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/idiomas/create')">
+								Crear</h2>
+						</div>
+
+						<div ng-model="todoerase" ng-repeat="n in idIdiomas track by $index" class="campo">
+							<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="idiomaRemove(n.id);">
+								{{idiomasAux(n.id)}}</h2>
+						</div>
 					</div>
-				</div>
 					<!-- Fin idioma -->
-					
-<!-- Proyectos asociados -->
 
-<div>
-	<!-- Botón modal ayuda -->
-	<button type="button" class="glyphicon glyphicon-eye-open"
-		ng-click="mostrarAyuda('Obra','ProyectosAsociados');" data-toggle="modal"
-		data-target="#ayudaProyAsociados"></button>
+					<!-- Proyectos asociados -->
 
-	<!-- Modal Ayuda-->
-	<div class="modal fade" id="ayudaProyAsociados" tabindex="-1" role="dialog"
-		aria-labelledby="ayudaProyAsociadosLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="Ayuda">PROYECTOS ASOCIADOS</h5>
+					<div>
+						<!-- Botón modal ayuda -->
+						<button type="button" class="glyphicon glyphicon-eye-open"
+							ng-click="mostrarAyuda('Obra','ProyectosAsociados');" data-toggle="modal"
+							data-target="#ayudaProyAsociados"></button>
 
-				</div>
-				<div class="modal-body">
-					{{campo}}
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary"
-						data-dismiss="modal">Cerrar</button>
-				</div>
-			</div>
-		</div>
-	</div>
-	<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseProyecto"
-		role="button" aria-expanded="false" aria-controls="collapseProyecto">
-	</button>
-	<label class="seccion">PROYECTOS ASOCIADOS</label>
-</div>
+						<!-- Modal Ayuda-->
+						<div class="modal fade" id="ayudaProyAsociados" tabindex="-1" role="dialog"
+							aria-labelledby="ayudaProyAsociadosLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="Ayuda">PROYECTOS ASOCIADOS</h5>
+
+									</div>
+									<div class="modal-body">
+										{{campo}}
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary"
+											data-dismiss="modal">Cerrar</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<button class="glyphicon glyphicon-arrow-right" data-toggle="collapse" href="#collapseProyecto"
+							role="button" aria-expanded="false" aria-controls="collapseProyecto">
+						</button>
+						<label class="seccion">PROYECTOS ASOCIADOS</label>
+					</div>
 
 
-<div class="collapse" id="collapseProyecto">
+					<div class="collapse" id="collapseProyecto">
 
-	<select class="form-control" ng-model="proyecto" ng-mouseup="updateProyectos();">
-		<option ng-repeat="proyecto in proyectos track by $index" value="{{proyecto.id}}">
-			{{proyecto.nombre}}
-		</option>
-		<option value="">-----</option>
-	</select>
+						<select class="form-control" ng-model="proyecto" ng-mouseup="updateProyectos();">
+							<option ng-repeat="proyecto in proyectos track by $index" value="{{proyecto.id}}">
+								{{proyecto.nombre}}
+							</option>
+							<option value="">-----</option>
+						</select>
 
-	<div>
-		<h2 class="glyphicon glyphicon-plus" ng-click="proyectoAdd();">Agregar</h2>
-		<h2 class="glyphicon glyphicon-modal-window" ng-click="abrirVentana('/#!/proyectos/create')">Crear</h2>
+						<div>
+							<h2 class="glyphicon glyphicon-plus" ng-click="proyectoAdd();">Agregar</h2>
+							<h2 class="glyphicon glyphicon-modal-window"
+								ng-click="abrirVentana('/#!/proyectos/create')">Crear</h2>
 
-	</div>
+						</div>
 
-	<div ng-model="todoerase" ng-repeat="p in idProyectos track by $index" class="campo">
-		<h2 class="glyphicon glyphicon-remove" ng-model="p" ng-click="proyectoRemove(p.id)">
-			{{proyectoAux(p.id)}}</h2>
-	</div>
+						<div ng-model="todoerase" ng-repeat="p in idProyectos track by $index" class="campo">
+							<h2 class="glyphicon glyphicon-remove" ng-model="p" ng-click="proyectoRemove(p.id)">
+								{{proyectoAux(p.id)}}</h2>
+						</div>
 
-</div>
-<!-- Fin Proyectos asociados -->
+					</div>
+					<!-- Fin Proyectos asociados -->
 					<!-- Anotaciones cartográfico-temporales -->
 
 					<div>
@@ -932,7 +933,7 @@
 					</div>
 					<!-- Fin descriptores libres -->
 
-					
+
 
 					<!-- Enlaces y archivos -->
 

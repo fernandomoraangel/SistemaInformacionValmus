@@ -11,7 +11,6 @@ angular.module("diccionarios").controller("DiccionariosController", [
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
     $scope.idEstados = [];
-    $scope.reverse = false;
     $scope.diccionarios = Diccionarios.query();
     //Preparar datos
     $scope.actualizarTodo = function () {
@@ -19,10 +18,17 @@ angular.module("diccionarios").controller("DiccionariosController", [
     };
 
     // Funciones auxiliares
-    $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
-    };
 
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "tabla";
+    $scope.reverse = false;
+
+    //Ordena la vista de lista
+    $scope.sortBy = function (propertyName) {
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
+    };
     $scope.darFormato = function (y) {
       while (y.indexOf("undefined,") > 0) {
         y =
@@ -132,10 +138,22 @@ angular.module("diccionarios").controller("DiccionariosController", [
       //Usa el método $update de obra para enviar la petición PUT adecuada
       $scope.diccionario.$update(
         function () {
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           //Si la actualización es correcta, redireccionar
           $location.path("diccionarios/" + $scope.diccionario._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );
@@ -143,27 +161,42 @@ angular.module("diccionarios").controller("DiccionariosController", [
 
     //Método controller para borrar un diccionario
     $scope.delete = function (diccionario) {
-      var r = confirm("¿Realmente desea borrar el registro? ");
-      if (r == true) {
-        //Si un diccionario es enviado al método, borrarlo
-        if (diccionario) {
-          //Usar el método '$remove' del diccionario para borrarla
-          diccionario.$remove(function () {
-            //Eliminar el diccionario de la lista
-            for (var i in $scope.diccionarios) {
-              if ($scope.diccionarios[i] === diccionario) {
-                $scope.diccionarios.splice(i, 1);
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (diccionario) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            diccionario.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.obras) {
+                if ($scope.diccionarios[i] === diccionario) {
+                  $scope.diccionarios.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.diccionario.$remove(function () {
-            $location.path("diccionarios");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.diccionario.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("diccionarios");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);

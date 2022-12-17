@@ -1,5 +1,5 @@
 <!-- View actor-->
-<ng-include src="'example/views/example.client.view.html'"/></ng-include>
+<ng-include src="'example/views/example.client.view.html'" /></ng-include>
 <section data-ng-controller="ActoresController" data-ng-init="findOne()">
 
 	<div class="panel panel-default">
@@ -7,13 +7,13 @@
 		<div class="tituloVistaView" data-ng-bind="actor.fullName | uppercase"></div>
 		<!-- Mostrar los botones de edición para el creador del artículo-->
 		<div data-ng-show="authentication.user._id==actor.creador._id">
-			<a href="/#!/actores/{{actor._id}}/edit"><span class="glyphicon glyphicon-pencil"</span></a></a>
-			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove"  </span></a>
+			<a href="/#!/actores/{{actor._id}}/edit"><span class="glyphicon glyphicon-pencil" </span></a></a>
+			<a href="#" data-ng-click="delete();"><span class="glyphicon glyphicon-remove" </span></a>
 		</div>
-		
+
 		<!-- Table -->
 		<table class="table table-striped text-left">
-			
+
 			<tbody>
 				<tr>
 					<td class="campo">NOMBRES</td>
@@ -31,27 +31,27 @@
 				</tr>
 
 				<tr>
-						<td class="campo">CONTENEDORES (ACTORES)</td>
-						<td data-ng-bind="verContenedores(actor.contenedor)"></td>
+					<td class="campo">CONTENEDORES (ACTORES)</td>
+					<td data-ng-bind="verContenedores(actor.contenedor)"></td>
 				</tr>
 
 				<tr>
-						<td class="campo">ANOTACIONES CARTOGRÁFICO TEMPORALES</td>
-						<td data-ng-bind="verAnotacion(actor.anotacionCartograficoTemporal)"></td>
+					<td class="campo">ANOTACIONES CARTOGRÁFICO TEMPORALES</td>
+					<td data-ng-bind="verAnotacion(actor.anotacionCartograficoTemporal)"></td>
 				</tr>
 
 				<tr>
-						<td class="campo">DESCRIPTORES</td>
-						<td data-ng-bind="verDescriptor(actor.descriptores)"></td>
+					<td class="campo">DESCRIPTORES</td>
+					<td data-ng-bind="verDescriptor(actor.descriptores)"></td>
 				</tr>
 
 
 				<tr>
-						<td class="campo">VÍNCULOS RELACIONADOS</td>
-						<td data-ng-bind="verVinculo(actor.vinculoRelacionado)"></td>
+					<td class="campo">VÍNCULOS RELACIONADOS</td>
+					<td id="enlaces" data-ng-bind="verVinculo(actor.vinculoRelacionado)"></td>
 				</tr>
 
-				
+
 
 			</tbody>
 
@@ -64,5 +64,3 @@
 		<em data-ng-bind="actor.creador.fullName"></em>
 	</div>
 </section>
-
-

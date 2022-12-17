@@ -9,13 +9,13 @@ angular.module("colecciones").controller("ColeccionesController", [
   "Colecciones",
   "Diccionarios",
   function (
-    $scope, 
-    $routeParams, 
-    $location, 
-    Authentication, 
+    $scope,
+    $routeParams,
+    $location,
+    Authentication,
     Colecciones,
-    Diccionarios,
-    ) {
+    Diccionarios
+  ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
     $scope.tiposFondosColecciones = tiposFondosColecciones;
@@ -25,7 +25,6 @@ angular.module("colecciones").controller("ColeccionesController", [
     $scope.idProyectos = [];
     $scope.todoInput = [];
     $scope.actorName = [];
-    $scope.reverse = false;
     $scope.diccionarios = Diccionarios.query();
     //Preparar datos
     $scope.actualizarTodo = function () {
@@ -33,8 +32,15 @@ angular.module("colecciones").controller("ColeccionesController", [
     };
 
     // Funciones auxiliares
+    //Variables globales para ordenar la vista de lista
+    $scope.propertyName = "nombre";
+    $scope.reverse = false;
+
+    //Ordena la vista de lista
     $scope.sortBy = function (propertyName) {
-      $scope.reverse = !$scope.reverse;
+      $scope.reverse =
+        $scope.propertyName === propertyName ? !$scope.reverse : false;
+      $scope.propertyName = propertyName;
     };
 
     $scope.darFormato = function (y) {
@@ -221,40 +227,65 @@ angular.module("colecciones").controller("ColeccionesController", [
       //Usa el método $update de obra para enviar la petición PUT adecuada
       $scope.coleccion.$update(
         function () {
+          Swal.fire({
+            title: "¡Registro correcto!",
+            text: "El registro se ha actualizado correctamente",
+            icon: "success",
+            confirmButtonText: "Cerrar",
+          });
           //Si la actualización es correcta, redireccionar
           $location.path("colecciones/" + $scope.coleccion._id);
         },
         function (errorResponse) {
+          Swal.fire({
+            title: "¡Error!",
+            text: ($scope.error = errorResponse.data.message),
+            icon: "error",
+            confirmButtonText: "Cerrar",
+          });
           $scope.error = errorResponse.data.message;
         }
       );
     };
 
     //Método controller para borrar una obra
-    $scope.delete = function (obra) {
-      var r = confirm("¿Realmente desea borrar el registro?");
-      if (r == true) {
-        //Si una obra es enviado al método, borrarlo
-        if (obra) {
-          //Confirmar
-
-          //Usar el método '$remove' del la obra para borrarla
-          obra.$remove(function () {
-            //Eliminar la obra de la lista
-            for (var i in $scope.obras) {
-              if ($scope.obras[i] === obra) {
-                $scope.obras.splice(i, 1);
+    $scope.delete = function (coleccion) {
+      //Confirmación
+      Swal.fire({
+        title: "¡Advertencia de eliminación!",
+        text: "¿Realmente desea borrar el registro?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Confirmar",
+        cancelButtonText: "Cancelar",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (coleccion) {
+            //Borrado
+            //Usar el método '$remove' del la obra para borrarla
+            obra.$remove(function () {
+              //Eliminar la obra de la lista
+              for (var i in $scope.colecciones) {
+                if ($scope.colecciones[i] === coleccion) {
+                  $scope.colecciones.splice(i, 1);
+                }
               }
-            }
-          });
-        } else {
-          //En otro caso usar el método $remove para borrar
-          $scope.obra.$remove(function () {
-            $location.path("obras");
-          });
+            });
+          } else {
+            //En otro caso usar el método $remove para borrar
+            //Borrado exitoso
+            $scope.coleccion.$remove(function () {
+              Swal.fire({
+                title: "Eliminación exitosa!",
+                text: "El registro se ha eliminado correctamente",
+                icon: "success",
+                confirmButtonText: "Cerrar",
+              });
+              $location.path("colecciones");
+            });
+          }
         }
-      } else {
-      }
+      });
     };
   },
 ]);
