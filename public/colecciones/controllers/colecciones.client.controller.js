@@ -30,8 +30,38 @@ angular.module("colecciones").controller("ColeccionesController", [
     $scope.actualizarTodo = function () {
       $scope.idEstados = this.ejemplar.estados;
     };
+    //Preparar datos
+    window.onload = function () {
+      $scope.loadDate();
+    };
+
+    $scope.updateFecha = function () {
+      //Calcular precisión para la fecha
+      var precisionyFechaCreacion = precisionFecha(
+        document.getElementById("fechaCreacion").value
+      );
+      this.fechaDeCreacion = precisionyFechaCreacion.fecha;
+      var precisionCreacion = precisionyFechaCreacion.precision;
+      $scope.coleccion.fechaDeCreacion = precisionyFechaCreacion.fecha;
+      $scope.coleccion.precision = precisionCreacion;
+    };
+
+    $scope.loadDate = function () {
+      fecha = formatDateYMD(
+        $scope.coleccion.fechaDeCreacion,
+        $scope.coleccion.precision
+      );
+      $scope.fechaDeCreacion = fecha;
+      document.getElementById("fechaCreacion").value = fecha;
+    };
 
     // Funciones auxiliares
+    //Validación
+    $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.formatDate = (date, precision = "AMD") =>
+      formatDate(date, precision);
+    $scope.formatDateYMD = (date, precision = "AMD") =>
+      formatDateYMD(date, precision);
     //Variables globales para ordenar la vista de lista
     $scope.propertyName = "nombre";
     $scope.reverse = false;
@@ -54,18 +84,19 @@ angular.module("colecciones").controller("ColeccionesController", [
 
     $scope.mostrarAyuda = function (tabla, campo) {
       for (var i in $scope.diccionarios) {
-        //alert($scope.diccionarios[i].campo)
         if (
           $scope.diccionarios[i].campo === campo &&
           $scope.diccionarios[i].tabla === tabla
         ) {
           $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
           return;
         }
       }
       $scope.campo = "Datos del diccionario no encontrados";
       return;
     };
+
     $scope.obraAux = function (aux) {
       //var tmp=JSON.parse($scope.obrasAux);
 
@@ -161,12 +192,18 @@ angular.module("colecciones").controller("ColeccionesController", [
 
     //Crear método controller para crear nuevos registros
     $scope.create = function () {
+      //Calcular precisión para la fecha
+      var precisionyFechaCreacion = precisionFecha(this.fechaDeCreacion);
+      this.fechaDeCreacion = precisionyFechaCreacion.fecha;
+      var precisionCreacion = precisionyFechaCreacion.precision;
+
       //Usar los campos form para crear un nuevo objeto $resource obra
       var coleccion = new Colecciones({
         nombre: this.nombre,
         tipo: this.tipo,
         propiedadComodato: this.propiedadComodato,
         fechaDeCreacion: this.fechaDeCreacion,
+        precision: precisionCreacion,
       });
       //Usar el método '$save' de obra para enviar una petición POST apropiada
       coleccion.$save(

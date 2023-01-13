@@ -26,7 +26,6 @@ angular.module("materias").controller("MateriasController", [
     $scope.idActores = [];
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idProyectos = [];
-    $scope.idNormalizados = [];
     $scope.idDescriptores = [];
     $scope.idEnlaces = [];
     $scope.idSistemasSonoros = [];
@@ -49,6 +48,7 @@ angular.module("materias").controller("MateriasController", [
 
     // Funciones auxiliares
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.validarUrloRuta = (url, id) => validarUrloRuta(url, id);
     $scope.formatDate = (date, precision = "AMD") =>
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
@@ -574,6 +574,23 @@ angular.module("materias").controller("MateriasController", [
       }
     };
 
+    $scope.descriptorEdit = function (x, y) {
+      document.getElementById("descEtiquetaId").value = x;
+      document.getElementById("descContenidoId").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.dEtiqueta = x;
+      $scope.dContenido = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idDescriptores) {
+        if (
+          $scope.idDescriptores[i].etiqueta === x &&
+          $scope.idDescriptores[i].contenido === y
+        ) {
+          $scope.idDescriptores.splice(i, 1);
+        }
+      }
+    };
+
     //Menú enlaces
     $scope.enlaceAdd = function () {
       existe = false;
@@ -653,6 +670,23 @@ angular.module("materias").controller("MateriasController", [
               );
             }
           });
+        }
+      }
+    };
+
+    $scope.enlaceEdit = function (x, y) {
+      document.getElementById("nombreEnlace").value = x;
+      document.getElementById("urlEnlace").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.eEtiqueta = x;
+      $scope.eUrl = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idEnlaces) {
+        if (
+          $scope.idEnlaces[i].etiqueta === x &&
+          $scope.idEnlaces[i].url === y
+        ) {
+          $scope.idEnlaces.splice(i, 1);
         }
       }
     };

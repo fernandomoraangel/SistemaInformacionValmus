@@ -20,23 +20,9 @@ angular.module("instrumentos").controller("InstrumentosController", [
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
-    $scope.tipoFuente = ["Editor", "Fabricante", "Publicador", "Distribuidor"];
-    $scope.criterio = [
-      "Rata de muestreo",
-      "Resolución",
-      "Tipo de cinta",
-      "Calidad de grabación",
-      "Tipo de archivo",
-      "Dimensiones",
-      "Duración",
-    ];
-    $scope.coberturas = ["Local", "País", "Mundial"];
-    $scope.sitios = ["Andes", "Pacífico", "Atlántico", "Llanos"];
-    $scope.dEtiquetas = [
-      "Interés pedagógico",
-      "Obra representativa",
-      "Relación con línea de investigación",
-    ];
+    $scope.coberturas = coberturas;
+    $scope.sitios = lugares;
+    $scope.dEtiquetas = dEtiquetas;
     $scope.idActores = [];
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idProyectos = [];
@@ -64,6 +50,7 @@ angular.module("instrumentos").controller("InstrumentosController", [
 
     // Funciones auxiliares
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.validarUrloRuta = (url, id) => validarUrloRuta(url, id);
     $scope.formatDate = (date, precision = "AMD") =>
       formatDate(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
@@ -210,12 +197,12 @@ angular.module("instrumentos").controller("InstrumentosController", [
 
     $scope.mostrarAyuda = function (tabla, campo) {
       for (var i in $scope.diccionarios) {
-        //alert($scope.diccionarios[i].campo)
         if (
           $scope.diccionarios[i].campo === campo &&
           $scope.diccionarios[i].tabla === tabla
         ) {
           $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
           return;
         }
       }
@@ -377,7 +364,6 @@ angular.module("instrumentos").controller("InstrumentosController", [
       }
     };
 
-    // TODO: Difuminar
     //Anotaciones cartográfico temporales
     $scope.anotacionCartograficoTemporalAdd = function () {
       existe = false;
@@ -452,6 +438,7 @@ angular.module("instrumentos").controller("InstrumentosController", [
               });
               existe = true;
               this.lugar = "";
+              this.coberturaAmplitud = "";
               this.evento = "";
               this.fechaDeInicio = "";
               this.fechaDeFin = "";
@@ -463,6 +450,7 @@ angular.module("instrumentos").controller("InstrumentosController", [
         if (existe === false) {
           $scope.idAnotacionesCartograficoTemporales.push(obj);
           this.lugar = "";
+          this.coberturaAmplitud = "";
           this.evento = "";
           this.fechaDeInicio = "";
           this.fechaDeFin = "";
@@ -470,7 +458,7 @@ angular.module("instrumentos").controller("InstrumentosController", [
         }
       }
     };
-    // TODO: Difuminar
+
     $scope.anotacionCartograficoTemporalRemove = function (x) {
       for (var i in $scope.idAnotacionesCartograficoTemporales) {
         if ($scope.idAnotacionesCartograficoTemporales[i].lugar === x) {
@@ -513,6 +501,100 @@ angular.module("instrumentos").controller("InstrumentosController", [
           });
         }
       }
+    };
+
+    $scope.anotacionCartograficoTemporalEdit = function (
+      lugar,
+      coberturaAmplitud,
+      evento,
+      fechaInicio,
+      fechaFin,
+      evidencia
+    ) {
+      var precisionInicio = "";
+      var precisionFin = "";
+
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idAnotacionesCartograficoTemporales) {
+        if (
+          $scope.idAnotacionesCartograficoTemporales[i].lugar === lugar &&
+          $scope.idAnotacionesCartograficoTemporales[i].evento === evento &&
+          $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
+            coberturaAmplitud &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaInicio ===
+            fechaInicio &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaFin === fechaFin &&
+          $scope.idAnotacionesCartograficoTemporales[i].evidencia === evidencia
+        ) {
+          //Calcular precisión de las fechas
+          precisionInicio =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionInicio;
+          precisionFin =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionFin;
+          $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
+        }
+      }
+      document.getElementById("lugarId").value = lugar;
+      document.getElementById("coberturaId").value = coberturaAmplitud;
+      document.getElementById("eventoId").value = evento;
+      document.getElementById("fInicio").value = fechaInicio;
+      document.getElementById("fFin").value = fechaFin;
+      document.getElementById("evidenciaId").value = evidencia;
+      //Devuelve los datos al modelo Angularjs
+      $scope.lugar = lugar;
+      $scope.coberturaAmplitud = coberturaAmplitud;
+      $scope.evento = evento;
+      $scope.fechaDeInicio = formatDateforEdit(fechaInicio, precisionInicio);
+      $scope.fechaDeFin = formatDateforEdit(fechaFin, precisionFin);
+      $scope.evidencia = evidencia;
+    };
+
+    $scope.anotacionCartograficoTemporalEditForEdit = function (
+      lugar,
+      coberturaAmplitud,
+      evento,
+      fechaInicio,
+      fechaFin,
+      evidencia
+    ) {
+      var precisionInicio = "";
+      var precisionFin = "";
+
+      //Calcular precisión para fecha inicio
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idAnotacionesCartograficoTemporales) {
+        if (
+          $scope.idAnotacionesCartograficoTemporales[i].lugar === lugar &&
+          $scope.idAnotacionesCartograficoTemporales[i].evento === evento &&
+          $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
+            coberturaAmplitud &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaInicio ===
+            fechaInicio &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaFin === fechaFin &&
+          $scope.idAnotacionesCartograficoTemporales[i].evidencia === evidencia
+        ) {
+          precisionInicio =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionInicio;
+          precisionFin =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionFin;
+          $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
+        }
+      }
+      fInicio = formatDateYMD(fechaInicio, precisionInicio);
+      fFin = formatDateYMD(fechaFin, precisionFin);
+      document.getElementById("lugarId").value = lugar;
+      document.getElementById("coberturaId").value = coberturaAmplitud;
+      document.getElementById("eventoId").value = evento;
+      document.getElementById("fInicio").value = fInicio;
+      document.getElementById("fFin").value = fFin;
+      document.getElementById("evidenciaId").value = evidencia;
+      //Devuelve los datos al modelo Angularjs
+      $scope.lugar = lugar;
+      $scope.coberturaAmplitud = coberturaAmplitud;
+      $scope.evento = evento;
+      $scope.fechaDeInicio = fInicio;
+      $scope.fechaDeFin = fFin;
+      $scope.evidencia = evidencia;
     };
 
     //Menú descriptores libres
@@ -598,6 +680,23 @@ angular.module("instrumentos").controller("InstrumentosController", [
       }
     };
 
+    $scope.descriptorEdit = function (x, y) {
+      document.getElementById("descEtiquetaId").value = x;
+      document.getElementById("descContenidoId").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.dEtiqueta = x;
+      $scope.dContenido = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idDescriptores) {
+        if (
+          $scope.idDescriptores[i].etiqueta === x &&
+          $scope.idDescriptores[i].contenido === y
+        ) {
+          $scope.idDescriptores.splice(i, 1);
+        }
+      }
+    };
+
     //Menú enlaces
     $scope.enlaceAdd = function () {
       existe = false;
@@ -677,6 +776,23 @@ angular.module("instrumentos").controller("InstrumentosController", [
               );
             }
           });
+        }
+      }
+    };
+
+    $scope.enlaceEdit = function (x, y) {
+      document.getElementById("nombreEnlace").value = x;
+      document.getElementById("urlEnlace").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.eEtiqueta = x;
+      $scope.eUrl = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idEnlaces) {
+        if (
+          $scope.idEnlaces[i].etiqueta === x &&
+          $scope.idEnlaces[i].url === y
+        ) {
+          $scope.idEnlaces.splice(i, 1);
         }
       }
     };

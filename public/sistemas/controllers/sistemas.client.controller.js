@@ -20,33 +20,9 @@ angular.module("sistemas").controller("SistemasController", [
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
-    $scope.items = ["Si", "No"];
-    $scope.rols = ["Autor letra", "Autor música", "Arreglista", "Compilador"];
-    $scope.tipos = ["Música", "Teórica", "Visual", "Artística"];
-    $scope.medios = [
-      "Solista",
-      "Orquesta",
-      "Banda",
-      "Solista con acompañamiento",
-    ];
-    $scope.idiomas = ["Español", "Inglés", "Francés", "Quechua", "Aymara"];
-    $scope.generos = [
-      "Canción",
-      "Bambuco",
-      "Pasillo",
-      "Joropo",
-      "Vals",
-      "Danza",
-      "Bolero",
-    ];
-    $scope.eventos = ["Composición", "Estreno", "Primera grabación"];
-    $scope.sitios = ["Andes", "Pacífico", "Atlántico", "Llanos"];
-    $scope.coberturas = ["Local", "País", "Mundial"];
-    $scope.dEtiquetas = [
-      "Interés pedagógico",
-      "Obra representativa",
-      "Relación con línea de investigación",
-    ];
+    $scope.sitios = lugares;
+    $scope.coberturas = coberturas;
+    $scope.dEtiquetas = dEtiquetas;
     $scope.idAnotacionesCartograficoTemporales = [];
     $scope.idProyectos = [];
     $scope.idDescriptores = [];
@@ -72,8 +48,11 @@ angular.module("sistemas").controller("SistemasController", [
 
     // Funciones auxiliares
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.validarUrloRuta = (url, id) => validarUrloRuta(url, id);
     $scope.formatDate = (date, precision = "AMD") =>
       formatDate(date, precision);
+    $scope.formatDateYMD = (date, precision = "AMD") =>
+      formatDateYMD(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
 
     //Variables globales para ordenar la vista de lista
@@ -206,7 +185,6 @@ angular.module("sistemas").controller("SistemasController", [
     };
 
     $scope.mostrarAyuda = function (tabla, campo) {
-      var out = new Object();
       for (var i in $scope.diccionarios) {
         if (
           $scope.diccionarios[i].campo === campo &&
@@ -790,6 +768,23 @@ angular.module("sistemas").controller("SistemasController", [
       }
     };
 
+    $scope.enlaceEdit = function (x, y) {
+      document.getElementById("nombreEnlace").value = x;
+      document.getElementById("urlEnlace").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.eEtiqueta = x;
+      $scope.eUrl = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idEnlaces) {
+        if (
+          $scope.idEnlaces[i].etiqueta === x &&
+          $scope.idEnlaces[i].url === y
+        ) {
+          $scope.idEnlaces.splice(i, 1);
+        }
+      }
+    };
+
     //Anotaciones cartográfico temporales
 
     //Anotaciones cartográfico temporales
@@ -866,6 +861,7 @@ angular.module("sistemas").controller("SistemasController", [
               });
               existe = true;
               this.lugar = "";
+              this.coberturaAmplitud = "";
               this.evento = "";
               this.fechaDeInicio = "";
               this.fechaDeFin = "";
@@ -878,13 +874,14 @@ angular.module("sistemas").controller("SistemasController", [
           $scope.idAnotacionesCartograficoTemporales.push(obj);
           this.lugar = "";
           this.evento = "";
+          this.coberturaAmplitud = "";
           this.fechaDeInicio = "";
           this.fechaDeFin = "";
           this.evidencia = "";
         }
       }
     };
-    // TODO: Difuminar
+
     $scope.anotacionCartograficoTemporalRemove = function (x) {
       for (var i in $scope.idAnotacionesCartograficoTemporales) {
         if ($scope.idAnotacionesCartograficoTemporales[i].lugar === x) {
@@ -928,6 +925,101 @@ angular.module("sistemas").controller("SistemasController", [
         }
       }
     };
+
+    $scope.anotacionCartograficoTemporalEdit = function (
+      lugar,
+      coberturaAmplitud,
+      evento,
+      fechaInicio,
+      fechaFin,
+      evidencia
+    ) {
+      var precisionInicio = "";
+      var precisionFin = "";
+
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idAnotacionesCartograficoTemporales) {
+        if (
+          $scope.idAnotacionesCartograficoTemporales[i].lugar === lugar &&
+          $scope.idAnotacionesCartograficoTemporales[i].evento === evento &&
+          $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
+            coberturaAmplitud &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaInicio ===
+            fechaInicio &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaFin === fechaFin &&
+          $scope.idAnotacionesCartograficoTemporales[i].evidencia === evidencia
+        ) {
+          //Calcular precisión de las fechas
+          precisionInicio =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionInicio;
+          precisionFin =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionFin;
+          $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
+        }
+      }
+      document.getElementById("lugarId").value = lugar;
+      document.getElementById("coberturaId").value = coberturaAmplitud;
+      document.getElementById("eventoId").value = evento;
+      document.getElementById("fInicio").value = fechaInicio;
+      document.getElementById("fFin").value = fechaFin;
+      document.getElementById("evidenciaId").value = evidencia;
+      //Devuelve los datos al modelo Angularjs
+      $scope.lugar = lugar;
+      $scope.coberturaAmplitud = coberturaAmplitud;
+      $scope.evento = evento;
+      $scope.fechaDeInicio = formatDateforEdit(fechaInicio, precisionInicio);
+      $scope.fechaDeFin = formatDateforEdit(fechaFin, precisionFin);
+      $scope.evidencia = evidencia;
+    };
+
+    $scope.anotacionCartograficoTemporalEditForEdit = function (
+      lugar,
+      coberturaAmplitud,
+      evento,
+      fechaInicio,
+      fechaFin,
+      evidencia
+    ) {
+      var precisionInicio = "";
+      var precisionFin = "";
+
+      //Calcular precisión para fecha inicio
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idAnotacionesCartograficoTemporales) {
+        if (
+          $scope.idAnotacionesCartograficoTemporales[i].lugar === lugar &&
+          $scope.idAnotacionesCartograficoTemporales[i].evento === evento &&
+          $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
+            coberturaAmplitud &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaInicio ===
+            fechaInicio &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaFin === fechaFin &&
+          $scope.idAnotacionesCartograficoTemporales[i].evidencia === evidencia
+        ) {
+          precisionInicio =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionInicio;
+          precisionFin =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionFin;
+          $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
+        }
+      }
+      fInicio = formatDateYMD(fechaInicio, precisionInicio);
+      fFin = formatDateYMD(fechaFin, precisionFin);
+      document.getElementById("lugarId").value = lugar;
+      document.getElementById("coberturaId").value = coberturaAmplitud;
+      document.getElementById("eventoId").value = evento;
+      document.getElementById("fInicio").value = fInicio;
+      document.getElementById("fFin").value = fFin;
+      document.getElementById("evidenciaId").value = evidencia;
+      //Devuelve los datos al modelo Angularjs
+      $scope.lugar = lugar;
+      $scope.coberturaAmplitud = coberturaAmplitud;
+      $scope.evento = evento;
+      $scope.fechaDeInicio = fInicio;
+      $scope.fechaDeFin = fFin;
+      $scope.evidencia = evidencia;
+    };
+
     //Menú descriptores libres
     $scope.dDescriptorAdd = function () {
       existe = false;
@@ -1011,6 +1103,23 @@ angular.module("sistemas").controller("SistemasController", [
       }
     };
 
+    $scope.descriptorEdit = function (x, y) {
+      document.getElementById("descEtiquetaId").value = x;
+      document.getElementById("descContenidoId").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.dEtiqueta = x;
+      $scope.dContenido = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idDescriptores) {
+        if (
+          $scope.idDescriptores[i].etiqueta === x &&
+          $scope.idDescriptores[i].contenido === y
+        ) {
+          $scope.idDescriptores.splice(i, 1);
+        }
+      }
+    };
+
     //Crear método controller para crear nuevas obras
     $scope.create = function () {
       //Usar los campos form para crear un nuevo objeto $resource obra
@@ -1041,7 +1150,7 @@ angular.module("sistemas").controller("SistemasController", [
         },
         function (errorResponse) {
           //En caso contrario, presentar mensaje de error
-          wal.fire({
+          swal.fire({
             title: "¡Error!",
             text: ($scope.error = errorResponse.data.message),
             icon: "error",

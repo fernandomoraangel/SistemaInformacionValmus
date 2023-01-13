@@ -62,7 +62,7 @@
 						<td data-ng-bind="coleccion.nombre"></td>
 						<td data-ng-bind="coleccion.tipo"></td>
 						<td data-ng-bind="coleccion.propiedadComodato"></td>
-						<td data-ng-bind="coleccion.fechaDeCreacion |date:'mediumDate'"></td>
+						<td data-ng-bind="formatDate(coleccion.fechaDeCreacion,coleccion.precision)"></td>
 						<td data-ng-show="authentication.user._id == coleccion.creador._id">
 							<a href="/#!/colecciones/{{coleccion._id}}/edit"><span
 									class="glyphicon glyphicon-pencil"></a>

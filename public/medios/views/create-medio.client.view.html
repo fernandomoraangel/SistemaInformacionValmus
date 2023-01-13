@@ -25,8 +25,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<!-- TODO:Difundir campoLargo -->
-									<h5 class="modal-title" id="Ayuda">{{campoLargo | uppercase}}</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -59,7 +58,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">{{campoLargo | uppercase}}</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -86,9 +85,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idAlias track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="aliasRemove(n);">
-							{{nombrarSi("", n.nombre)}}
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="aliasRemove(n);"
+							style="color:red">
 						</h2>
+						<em>
+							{{nombrarSi("", n.nombre)}}
+						</em>
 					</div>
 				</div>
 				<!-- Instrumenos-Medios -->
@@ -105,7 +107,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">{{campoLargo | uppercase}}</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -123,19 +125,18 @@
 				<div class="collapse" id="collapseInstrumentosM">
 
 					<label class="campo"></label>
-					<select ng-model="instrumento" class="form-control" ng-mouseup="updateInstrumentos();">
+					<select id="instrumentoId" ng-model="instrumento" class="form-control"
+						ng-mouseup="updateInstrumentos();">
 						<option ng-repeat="instrumento in instrumentos track by $index" value="{{instrumento.id}}">
 							{{instrumento.nombre}}
 						</option>
 						<option value="">-----</option>
 					</select>
 					<label class="seccion">cantidad</label>
-					<label class="campo"></label>
 					<input type="text" id="cant" class="form-control" ng-model="cantidad"
 						ng-blur="esEnteroPositivo(cantidad,'cant')" placeholder="">
 					<label class="seccion">Rol dentro del medio</label>
-					<label class="campo"></label>
-					<select ng-model="rol" class="form-control">
+					<select id="rolId" ng-model="rol" class="form-control">
 						<option ng-repeat="rol in roles track by $index" value="{{rol}}">
 							{{rol}}
 						</option>
@@ -148,11 +149,19 @@
 
 					<div ng-model="todoerase" ng-repeat="n in idInstrumentos track by $index" class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="n"
-							ng-click="instrumentoRemove(instrumentoAux(n.instrumento),n.cantidad,n.rol)">
+							ng-click="instrumentoRemove(instrumentoAux(n.instrumento),n.cantidad,n.rol)"
+							style="color:red">
+						</h2>
+						<em>
 							{{nombrarSi("Instrumento", instrumentoAux(n.instrumento))}}
 							{{nombrarSi("Cantidad", n.cantidad)}}
 							{{nombrarSi("Rol", n.rol)}}
+						</em>
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="n"
+							ng-click="instrumentoEdit(n.instrumento,n.cantidad,n.rol);">
 						</h2>
+
 					</div>
 				</div>
 				<!-- Fin instrumentos -->
@@ -170,7 +179,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">{{campoLargo | uppercase}}</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -203,8 +212,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="p in idProyectos track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="proyectoRemove(p.proyecto)">
-							{{proyectoAux(p.proyecto)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="proyectoRemove(p.proyecto)"
+							style="color:red">
+						</h2>
+						<em>
+							{{proyectoAux(p.proyecto)}}
+						</em>
 					</div>
 				</div>
 				<!-- Anotaciones cartográfico-temporales -->
@@ -220,7 +233,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">{{campoLargo | uppercase}}</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -240,16 +253,16 @@
 					<div>
 
 						<hr><label class="campo">Lugar</label></hr>
-						<select ng-model="lugar" class="form-control">
+						<select id="lugarId" ng-model="lugar" class="form-control">
 							<option ng-repeat="lugar in lugares track by $index" value="{{lugar}}">
 								{{lugar}}
 							</option>
 							<option value="">-----</option>
 						</select>
 						<labelclass="campo">Evento</label>
-							<input type="text" class="form-control" placeholder="" ng-model="evento"></input>
+							<input id="eventoId" type="text" class="form-control" ng-model="evento"></input>
 							<label class="campo">Amplitud o cobertura</label>
-							<select ng-model="coberturaAmplitud" class="form-control">
+							<select id="coberturaId" ng-model="coberturaAmplitud" class="form-control">
 								<option ng-repeat="cobertura in coberturas track by $index" value="{{cobertura}}">
 									{{cobertura}}
 								</option>
@@ -258,29 +271,36 @@
 
 							<label class="campo">Fecha de inicio</label>
 							<input type="text" class="form-control" id="fInicio" ng-model="fechaDeInicio"
-								ng-blur="validarFecha(fechaDeInicio,'fInicio')" placeholder="">
+								ng-blur="validarFecha(fechaDeInicio,'fInicio')">
 
 							<label class="campo">Fecha de finalización</label>
 							<input type="text" class="form-control" ng-model="fechaDeFin" id="fFin"
-								ng-blur="validarFecha(fechaDeFin,'fFin')" placeholder="Fecha de finalización">
+								ng-blur="validarFecha(fechaDeFin,'fFin')">
 							<label class="campo" for="descripcion">Evidencia</label>
-							<input class="form-control" placeholder="" ng-model="evidencia">
+							<input id="evidenciaId" class="form-control" ng-model="evidencia">
 
 
-							<h2 class="glyphicon glyphicon-plus" ng-click="anotacionCartograficoTemporalAdd()">Agregar
+							<h2 class="glyphicon glyphicon-plus" ng-click="anotacionCartograficoTemporalAdd()">
+								Agregar
 							</h2>
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="c in idAnotacionesCartograficoTemporales track by $index"
 						class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="f"
-							ng-click="anotacionCartograficoTemporalRemove(c.lugar)">
+							ng-click="anotacionCartograficoTemporalRemove(c.lugar)" style="color:red">
+						</h2>
+						<em>
 							{{nombrarSi("Lugar", c.lugar)}};
 							{{nombrarSi("Cobertura", c.coberturaAmplitud)}};
 							{{nombrarSi("Evento", c.evento)}};
 							{{nombrarSi("Fecha de inicio", formatDate(c.fechaInicio, c.precisionInicio))}};
 							{{nombrarSi("Fecha de finalización", formatDate(c.fechaFin,c.precisionFin))}};
 							{{nombrarSi("Evidencia", c.evidencia)}};
+						</em>
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="c"
+							ng-click="anotacionCartograficoTemporalEdit(c.lugar,c.coberturaAmplitud,c.evento,c.fechaInicio,c.fechaFin,c.evidencia);">
 						</h2>
 					</div>
 				</div>
@@ -298,7 +318,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">{{campoLargo | uppercase}}</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -315,7 +335,7 @@
 				</div>
 				<div class="collapse" id="collapseDescriptoresL">
 					<hr><label class="campo">Etiqueta</label></hr>
-					<select ng-model="dEtiqueta" class="form-control">
+					<select id="descEtiquetaId" ng-model="dEtiqueta" class="form-control">
 						<option ng-repeat="d in dEtiquetas track by $index" value="{{d}}">
 							{{d}}
 						</option>
@@ -325,7 +345,7 @@
 
 					<div>
 						<label class="campo">Contenido</label>
-						<input type="text" class="form-control" ng-model="dContenido" placeholder="">
+						<input id="descContenidoId" type="text" class="form-control" ng-model="dContenido">
 					</div>
 
 					<div>
@@ -334,8 +354,16 @@
 
 					<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="n"
-							ng-click="dDescriptorRemove(n.etiqueta,n.contenido);">
-							{{n.etiqueta}} {{n.contenido}}</h2>
+							ng-click="dDescriptorRemove(n.etiqueta,n.contenido);" style="color:red">
+						</h2>
+						<em>
+							{{nombrarSi("Etiqueta", n.etiqueta)}}
+							{{nombrarSi("Contenido", n.contenido)}}
+						</em>
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="n"
+							ng-click="descriptorEdit(n.etiqueta,n.contenido);">
+						</h2>
 					</div>
 				</div>
 				<!-- Fin descriptores libres -->
@@ -354,7 +382,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">{{campoLargo | uppercase}}</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -372,12 +400,12 @@
 				<div class="collapse" id="collapseEyA">
 					<div>
 						<label class="campo">Nombre (descripción)</label>
-						<input type="text" class="form-control" ng-model="eEtiqueta" placeholder="">
+						<input type="text" id="nombreEnlace" class="form-control" ng-model="eEtiqueta" placeholder="">
 					</div>
-					<!-- TODO: Validar URL -->
 					<div>
 						<label class="campo">URL</label>
-						<input type="text" class="form-control" ng-model="eUrl" placeholder="">
+						<input type="text" class="form-control" ng-model="eUrl" id="urlEnlace"
+							ng-blur="validarUrloRuta(eUrl,'urlEnlace')">
 					</div>
 
 					<div>
@@ -385,8 +413,18 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="enlaceRemove(n.etiqueta,n.url);">
-							{{n.etiqueta}} {{n.url}}</h2>
+						<h2 class="glyphicon glyphicon-remove" style="color:red" ng-model="n"
+							ng-click="enlaceRemove(n.etiqueta,n.url);"></h2>
+						<!-- Separar para que no se mezcle con el borrado -->
+						<em>
+							{{nombrarSi("Etiqueta", n.etiqueta)}}
+							{{nombrarSi("URL", n.url)}}
+						</em>
+
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="n"
+							ng-click="enlaceEdit(n.etiqueta,n.url);">
+						</h2>
 					</div>
 				</div>
 				<!-- Vínculos y archivos -->

@@ -26,8 +26,6 @@ angular.module("ejemplares").controller("EjemplaresController", [
     $scope.authentication = Authentication;
     $scope.estados = estados;
     $scope.disponibilidades = disponibilidades;
-    $scope.sitios = ["Andes", "Pacífico", "Atlántico", "Llanos"];
-    $scope.coberturas = ["Local", "País", "Mundial"];
     $scope.idEstados = [];
     $scope.recursos = Recursos.query();
     $scope.fondos = Fondos.query();
@@ -65,12 +63,12 @@ angular.module("ejemplares").controller("EjemplaresController", [
 
     $scope.mostrarAyuda = function (tabla, campo) {
       for (var i in $scope.diccionarios) {
-        //alert($scope.diccionarios[i].campo)
         if (
           $scope.diccionarios[i].campo === campo &&
           $scope.diccionarios[i].tabla === tabla
         ) {
           $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
           return;
         }
       }
@@ -233,6 +231,23 @@ angular.module("ejemplares").controller("EjemplaresController", [
               );
             }
           });
+        }
+      }
+    };
+
+    $scope.estadoEdit = function (x, y) {
+      document.getElementById("estadoEtiquetaId").value = x;
+      document.getElementById("estadoContenidoId").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.estadoEtiqueta = x;
+      $scope.estadoContenido = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idEstados) {
+        if (
+          $scope.idEstados[i].etiqueta === x &&
+          $scope.idEstados[i].contenido === y
+        ) {
+          $scope.idEstados.splice(i, 1);
         }
       }
     };

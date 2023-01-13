@@ -34,25 +34,29 @@ angular.module("obras").controller("ObrasController", [
   ) {
     //Exponer el servicio Authentication
     $scope.authentication = Authentication;
-    $scope.items = ["Si", "No"];
-    $scope.roles = ["Autor letra", "Autor música", "Arreglista", "Compilador"];
+    $scope.roles = roles;
     $scope.tipos = [
+      "Ballet",
+      "Danza",
+      "Dramatica",
+      "Literaria",
+      "Multimedia",
       "Musical",
-      "literario",
-      "dramatúrgico",
-      "teatral",
-      "visual",
-      "plástico",
-      "teórico",
+      "Plástica",
+      "Poética",
+      "Teatral",
+      "Teórica",
+      "Visual",
     ];
-    $scope.medios = [
-      "Solista",
-      "Orquesta",
-      "Banda",
-      "Solista con acompañamiento",
+
+    $scope.eventos = [
+      "Composición",
+      "Creación",
+      "Estreno",
+      "Primera grabación",
+      "Puesta en escena",
     ];
-    $scope.eventos = ["Composición", "Estreno", "Primera grabación"];
-    $scope.lugares = ["Andes", "Pacífico", "Atlántico", "Llanos"];
+    $scope.lugares = lugares;
     $scope.centros = [
       "C",
       "C#",
@@ -67,13 +71,9 @@ angular.module("obras").controller("ObrasController", [
       "Bb",
       "B",
     ];
-    $scope.coberturas = ["Local", "País", "Mundial"];
-    $scope.dEtiquetas = [
-      "Interés pedagógico",
-      "Obra representativa",
-      "Relación con línea de investigación",
-    ];
-    $scope.direcciones = ["A-B", "B-A", "No direccional"];
+    $scope.coberturas = coberturas;
+    $scope.dEtiquetas = dEtiquetas;
+    $scope.direcciones = ["A-B", "B-A", "No direccional", "Indeterminada"];
     $scope.tiposDeRelacion = [
       "Obra derivada",
       "Obra relacionada",
@@ -108,23 +108,6 @@ angular.module("obras").controller("ObrasController", [
     $scope.control = 0;
     $scope.campo = "";
     var control = 0;
-
-    /* //Actualizar para editar
-    $scope.actualizarTodo = function () {
-      $scope.idContenedores = this.obra.contenedores;
-      $scope.idAsientosLigados = this.obra.asientoLigado;
-      $scope.idGeneros = this.obra.generosFormas;
-      $scope.idMaterias = this.obra.materias;
-      $scope.idMedios = this.obra.mediosSonoros;
-      $scope.idSistemas = this.obra.sistemasSonoros;
-      $scope.idIdiomas = this.obra.idiomas;
-      $scope.idActores = this.obra.actores;
-      $scope.idAnotacionesCartograficoTemporales =
-        this.obra.anotacionCartograficoTemporal;
-      $scope.idDescriptores = this.obra.descriptores;
-      $scope.idProyectos = this.obra.proyectos;
-      $scope.idEnlaces = this.obra.vinculosRelacionados;
-    }; */
 
     // Funciones auxiliares
     //Cargar los campos que tienen vectores para la vista de edición
@@ -239,8 +222,11 @@ angular.module("obras").controller("ObrasController", [
     };
 
     $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.validarUrloRuta = (url, id) => validarUrloRuta(url, id);
     $scope.formatDate = (date, precision = "AMD") =>
       formatDate(date, precision);
+    $scope.formatDateYMD = (date, precision = "AMD") =>
+      formatDateYMD(date, precision);
     $scope.nombrarSi = (nombre, x) => nombrarSi(nombre, x);
 
     $scope.abrirVentana = function (url) {
@@ -259,18 +245,19 @@ angular.module("obras").controller("ObrasController", [
 
     $scope.mostrarAyuda = function (tabla, campo) {
       for (var i in $scope.diccionarios) {
-        //alert($scope.diccionarios[i].campo)
         if (
           $scope.diccionarios[i].campo === campo &&
           $scope.diccionarios[i].tabla === tabla
         ) {
           $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
           return;
         }
       }
       $scope.campo = "Datos del diccionario no encontrados";
       return;
     };
+
     //Elimina subcadenas "undefinied"
     $scope.darFormato = function (y) {
       while (y.indexOf("undefined,") > 0) {
@@ -651,6 +638,23 @@ angular.module("obras").controller("ObrasController", [
       }
     };
 
+    $scope.denominacionRegionalEdit = function (x, y) {
+      document.getElementById("denominacion").value = x;
+      document.getElementById("fuenteDenominacion").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.denominacionRegional = x;
+      $scope.fuenteDenominacion = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idDenominacionesRegionales) {
+        if (
+          $scope.idDenominacionesRegionales[i].denominacionRegional === x &&
+          $scope.idDenominacionesRegionales[i].fuenteDenominacion === y
+        ) {
+          $scope.idDenominacionesRegionales.splice(i, 1);
+        }
+      }
+    };
+
     //Asientos ligados
     $scope.asientoLigadoAux = function (aux) {
       for (var i in $scope.obras) {
@@ -746,6 +750,45 @@ angular.module("obras").controller("ObrasController", [
       }
     };
 
+    $scope.asientoLigadoEdit = function (
+      asientoligado,
+      tipoDeRelacion,
+      direccionDeRelacion,
+      fuenteRelacion,
+      proyectoRelacion,
+      notaGeneral
+    ) {
+      document.getElementById("asientoObraId").value = asientoligado;
+      document.getElementById("asientoTipoId").value = tipoDeRelacion;
+      document.getElementById("asientoDireccionId").value = direccionDeRelacion;
+      document.getElementById("asientoFuenteId").value = fuenteRelacion;
+      document.getElementById("asientoProyectoId").value = proyectoRelacion;
+      document.getElementById("asientoNotaId").value = notaGeneral;
+
+      //Devuelve los datos al modelo Angularjs
+      $scope.asientoligado = asientoligado;
+      $scope.tipoDeRelacion = tipoDeRelacion;
+      $scope.direccionDeRelacion = direccionDeRelacion;
+      $scope.fuenteRelacion = fuenteRelacion;
+      $scope.proyectoRelacion = proyectoRelacion;
+      $scope.notaGeneral = notaGeneral;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idAsientosLigados) {
+        if (
+          $scope.idAsientosLigados[i].id === asientoligado &&
+          $scope.idAsientosLigados[i].tipoDeRelacion === tipoDeRelacion &&
+          $scope.idAsientosLigados[i].direccionDeRelacion ===
+            direccionDeRelacion &&
+          $scope.idAsientosLigados[i].fuenteAutorRelacion === fuenteRelacion &&
+          $scope.idAsientosLigados[i].proyectoRelacionado ===
+            proyectoRelacion &&
+          $scope.idAsientosLigados[i].notaGeneral === notaGeneral
+        ) {
+          $scope.idAsientosLigados.splice(i, 1);
+        }
+      }
+    };
+
     //Generos
     $scope.updateGeneros = function () {
       $scope.generos = Generos.query();
@@ -759,9 +802,9 @@ angular.module("obras").controller("ObrasController", [
       }
     };
 
-    $scope.generoAdd = function (x) {
+    $scope.generoAdd = function () {
       existe = false;
-      x = "id:" + this.genero;
+      var x = "id:" + this.genero;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
@@ -839,9 +882,9 @@ angular.module("obras").controller("ObrasController", [
       }
     };
 
-    $scope.generoNoMusicalAdd = function (x) {
+    $scope.generoNoMusicalAdd = function () {
       existe = false;
-      x = "id:" + this.generoNoMusical;
+      var x = "id:" + this.generoNoMusical;
       var properties = x.split(",");
       var obj = {};
       properties.forEach(function (property) {
@@ -1146,6 +1189,23 @@ angular.module("obras").controller("ObrasController", [
       }
     };
 
+    $scope.sistemaEdit = function (x, y) {
+      document.getElementById("sistemaId").value = x;
+      document.getElementById("centroSId").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.sistema = x;
+      $scope.centroSistema = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idSistemas) {
+        if (
+          $scope.idSistemas[i].id === x &&
+          $scope.idSistemas[i].centro === y
+        ) {
+          $scope.idSistemas.splice(i, 1);
+        }
+      }
+    };
+
     $scope.idiomasAux = function (aux) {
       for (var i in $scope.idiomas) {
         if ($scope.idiomas[i].id === aux) {
@@ -1308,6 +1368,20 @@ angular.module("obras").controller("ObrasController", [
       }
     };
 
+    $scope.actorEdit = function (x, y) {
+      document.getElementById("actorId").value = x;
+      document.getElementById("rolId").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.actor = x;
+      $scope.rol = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idActores) {
+        if ($scope.idActores[i].id === x && $scope.idActores[i].rol === y) {
+          $scope.idActores.splice(i, 1);
+        }
+      }
+    };
+
     //Anotaciones cartográfico temporales
     $scope.anotacionCartograficoTemporalAdd = function () {
       existe = false;
@@ -1383,6 +1457,7 @@ angular.module("obras").controller("ObrasController", [
               existe = true;
               this.lugar = "";
               this.evento = "";
+              this.coberturaAmplitud = "";
               this.fechaDeInicio = "";
               this.fechaDeFin = "";
               this.evidencia = "";
@@ -1394,13 +1469,14 @@ angular.module("obras").controller("ObrasController", [
           $scope.idAnotacionesCartograficoTemporales.push(obj);
           this.lugar = "";
           this.evento = "";
+          this.coberturaAmplitud = "";
           this.fechaDeInicio = "";
           this.fechaDeFin = "";
           this.evidencia = "";
         }
       }
     };
-
+    // TODO:El borrado debe ser con todos los campos
     $scope.anotacionCartograficoTemporalRemove = function (x) {
       for (var i in $scope.idAnotacionesCartograficoTemporales) {
         if ($scope.idAnotacionesCartograficoTemporales[i].lugar === x) {
@@ -1443,6 +1519,100 @@ angular.module("obras").controller("ObrasController", [
           });
         }
       }
+    };
+
+    $scope.anotacionCartograficoTemporalEdit = function (
+      lugar,
+      coberturaAmplitud,
+      evento,
+      fechaInicio,
+      fechaFin,
+      evidencia
+    ) {
+      var precisionInicio = "";
+      var precisionFin = "";
+
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idAnotacionesCartograficoTemporales) {
+        if (
+          $scope.idAnotacionesCartograficoTemporales[i].lugar === lugar &&
+          $scope.idAnotacionesCartograficoTemporales[i].evento === evento &&
+          $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
+            coberturaAmplitud &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaInicio ===
+            fechaInicio &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaFin === fechaFin &&
+          $scope.idAnotacionesCartograficoTemporales[i].evidencia === evidencia
+        ) {
+          //Calcular precisión de las fechas
+          precisionInicio =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionInicio;
+          precisionFin =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionFin;
+          $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
+        }
+      }
+      document.getElementById("lugarId").value = lugar;
+      document.getElementById("coberturaId").value = coberturaAmplitud;
+      document.getElementById("eventoId").value = evento;
+      document.getElementById("fInicio").value = fechaInicio;
+      document.getElementById("fFin").value = fechaFin;
+      document.getElementById("evidenciaId").value = evidencia;
+      //Devuelve los datos al modelo Angularjs
+      $scope.lugar = lugar;
+      $scope.coberturaAmplitud = coberturaAmplitud;
+      $scope.evento = evento;
+      $scope.fechaDeInicio = formatDateforEdit(fechaInicio, precisionInicio);
+      $scope.fechaDeFin = formatDateforEdit(fechaFin, precisionFin);
+      $scope.evidencia = evidencia;
+    };
+
+    $scope.anotacionCartograficoTemporalEditForEdit = function (
+      lugar,
+      coberturaAmplitud,
+      evento,
+      fechaInicio,
+      fechaFin,
+      evidencia
+    ) {
+      var precisionInicio = "";
+      var precisionFin = "";
+
+      //Calcular precisión para fecha inicio
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idAnotacionesCartograficoTemporales) {
+        if (
+          $scope.idAnotacionesCartograficoTemporales[i].lugar === lugar &&
+          $scope.idAnotacionesCartograficoTemporales[i].evento === evento &&
+          $scope.idAnotacionesCartograficoTemporales[i].coberturaAmplitud ===
+            coberturaAmplitud &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaInicio ===
+            fechaInicio &&
+          $scope.idAnotacionesCartograficoTemporales[i].fechaFin === fechaFin &&
+          $scope.idAnotacionesCartograficoTemporales[i].evidencia === evidencia
+        ) {
+          precisionInicio =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionInicio;
+          precisionFin =
+            $scope.idAnotacionesCartograficoTemporales[i].precisionFin;
+          $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
+        }
+      }
+      fInicio = formatDateYMD(fechaInicio, precisionInicio);
+      fFin = formatDateYMD(fechaFin, precisionFin);
+      document.getElementById("lugarId").value = lugar;
+      document.getElementById("coberturaId").value = coberturaAmplitud;
+      document.getElementById("eventoId").value = evento;
+      document.getElementById("fInicio").value = fInicio;
+      document.getElementById("fFin").value = fFin;
+      document.getElementById("evidenciaId").value = evidencia;
+      //Devuelve los datos al modelo Angularjs
+      $scope.lugar = lugar;
+      $scope.coberturaAmplitud = coberturaAmplitud;
+      $scope.evento = evento;
+      $scope.fechaDeInicio = fInicio;
+      $scope.fechaDeFin = fFin;
+      $scope.evidencia = evidencia;
     };
 
     //Menú descriptores libres
@@ -1524,6 +1694,23 @@ angular.module("obras").controller("ObrasController", [
               );
             }
           });
+        }
+      }
+    };
+
+    $scope.descriptorEdit = function (x, y) {
+      document.getElementById("descEtiquetaId").value = x;
+      document.getElementById("descContenidoId").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.dEtiqueta = x;
+      $scope.dContenido = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idDescriptores) {
+        if (
+          $scope.idDescriptores[i].etiqueta === x &&
+          $scope.idDescriptores[i].contenido === y
+        ) {
+          $scope.idDescriptores.splice(i, 1);
         }
       }
     };
@@ -1685,6 +1872,24 @@ angular.module("obras").controller("ObrasController", [
               );
             }
           });
+        }
+      }
+    };
+    //TODO:Difundir
+
+    $scope.enlaceEdit = function (x, y) {
+      document.getElementById("nombreEnlace").value = x;
+      document.getElementById("urlEnlace").value = y;
+      //Devuelve los datos al modelo Angularjs
+      $scope.eEtiqueta = x;
+      $scope.eUrl = y;
+      //Busca y si encuentra elimina del vector correspondiente
+      for (var i in $scope.idEnlaces) {
+        if (
+          $scope.idEnlaces[i].etiqueta === x &&
+          $scope.idEnlaces[i].url === y
+        ) {
+          $scope.idEnlaces.splice(i, 1);
         }
       }
     };

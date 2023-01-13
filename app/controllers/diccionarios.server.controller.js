@@ -66,7 +66,7 @@ exports.update = function (req, res) {
   diccionario.campo = req.body.campo;
   diccionario.definicion = req.body.definicion;
   diccionario.campoLargo = req.body.campoLargo;
-  
+
   //Intenta salvar
   diccionario.save(function (err) {
     if (err) {
@@ -96,10 +96,11 @@ exports.delete = function (req, res) {
 //Controller middleware para recuperar diccionario existente
 exports.diccionarioByID = function (req, res, next, id) {
   Diccionario.findById(id)
-    .populate("creador", "campo")
+    .populate("creador", "firstName lastName fullName")
     .exec(function (err, diccionario) {
       if (err) return next(err);
-      if (!diccionario) return next(new Error("Fallo al cargar el diccionario" + id));
+      if (!diccionario)
+        return next(new Error("Fallo al cargar el diccionario" + id));
       //Si el diccionario es encontrado, usar el objeto 'request' para pasarla al sgte middleware
       req.diccionario = diccionario;
       //Llamar al sgte middleware

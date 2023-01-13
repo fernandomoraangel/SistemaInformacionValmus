@@ -45,9 +45,9 @@ angular.module("diccionarios").controller("DiccionariosController", [
           $scope.diccionarios[i].campo === campo &&
           $scope.diccionarios[i].tabla === tabla
         ) {
-          //LOs nombres se acortan en una letra para evitar duplicaciones por tratarse de la tabla del diccionario
-          $scope.camp = $scope.diccionarios[i].definicion;
-          $scope.campoLarg = $scope.diccionarios[i].campoLargo;
+          //Los nombres se acortan en una letra para evitar duplicaciones por tratarse de la tabla del diccionario
+          $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
           return;
         }
       }

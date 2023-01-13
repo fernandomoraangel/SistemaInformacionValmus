@@ -19,7 +19,6 @@ https://www.digitalocean.com/community/tutorials/workflow-nodemon-es
 
 Usar ctrl+shift+v para visualizar Markdown
 
-TODO: Funcionalidad nuevos campos en Obras
 
 ## Útiles
 
@@ -36,20 +35,17 @@ https://rogerdudler.github.io/git-guide/index.es.html
 4. git push origin main
 
 ## Pendiente
+1. Difundir Ayuda al nivel de tabla.
+2. Cambiar el nombre de la carpeta "example"
+3.  Eliminar variables redundantes y funciones no utilizadas.
+4.  Preparar y definir colaboradores parala Wiki del proyecto.
+5.  Exportar colección "diccionarios".
+6.  Resolver problemas con acentos y ñ al importar. UTF8
+7.  Construir sistema de roles y permisos.
+8.  Construir sistema de auditoría. Revisar el modelo de datos de la auditoría.
+9.  Verificar existencia de URL en campo enlaces.
+10. Subir archivos.
+11. Versionado semántico.
 
-
-1. Ayuda al nivel de tabla.
-2. Cambiar el nombre de la carpeta example
-3. Difundir cambios en "mostrar ayuda" (a partir de Medio Sonoro)
-4. Resolver problemas con las fechas (input date) en Fondos y colecciones
-5. Organizar listas.js. y eliminar listas redundantes.
-6.  Eliminar variables redundantes.
-7.  Identificar las vista "ver"
-8.  Resolver cómo sera el manual wiki.
-9.  Logo en la página central.
-10. "Acerca de" con version.
-11. Editar campos array (botón editar, copia en formulario y borra).
-12. Exportar colección "diccionarios".
-13. Resolver problemas con acentos y ñ al importar. UTF8
-14. Construir sistema de roles y permisos.
-15. Construir sistema de auditoría. Revisar el modelo de datos de la auditoría.
+## Bugs conocidos
+1. Problemas con los borrados de vectores.

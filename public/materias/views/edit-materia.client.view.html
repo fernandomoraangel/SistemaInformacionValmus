@@ -112,9 +112,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idAlias track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="aliasRemove(n);">
-							{{n.nombre}}
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="aliasRemove(n);"
+							style="color:red">
 						</h2>
+						<em>
+							{{n.nombre}}
+						</em>
 					</div>
 				</div>
 				<!-- Materias relacionadas -->
@@ -162,9 +165,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idMateriasRelacionadas track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="materiaRelacionadaRemove(n.id)">
-							{{materiaAux(n.id)}}
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="materiaRelacionadaRemove(n.id)"
+							style="color:red">
 						</h2>
+						<em>
+							{{materiaAux(n.id)}}
+						</em>
 					</div>
 				</div>
 				<!-- Fin materias relacionadas -->
@@ -198,7 +204,6 @@
 						aria-controls="collapseExample"></button>
 					<label class="campo">MATERIAS PADRE</label>
 				</div>
-				<!-- Padre -->
 
 				<div class="collapse" id="collapseMP">
 					<div ng-mouseover="updateMaterias()">
@@ -216,9 +221,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idPadres track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="padresRemove(n.id)">
-							{{materiaAux(n.id)}}
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="padresRemove(n.id)"
+							style="color:red">
 						</h2>
+						<em>
+							{{materiaAux(n.id)}}
+						</em>
 					</div>
 				</div>
 
@@ -267,9 +275,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idHijos track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="hijosRemove(n.id)">
-							{{materiaAux(n.id)}}
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="hijosRemove(n.id)"
+							style="color:red">
 						</h2>
+						<em>
+							{{materiaAux(n.id)}}
+						</em>
 					</div>
 				</div>
 
@@ -307,7 +318,7 @@
 
 				<div class="collapse" id="collapseDescriptoresL">
 					<hr><label class="campo">Etiqueta</label></hr>
-					<select ng-model="dEtiqueta" class="form-control">
+					<select id="descEtiquetaId" ng-model="dEtiqueta" class="form-control">
 						<option ng-repeat="d in dEtiquetas track by $index" value="{{d}}">
 							{{d}}
 						</option>
@@ -317,7 +328,8 @@
 
 					<div>
 						<label class="campo">Contenido</label>
-						<input type="text" class="form-control" ng-model="dContenido" placeholder="">
+						<input id="descContenidoId" type="text" class="form-control" ng-model="dContenido"
+							placeholder="">
 					</div>
 
 					<div>
@@ -326,9 +338,15 @@
 
 					<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="n"
-							ng-click="dDescriptorRemove(n.etiqueta,n.contenido);">
+							ng-click="dDescriptorRemove(n.etiqueta,n.contenido);" style="color:red">
+						</h2>
+						<em>
 							{{nombrarSi("Etiqueta", n.etiqueta)}}
 							{{nombrarSi("Contenido", n.contenido)}}
+						</em>
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="n"
+							ng-click="descriptorEdit(n.etiqueta,n.contenido);">
 						</h2>
 					</div>
 				</div>
@@ -367,12 +385,13 @@
 				<div class="collapse" id="collapseVyA">
 					<div>
 						<label class="campo">Nombre (descripción)</label>
-						<input type="text" class="form-control" ng-model="eEtiqueta" placeholder="">
+						<input type="text" id="nombreEnlace" class="form-control" ng-model="eEtiqueta">
 					</div>
 
 					<div>
 						<label class="campo">URL</label>
-						<input type="text" class="form-control" ng-model="eUrl" placeholder="">
+						<input type="text" class="form-control" id="urlEnlace"
+							ng-blur="validarUrloRuta(eUrl,'urlEnlace')" ng-model="eUrl">
 					</div>
 
 					<div>
@@ -380,9 +399,18 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="enlaceRemove(n.etiqueta,n.url);">
+						<h2 class="glyphicon glyphicon-remove" style="color:red" ng-model="n"
+							ng-click="enlaceRemove(n.etiqueta,n.url);">
+						</h2>
+						<!-- Separar para que no se mezcle con el borrado -->
+						<em>
 							{{nombrarSi("Etiqueta", n.etiqueta)}}
 							{{nombrarSi("URL", n.url)}}
+						</em>
+
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="n"
+							ng-click="enlaceEdit(n.etiqueta,n.url);">
 						</h2>
 					</div>
 				</div>

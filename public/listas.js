@@ -28,19 +28,33 @@ tipos = [
   "Software",
 ];
 
-tipoFuente = ["Distribuidor", "Editor", "Fabricante", "Matriz", "Publicador"];
+tipoFuente = [
+  "Distribuidor",
+  "Editor",
+  "Estudio de grabación de audio",
+  "Fabricante",
+  "Grabación de campo",
+  "Matriz",
+  "Productor",
+  "Productora audiovisual",
+  "Publicador",
+];
 
 criterio = [
   "Bitrate",
   "Calidad de grabación",
   "Cantidad de pistas",
   "Codec",
+  "Compresión de archivo",
+  "Container",
   "Dimensiones",
   "Duración",
+  "Número de páginas",
   "Profundidad de bits",
   "Profundidad de color",
   "Rata de muestreo",
   "Resolución",
+  "Tamaño de archivo",
   "Tipo de archivo",
   "Tipo de cinta",
   "Velocidad de cinta",
@@ -48,19 +62,22 @@ criterio = [
 ];
 
 estados = [
-  "Apostillado",
   "Archivo corrupto",
   "Cinta deteriorada",
-  "Copia de circulación",
+  "Depostillado",
   "Hongos",
+  "Humedad",
   "Incompleto",
   "Inservible",
   "Lévemente deteriorado",
+  "Manchas",
   "Marbete rayado o ilegible",
   "Mutilado",
   "Óptimo",
   "Para expurgo",
+  "Quebrado",
   "Rayado",
+  "Sin estuche",
   "Soporte defectuoso",
   "Trozos faltantes",
 ];
@@ -86,9 +103,12 @@ estadosProyecto = [
 dEtiquetas = [
   "Experiencia significativa",
   "Interés pedagógico",
+  "Interés",
   "Obra representativa",
   "Proyecto similar",
   "Relación con línea de investigación",
+  "Texto digno de mención",
+  "Versión significativa",
 ];
 
 tiposFondosColecciones = [
@@ -137,4 +157,17 @@ coberturas = [
   "Local",
   "Mundo",
   "País",
+];
+
+roles = [
+  "Arreglista",
+  "Autor letra",
+  "Autor música",
+  "Beat maker",
+  "Compilador",
+  "Compositor",
+  "Ingeniero de audio",
+  "Productor",
+  "Titular de derechos patrimoniales",
+  "Transcriptor",
 ];

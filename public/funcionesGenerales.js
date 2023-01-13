@@ -13,6 +13,36 @@ validarFecha = function (fecha, id) {
   }
 };
 
+validarUrloRuta = function (url, id) {
+  // Expresión regular para validar URLs
+  let regexUrl =
+    /https?:\/\/([a-zA-Z0-9]([^ @&%$\\\/()=?¿!.,:;]|\d)*[a-zA-Z0-9][\.])+[a-zA-Z]{2,4}([\.][a-zA-Z]{2})?\/?((?<=\/)(([^ @&$#\\\/()+=?¿!,:;'&quot;^´*%|]|\d)+[\/]?)*(#(?<=#)[^ @&$#\\\/()+=?¿!,:;'&quot;^´*%|]*)?(\?(?<=\?)([^ @&$#\\\/()+=?¿!,:;'&quot;^´*|]+[=][^ @&$#\\\/()+=?¿!,:;'&quot;^´*|]+(&(?<=&)[^ @&$#\\\/()+=?¿!,:;'&quot;^´*|]+[=][^ @&$#\\\/()+=?¿!,:;'&quot;^´*|]+)*))?)?/;
+  // Expresión regular para validar direcciones de computadora
+  let regexDireccion = /^(?:[a-zA-Z]:|\/|\\)[^:\n\r]+[^:\n\r\/\\]*$/;
+
+  if (regexDireccion.test(url) | regexUrl.test(url)) {
+    document.getElementById(id).style = "color:black";
+    //Verificar si la url existe
+  } else {
+    Swal.fire({
+      title: "Formato incorrecto",
+      text: "El texto ingresado no es una url o una ruta de archivo válida. Verifíquelo antes de utilizarlo. Recuerde que debe escribir urls absolutas y completas",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Conservar el texto",
+      cancelButtonText: "Borrar el texto",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById(id).style = "color:red";
+      } else {
+        document.getElementById(id).value = "";
+      }
+    });
+  }
+};
+
 //Validar número
 esEnteroPositivo = function (n, id) {
   const regex = /^[0-9]+$/;
@@ -75,6 +105,56 @@ formatDate = function (date, precision = "AMD") {
     opciones["day"] = "numeric";
   }
   return fechaActual.toLocaleDateString("es-MX", opciones);
+};
+
+//Función para mostrar las fechas con una precisión dada
+formatDateYMD = function (date, precision) {
+  const fechaActual = new Date(date);
+  //var opciones = { year: "numeric", month: "long", day: "numeric" };
+  var opciones = new Object();
+  year = 0;
+  month = 0;
+  day = 0;
+  if (precision.indexOf("A") != -1) {
+    year = fechaActual.getFullYear();
+  }
+
+  if (precision.indexOf("M") != -1) {
+    month = fechaActual.getMonth() + 1;
+  }
+
+  if (precision.indexOf("D") != -1) {
+    day = fechaActual.getDate();
+  }
+  //Convertir a 2 dígitos
+  return (
+    year +
+    "/" +
+    (month > 0 && month < 10 ? "0" + month : month) +
+    "/" +
+    (day > 0 && day < 10 ? "0" + day : day)
+  );
+};
+
+//Función para mostrar las fechas con una precisión dada en el campo editable
+formatDateforEdit = function (date, precision) {
+  var arr = date.split("/");
+  var year = arr[0];
+  var month = arr[1];
+  var day = arr[2];
+
+  if (precision.indexOf("A") == -1) {
+    year = 0;
+  }
+
+  if (precision.indexOf("M") == -1) {
+    month = 0;
+  }
+
+  if (precision.indexOf("D") == -1) {
+    day = 0;
+  }
+  return year + "/" + month + "/" + day;
 };
 
 nombrarSi = function (nombre, x) {

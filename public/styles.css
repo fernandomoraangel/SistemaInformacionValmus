@@ -126,9 +126,16 @@ body {
 }
 
 .creador {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
   text-align: right;
+  color: rgb(141, 128, 128);
+}
+
+.idVista {
+  font-size: 16px;
+  text-align: left;
+  color: rgb(141, 128, 128);
 }
 
 .tituloVista {
@@ -142,7 +149,7 @@ body {
   text-align: left;
   color: black;
   text-shadow: 1px 2px 1px #fff;
-  font-size: 35px;
+  font-size: 30px;
 }
 
 .subTituloVista {
@@ -157,6 +164,16 @@ body {
   margin: 0 auto;
   box-shadow: 2px 2px;
   background: #e3f1ec;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: left;
+}
+
+.wrapper2 {
+  width: 1400px;
+  margin: 0 auto;
+  box-shadow: 2px 2px;
+  background: #e3edf1;
   border-radius: 8px;
   padding: 10px;
   text-align: left;
@@ -183,7 +200,7 @@ body {
 
 .form-principal {
   text-align: left;
-  background-color: #b6bfce;
+  background-color: #bac6da;
   padding-top: 15px;
   padding-bottom: 40px;
   padding-left: 20px;
@@ -282,7 +299,7 @@ body {
 }
 
 .img-resize {
-  max-width: 25%;
+  max-width: 20%;
   height: auto;
   padding-top: 15px;
 }
@@ -292,4 +309,9 @@ body {
 }
 .sortorder.reverse:after {
   content: "\25bc";
+}
+
+.swal2-popup {
+  font-size: 1.6rem !important;
+  font-family: Georgia, serif;
 }

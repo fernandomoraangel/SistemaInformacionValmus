@@ -23,7 +23,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">NOMBRE DEL FONDO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -54,7 +54,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">FECHA DE CREACIÓN DEL FONDO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -68,7 +68,8 @@
 					<label>FECHA DE CREACIÓN</label>
 				</div>
 
-				<input type="date" class="form-control" ng-model="fechaDeCreacion" id="fechaDeFin" placeholder="">
+				<input type="text" id="fechaCreacion" class="form-control" ng-model="fechaDeCreacion"
+					ng-blur="validarFecha(fechaDeCreacion,'fechaCreacion')">
 				<!-- Tipo -->
 				<div>
 					<!-- Botón modal ayuda -->
@@ -82,7 +83,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">TIPO DE FONDO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -116,7 +117,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">PROPIEDAD-COMODATO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}

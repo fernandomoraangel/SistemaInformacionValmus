@@ -108,9 +108,12 @@
 						<h2 class="glyphicon glyphicon-plus" ng-click="aliasAdd();">Agregar</h2>
 					</div>
 					<div ng-model="todoerase" ng-repeat="n in idAlias track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="aliasRemove(n);">
-							{{n.nombre}}
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="aliasRemove(n);"
+							style="color:red">
 						</h2>
+						<em>
+							{{n.nombre}}
+						</em>
 					</div>
 				</div>
 
@@ -159,8 +162,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idGenerosRelacionados track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="generoRelacionadoRemove(n.id)">
-							{{generoAux(n.id)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="generoRelacionadoRemove(n.id)"
+							style="color:red">
+						</h2>
+						<em>
+							{{generoAux(n.id)}}
+						</em>
 					</div>
 				</div>
 
@@ -211,8 +218,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idPadres track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="padresRemove(n.id)">
-							{{generoAux(n.id)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="padresRemove(n.id)"
+							style="color:red">
+						</h2>
+						<em>
+							{{generoAux(n.id)}}
+						</em>
 					</div>
 				</div>
 
@@ -263,10 +274,13 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idHijos track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="hijosRemove(n.id)">
-							{{generoAux(n.id)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="hijosRemove(n.id)"
+							style="color:red">
+						</h2>
+						<em>
+							{{generoAux(n.id)}}
+						</em>
 					</div>
-
 				</div>
 
 				<!-- Fin hijos -->
@@ -319,8 +333,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="p in idMedios track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="medioRemove(p.id)">
-							{{medioAux(p.id)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="medioRemove(p.id)"
+							style="color:red">
+						</h2>
+						<em>
+							{{medioAux(p.id)}}
+						</em>
 					</div>
 				</div>
 				<!-- Fin Medio Sonoro -->
@@ -371,8 +389,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="p in idSistemas track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="sistemaRemove(p.id)">
-							{{sistemaAux(p.id)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="sistemaRemove(p.id)"
+							style="color:red">
+						</h2>
+						<em>
+							{{sistemaAux(p.id)}}
+						</em>
 					</div>
 				</div>
 
@@ -422,8 +444,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idIdiomas track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="idiomaRemove(n.id);">
-							{{idiomasAux(n.id)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="idiomaRemove(n.id);"
+							style="color:red">
+						</h2>
+						<em>
+							{{idiomasAux(n.id)}}
+						</em>
 					</div>
 				</div>
 				<!-- Proyectos asociados -->
@@ -474,8 +500,12 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="p in idProyectos track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="proyectoRemove(p.proyecto)">
-							{{proyectoAux(p.proyecto)}}</h2>
+						<h2 class="glyphicon glyphicon-remove" ng-model="f" ng-click="proyectoRemove(p.proyecto)"
+							style="color:red">
+						</h2>
+						<em>
+							{{proyectoAux(p.proyecto)}}
+						</em>
 					</div>
 				</div>
 				<!-- Fin Proyectos asociados -->
@@ -511,16 +541,17 @@
 				<div>
 					<div class="collapse" id="collapseAnotacionesCT">
 						<hr><label class="campo">Lugar</label></hr>
-						<select ng-model="lugar" class="form-control">
+						<select id="lugarId" ng-model="lugar" class="form-control">
 							<option ng-repeat="lugar in lugares track by $index" value="{{lugar}}">
 								{{lugar}}
 							</option>
 							<option value="">-----</option>
 						</select>
 						<labelclass="campo">Evento</label>
-							<input type="text" class="form-control" placeholder="" ng-model="evento"></input>
+							<input id="eventoId" type="text" class="form-control" placeholder=""
+								ng-model="evento"></input>
 							<label class="campo">Amplitud o cobertura</label>
-							<select ng-model="coberturaAmplitud" class="form-control">
+							<select id="coberturaId" ng-model="coberturaAmplitud" class="form-control">
 								<option ng-repeat="cobertura in coberturas track by $index" value="{{cobertura}}">
 									{{cobertura}}
 								</option>
@@ -529,13 +560,13 @@
 
 							<label class="campo">Fecha de inicio</label>
 							<input class="form-control" id="fInicio" type="text" ng-model="fechaDeInicio"
-								ng-blur="validarFecha(fechaDeInicio,'fInicio')" placeholder="Fecha de inicio">
+								ng-blur="validarFecha(fechaDeInicio,'fInicio')">
 
 							<label class="campo">Fecha de finalización</label>
 							<input class="form-control" ng-model="fechaDeFin" id="fFin"
-								ng-blur="validarFecha(fechaDeFin,'fFin')" placeholder="Fecha de finalización">
+								ng-blur="validarFecha(fechaDeFin,'fFin')">
 							<label class="campo" for="descripcion">Evidencia</label>
-							<input class="form-control" placeholder="" ng-model="evidencia">
+							<input class="form-control" id="evidenciaId" ng-model="evidencia">
 							<h2 class="glyphicon glyphicon-plus" ng-click="anotacionCartograficoTemporalAdd()">Agregar
 							</h2>
 					</div>
@@ -543,13 +574,19 @@
 					<div ng-model="todoerase" ng-repeat="c in idAnotacionesCartograficoTemporales track by $index"
 						class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="f"
-							ng-click="anotacionCartograficoTemporalRemove(c.lugar)">
+							ng-click="anotacionCartograficoTemporalRemove(c.lugar)" style="color:red">
+						</h2>
+						<em>
 							{{nombrarSi("Lugar", c.lugar)}};
 							{{nombrarSi("Cobertura", c.coberturaAmplitud)}};
 							{{nombrarSi("Evento", c.evento)}};
 							{{nombrarSi("Inicio", formatDate(c.fechaInicio, c.precisionInicio))}};
 							{{nombrarSi("Finalización", formatDate(c.fechaFin,c.precisionFin))}};
 							{{nombrarSi("Evidencia", c.evidencia)}};
+						</em>
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="c"
+							ng-click="anotacionCartograficoTemporalEdit(c.lugar,c.coberturaAmplitud,c.evento,c.fechaInicio,c.fechaFin,c.evidencia);">
 						</h2>
 					</div>
 				</div>
@@ -586,7 +623,7 @@
 				<div class="collapse" id="collapseDL">
 
 					<hr><label class="campo">Etiqueta</label></hr>
-					<select ng-model="dEtiqueta" class="form-control">
+					<select id="descEtiquetaId" ng-model="dEtiqueta" class="form-control">
 						<option ng-repeat="d in dEtiquetas track by $index" value="{{d}}">
 							{{d}}
 						</option>
@@ -596,7 +633,8 @@
 
 					<div>
 						<label class="campo">Contenido</label>
-						<input type="text" class="form-control" ng-model="dContenido" placeholder="">
+						<input id="descContenidoId" type="text" class="form-control" ng-model="dContenido"
+							placeholder="">
 					</div>
 
 					<div>
@@ -605,9 +643,15 @@
 
 					<div ng-model="todoerase" ng-repeat="n in idDescriptores track by $index" class="campo">
 						<h2 class="glyphicon glyphicon-remove" ng-model="n"
-							ng-click="dDescriptorRemove(n.etiqueta,n.contenido);">
+							ng-click="dDescriptorRemove(n.etiqueta,n.contenido);" style="color:red">
+						</h2>
+						<em>
 							{{nombrarSi("Etiqueta", n.etiqueta)}}
 							{{nombrarSi("Contenido", n.contenido)}}
+						</em>
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="n"
+							ng-click="descriptorEdit(n.etiqueta,n.contenido);">
 						</h2>
 					</div>
 				</div>
@@ -645,12 +689,13 @@
 
 					<div>
 						<label class="campo">Nombre (descripción)</label>
-						<input type="text" class="form-control" ng-model="eEtiqueta" placeholder="">
+						<input type="text" class="form-control" id="nombreEnlace" ng-model="eEtiqueta">
 					</div>
 
 					<div>
 						<label class="campo">URL</label>
-						<input type="text" class="form-control" ng-model="eUrl" placeholder="">
+						<input type="text" class="form-control" ng-model="eUrl" id="urlEnlace"
+							ng-blur="validarUrloRuta(eUrl,'urlEnlace')">
 					</div>
 
 					<div>
@@ -659,9 +704,17 @@
 					</div>
 
 					<div ng-model="todoerase" ng-repeat="n in idEnlaces track by $index" class="campo">
-						<h2 class="glyphicon glyphicon-remove" ng-model="n" ng-click="enlaceRemove(n.etiqueta,n.url);">
+						<h2 class="glyphicon glyphicon-remove" style="color:red" ng-model="n"
+							ng-click="enlaceRemove(n.etiqueta,n.url);">
+						</h2>
+						<em>
 							{{nombrarSi("Etiqueta", n.etiqueta)}}
 							{{nombrarSi("URL", n.url)}}
+						</em>
+
+						<!-- Agregar edición -->
+						<h2 class="glyphicon glyphicon-pencil" style="color:blue" ng-model="n"
+							ng-click="enlaceEdit(n.etiqueta,n.url);">
 						</h2>
 					</div>
 				</div>

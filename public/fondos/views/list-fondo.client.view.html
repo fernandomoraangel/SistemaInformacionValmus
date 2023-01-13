@@ -59,7 +59,7 @@
 						<td class="descripcion" data-ng-bind="fondo.nombre"></td>
 						<td class="descripcion" data-ng-bind="fondo.tipo"></td>
 						<td class="descripcion" data-ng-bind="fondo.propiedadComodato"></td>
-						<td class="descripcion" data-ng-bind="fondo.fechaDeCreacion |date:'mediumDate'"></td>
+						<td class="descripcion" data-ng-bind="formatDate(fondo.fechaDeCreacion,fondo.precision)"></td>
 						<td data-ng-show="authentication.user._id == fondo.creador._id">
 							<a href="/#!/fondos/{{fondo._id}}/edit"><span class="glyphicon glyphicon-pencil"></a>
 						</td>

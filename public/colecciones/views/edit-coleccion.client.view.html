@@ -22,7 +22,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">NOMBRE DE LA COLECCION</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -55,7 +55,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">FECHA DE LA COLECCIÓN</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}
@@ -69,8 +69,8 @@
 					<label>FECHA DE CREACIÓN</label>
 				</div>
 
-				<input type="text" class="form-control" ng-model="coleccion.fechaDeCreacion | date:'d/M/yyyy'"
-					placeholder="">
+				<input type="text" class="form-control" id="fechaCreacion" ng-model="coleccion.fechaDeCreacion"
+					ng-blur="updateFecha();validarFecha(fechaDeCreacion,'fechaCreacion')">
 				<!-- Tipo de colección -->
 				<div>
 
@@ -86,7 +86,7 @@
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h5 class="modal-title" id="Ayuda">TIPO DE COLECCION</h5>
+										<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 									</div>
 									<div class="modal-body">
 										{{campo}}
@@ -119,7 +119,7 @@
 						<div class="modal-dialog" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="Ayuda">PROPIEDAD/COMODATO</h5>
+									<h5 class="modal-title" id="Ayuda">{{campoLargo}}</h5>
 								</div>
 								<div class="modal-body">
 									{{campo}}

@@ -32,9 +32,22 @@ angular.module("fondos").controller("FondosController", [
     $scope.todoInput = [];
     $scope.actorName = [];
     $scope.diccionarios = Diccionarios.query();
+
     //Preparar datos
     $scope.actualizarTodo = function () {
       $scope.idEstados = this.ejemplar.estados;
+    };
+    window.onload = function () {
+      $scope.loadDate();
+    };
+
+    $scope.loadDate = function () {
+      fecha = formatDateYMD(
+        $scope.fondo.fechaDeCreacion,
+        $scope.fondo.precision
+      );
+      $scope.fechaDeCreacion = fecha;
+      document.getElementById("fechaCreacion").value = fecha;
     };
 
     // Funciones auxiliares
@@ -50,6 +63,21 @@ angular.module("fondos").controller("FondosController", [
       $scope.propertyName = propertyName;
     };
 
+    $scope.cargaFecha = function (f, p) {
+      $scope.fechaDeCreacion = formatDateYMD(f, p);
+    };
+
+    $scope.updateFecha = function () {
+      //Calcular precisión para la fecha
+      var precisionyFechaCreacion = precisionFecha(
+        document.getElementById("fechaCreacion").value
+      );
+      this.fechaDeCreacion = precisionyFechaCreacion.fecha;
+      var precisionCreacion = precisionyFechaCreacion.precision;
+      $scope.fondo.fechaDeCreacion = precisionyFechaCreacion.fecha;
+      $scope.fondo.precision = precisionCreacion;
+    };
+
     $scope.darFormato = function (y) {
       while (y.indexOf("undefined,") > 0) {
         y =
@@ -61,17 +89,49 @@ angular.module("fondos").controller("FondosController", [
 
     $scope.mostrarAyuda = function (tabla, campo) {
       for (var i in $scope.diccionarios) {
-        //alert($scope.diccionarios[i].campo)
         if (
           $scope.diccionarios[i].campo === campo &&
           $scope.diccionarios[i].tabla === tabla
         ) {
           $scope.campo = $scope.diccionarios[i].definicion;
+          $scope.campoLargo = $scope.diccionarios[i].campoLargo;
           return;
         }
       }
       $scope.campo = "Datos del diccionario no encontrados";
       return;
+    };
+    $scope.validarFecha = (fecha, id) => validarFecha(fecha, id);
+    $scope.formatDate = (date, precision = "AMD") =>
+      formatDate(date, precision);
+    $scope.formatDateYMD = (date, precision = "AMD") =>
+      formatDateYMD(date, precision);
+    $scope.parseFecha = function (d) {
+      const timestamp = Date.parse(d);
+      console.log(timestamp); // 1686240000000
+      const date = new Date(timestamp);
+      if (!isNaN(date.getTime())) {
+        console.log(date); // 2022-12-18T00:00:00.000Z
+        const formattedDate = date.toISOString().slice(0, 10);
+        console.log(formattedDate); // 2022-12-18
+
+        // Get a reference to the input element
+        var inputElement = document.getElementById("fechaCreacion");
+
+        // Set the value of the input element
+        inputElement.setAttribute("value", formattedDate);
+      }
+    };
+
+    $scope.verFecha = function (x) {
+      y = "";
+      for (var i in x) {
+        y = y + $scope.formatDate(x[i].fechaDeCreacion, x[i].precision);
+        if (i != x.length - 1) {
+          y = y + ", ";
+        }
+      }
+      return $scope.darFormato(y);
     };
 
     $scope.verRecurso = function (x) {
@@ -116,7 +176,6 @@ angular.module("fondos").controller("FondosController", [
     };
 
     $scope.fechaAdd = function (f) {
-      //alert(f);
       var properties = f.split(",");
       var obj = {};
       properties.forEach(function (property) {
@@ -177,12 +236,17 @@ angular.module("fondos").controller("FondosController", [
 
     //Crear método controller para crear nuevas registros
     $scope.create = function () {
+      //Calcular precisión para la fecha
+      var precisionyFechaCreacion = precisionFecha(this.fechaDeCreacion);
+      this.fechaDeCreacion = precisionyFechaCreacion.fecha;
+      var precisionCreacion = precisionyFechaCreacion.precision;
       //Usar los campos form para crear un nuevo objeto $resource obra
       var fondo = new Fondos({
         nombre: this.nombre,
         tipo: this.tipo,
         propiedadComodato: this.propiedadComodato,
         fechaDeCreacion: this.fechaDeCreacion,
+        precision: precisionCreacion,
       });
       //Usar el método '$save' de obra para enviar una petición POST apropiada
       fondo.$save(
