@@ -333,7 +333,7 @@ angular.module("medios").controller("MediosController", [
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idAlias.splice(i, 1);
+              $scope.idAlias.splice(i - 1, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(
@@ -428,7 +428,7 @@ angular.module("medios").controller("MediosController", [
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idInstrumentos.splice(i, 1);
+              $scope.idInstrumentos.splice(i - 1, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(
@@ -589,7 +589,7 @@ angular.module("medios").controller("MediosController", [
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idAnotacionesCartograficoTemporales.splice(i, 1);
+              $scope.idAnotacionesCartograficoTemporales.splice(i - 1, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(
@@ -766,7 +766,7 @@ angular.module("medios").controller("MediosController", [
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idDescriptores.splice(i, 1); //Nunca se ejecuta
+              $scope.idDescriptores.splice(i - 1, 1); //Nunca se ejecuta
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(
@@ -851,7 +851,7 @@ angular.module("medios").controller("MediosController", [
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idProyectos.splice(i, 1);
+              $scope.idProyectos.splice(i - 1, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(
@@ -933,7 +933,7 @@ angular.module("medios").controller("MediosController", [
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idEnlaces.splice(i, 1);
+              $scope.idEnlaces.splice(i - 1, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(

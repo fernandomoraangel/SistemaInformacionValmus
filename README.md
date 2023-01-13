@@ -48,4 +48,3 @@ https://rogerdudler.github.io/git-guide/index.es.html
 11. Versionado semántico.
 
 ## Bugs conocidos
-1. Problemas con los borrados de vectores.

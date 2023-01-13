@@ -221,7 +221,7 @@ angular.module("ejemplares").controller("EjemplaresController", [
             cancelButtonText: "Cancelar",
           }).then((result) => {
             if (result.isConfirmed) {
-              $scope.idEstados.splice(i, 1);
+              $scope.idEstados.splice(i - 1, 1);
               // funcion propia de Angular.Js refresca mi scope y recarga mis datos
               $scope.$apply();
               Swal.fire(
