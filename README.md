@@ -48,3 +48,17 @@ https://rogerdudler.github.io/git-guide/index.es.html
 11. Versionado semántico.
 
 ## Bugs conocidos
+
+## Instalar en servidor SUSE
+1. Instalar SSH y agregar regla en Firewall https://www.simplified.guide/suse/enable-ssh
+2. Avzypper install nodejs18eriguar ip con comando "ip"
+3. ssh fma@192.168.68.106
+4. su
+5. zypper install nodejs
+6. Install MongoDB https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-suse/
+7. 
+## Instalar en Ubuntu versión 20.0.4
+
+1. https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/#install-mongodb-community-edition
+2. SOlucionar problemas de dependencias incumplidas https://askubuntu.com/questions/1403619/mongodb-install-fails-on-ubuntu-22-04-depends-on-libssl1-1-but-it-is-not-insta
+3. 
