@@ -15,7 +15,7 @@ module.exports = function () {
   require("../app/models/obra.server.model");
   require("../app/models/recurso.server.model");
   require("../app/models/genero.server.model");
-  require("../app/models/generonomusical.server.model");
+  require("../app/models/generoNomusical.server.model");
   require("../app/models/materia.server.model");
   require("../app/models/instrumento.server.model");
   require("../app/models/proyecto.server.model");
